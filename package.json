@@ -1,0 +1,17 @@
+{
+  "name": "shipengine-firebase-extensions",
+  "private": true,
+  "author": "ShipEngine (https://shipengine.com)",
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,md,yml,ts,json,yaml}\"",
+    "lint": "prettier --list-different \"**/*.{js,md,yml,ts,json,yaml}\"",
+    "clean": "lerna run --parallel clean && lerna clean",
+    "build": "lerna run build",
+    "postinstall": "lerna bootstrap --no-ci && lerna run --parallel clean && npm run build"
+  },
+  "devDependencies": {
+    "hygen": "^6.1.0",
+    "lerna": "^4.0.0",
+    "prettier": "^2.3.2"
+  }
+}
