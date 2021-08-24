@@ -10,7 +10,7 @@ export type AddressValidationResult = Optional<
   'messages' | 'normalizedAddress'
 >;
 
-export enum Status {
+export const enum Status {
   Unverified = 'unverified',
   Verified = 'verified',
   Warning = 'warning',
