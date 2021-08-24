@@ -23,14 +23,14 @@ export const obfuscatedConfig = {
  * - complete
  */
 export const init = () => {
-  logger.log(`Initializing extension with configuration: `, config);
+  logger.log(`Initializing extension with configuration: `, obfuscatedConfig);
 };
 export const initError = (error: Error) => {
   logger.error('Error when initializing extension');
 };
 export const shipengineInitError = dependencyInitError('ShipEngine');
 export const start = () => {
-  logger.log('Started extension execution with configuration', config);
+  logger.log('Started extension execution with configuration', obfuscatedConfig);
 };
 export const parentRefernceError = () => {
   logger.error(`Address key is missing parent object`);
