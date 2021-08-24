@@ -1,47 +1,82 @@
 import * as functions from 'firebase-functions';
 import ShipEngine, { ValidateAddressesTypes } from 'shipengine';
-import { AddressValidationResult, Status } from './types';
+import { AddressValidationResult as ValidatedAddress } from './types';
 import config from './config';
+import * as logs from './logs';
+
+let shipengine: ShipEngine;
+try {
+  logs.init();
+  shipengine = new ShipEngine(config.shipengineApiKey);
+} catch (err) {
+  logs.initError(err);
+}
 
 export const validateAddress = functions.handler.database.instance.ref.onWrite(
   async (change, context): Promise<void> => {
+    logs.start();
     const data = change.after.val();
     const parent = change.after.ref.parent;
     const params: ValidateAddressesTypes.Params = [data];
+    if (!shipengine) {
+      logs.shipengineInitError();
+      return;
+    }
     // Parent should be a list item
-    if (!parent) return;
+    if (!parent) {
+      logs.parentRefernceError();
+      return;
+    }
 
+    let result: ValidateAddressesTypes.Result[number];
+    let update: ValidatedAddress;
+
+    /**
+     * Validate Address
+     */
     try {
-      // Create ShipEngine client
-      const se = new ShipEngine(config.shipengineApiKey);
-      // Validate Address
-      const [result] = await se.validateAddresses(params);
-      // Build node update based on the result status
-      const update: AddressValidationResult = { status: result.status };
+      logs.addressValidating();
 
-      switch (result.status) {
-        case Status.Verified:
-          update.messages = result.messages;
+      // fetch validated address
+      [result] = await shipengine.validateAddresses(params);
+
+      // Build node update based on the result status
+      update = { status: result.status };
+      switch (update.status) {
+        case 'verified':
           update.normalizedAddress = result.normalizedAddress;
           break;
-        case Status.Warning:
+        case 'warning':
           update.normalizedAddress = result.normalizedAddress;
-        case Status.Unverified:
-        case Status.Error:
+        case 'unverified':
+        case 'error':
           update.messages = result.messages;
           break;
       }
-
-      // Update parent element with result
-      void parent.update(update, (err) => {
-        if (err) throw err;
-        else functions.logger.info('Address Validation Complete!');
-        return;
-      });
     } catch (err) {
       // Log fatal error
-      functions.logger.error('Error validating address.', err);
+      logs.errorValidateAddress(err);
       return;
     }
+    logs.addressValidated(update.status);
+
+    /**
+     * Update Reference
+     */
+    try {
+      logs.parentUpdating();
+
+      // Update parent element with result
+      // path: /(collection)/{addressId}
+      parent.update(update, (err) => {
+        if (err) throw err;
+        logs.parentUpdated();
+      });
+    } catch (err) {
+      logs.errorUpdateParent(err);
+      return;
+    }
+
+    logs.complete();
   }
 );
