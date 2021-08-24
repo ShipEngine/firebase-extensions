@@ -6,7 +6,7 @@ singleQuote: true
 endOfLine: auto
 trailingComma: es5
 arrowParens: always
-overrides:
-  - files: "*.{yml,yaml}"
-    options:
-      proseWrap: always
+# overrides:
+#   - files: "*.{yml,yaml}"
+#     options:
+#       proseWrap: always
