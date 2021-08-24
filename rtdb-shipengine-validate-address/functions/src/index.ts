@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import ShipEngine, { ValidateAddressesTypes } from 'shipengine';
 import { AddressValidationResult, Status } from './types';
-import config from './config'
+import config from './config';
 
 export const validateAddress = functions.handler.database.instance.ref.onWrite(
   async (change, context): Promise<void> => {
