@@ -16,3 +16,4 @@ coverage
 yarn.lock
 
 firestore-debug.log
+*.log
