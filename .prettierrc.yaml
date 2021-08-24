@@ -1,3 +1,9 @@
+tabWidth: 2
+proseWrap: preserve
+semi: true
+parser: typescript
+singleQuote: true
+endOfLine: auto
 trailingComma: es5
 arrowParens: always
 overrides:
