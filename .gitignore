@@ -17,3 +17,4 @@ yarn.lock
 
 firestore-debug.log
 *.log
+tmp.json
