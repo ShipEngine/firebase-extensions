@@ -1,15 +1,20 @@
-name: validate-address
+name: rtdb-validate-address
 version: 0.0.1
 specVersion: v1beta  # Firebase Extensions specification version (do not edit)
 
 displayName: Validate Address
 description: Validate an address using the ShipEngine api
 
-license: Apache-2.0  # The license you want for the extension
+license: Apache-2.0
+
 
 author:
-  authorName: Patrick Jones
-  url: https://github.com/forksofpower
+  authorName: ShipEngine
+  url: https://shipengine.com
+
+contributors:
+  - authorName: Patrick Jones
+    url: https://github.com/forksofpower
 
 billingRequired: false
 
