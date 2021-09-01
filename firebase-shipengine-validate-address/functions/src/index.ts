@@ -7,6 +7,7 @@ import { AddressValidationResult as ValidatedAddress } from './types';
 let shipengine: ShipEngine;
 try {
   logger.log('Init shipengine');
+  shipengine = new ShipEngine(process.env.SHIPENGINE_API_KEY!)
 } catch(err) {
   logger.error(err);
 }
@@ -17,11 +18,12 @@ interface InputPayload {
 
 export const validateAddress = functions.handler.firestore.document.onWrite(
   async (change) => {
-    const { address } = change.after.data() as InputPayload;
-    const params: ValidateAddressesTypes.Params = [address];
+    const data = change.after.data() as InputPayload;
+    const params: ValidateAddressesTypes.Params = [data.address];
     const ref = change.after.ref;
 
-    if (address) {
+    logger.info(data)
+    if (!data.address) {
       logger.error('Address data missing')
     }
 
@@ -52,7 +54,7 @@ export const validateAddress = functions.handler.firestore.document.onWrite(
       }
     } catch (err) {
       // Log fatal error
-      logger.error('Error validating address');
+      logger.error('Error validating address', err);
       return;
     }
 
