@@ -1,5 +1,5 @@
 {
-  "name": "firebase-shipengine-validate-address-functions",
+  "name": "firestore-shipengine-validate-address-functions",
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
     "build": "tsc",
