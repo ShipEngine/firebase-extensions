@@ -1,15 +1,15 @@
 import * as functions from "firebase-functions";
-import { logger } from 'firebase-functions';
 import ShipEngine, { ValidateAddressesTypes } from 'shipengine';
 import { AddressValidationResult as ValidatedAddress } from './types';
+import * as logs from './logs';
 
 // Init ShipEngine js
 let shipengine: ShipEngine;
 try {
-  logger.log('Init shipengine');
+  logs.init();
   shipengine = new ShipEngine(process.env.SHIPENGINE_API_KEY!)
 } catch(err) {
-  logger.error(err);
+  logs.initError(err);
 }
 
 interface InputPayload {
@@ -18,13 +18,14 @@ interface InputPayload {
 
 export const validateAddress = functions.handler.firestore.document.onWrite(
   async (change) => {
+    logs.start();
+
     const data = change.after.data() as InputPayload;
     const params: ValidateAddressesTypes.Params = [data.address];
     const ref = change.after.ref;
 
-    logger.info(data)
     if (!data.address) {
-      logger.error('Address data missing')
+      logs.addressMissing();
     }
 
     let result: ValidateAddressesTypes.Result[number];
@@ -34,7 +35,7 @@ export const validateAddress = functions.handler.firestore.document.onWrite(
      * Validate Address
      */
     try {
-      // logs.addressValidating();
+      logs.addressValidating();
 
       // fetch validated address
       [result] = await shipengine.validateAddresses(params);
@@ -54,9 +55,10 @@ export const validateAddress = functions.handler.firestore.document.onWrite(
       }
     } catch (err) {
       // Log fatal error
-      logger.error('Error validating address', err);
+      logs.errorValidateAddress(err);
       return;
     }
+    logs.addressValidated(update.status);
 
     /**
      * Update Reference
@@ -64,9 +66,9 @@ export const validateAddress = functions.handler.firestore.document.onWrite(
       try {
         // logs.parentUpdating();
         const updateResult = ref.update(update);
-        logger.info('Document updated: ', updateResult);
+        logs.parentUpdated()
       } catch (err) {
-        logger.error(err);
+        logs.errorUpdateParent(err);
         return;
       }
   }
