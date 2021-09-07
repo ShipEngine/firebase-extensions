@@ -8,10 +8,10 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "emulate": "yarn build && firebase emulators:start --only functions,database"
+    "emulate": "yarn build && firebase ext:dev:emulators:start --test-params ../.env.development --project shipengine-firebase-extensions"
   },
   "engines": {
-    "node": "14"
+    "node": "15"
   },
   "main": "lib/index.js",
   "dependencies": {

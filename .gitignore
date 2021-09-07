@@ -4,7 +4,7 @@
 .env.*
 !install-params.env
 firebase-debug.log
-database-debug.log
+firestore-debug.log
 ui-debug.log
 .DS_Store
 mods-test-data/key.json
