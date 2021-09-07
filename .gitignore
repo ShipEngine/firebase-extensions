@@ -1,9 +1,10 @@
 .vscode
 **/node_modules/
 *.env
+.env.*
 !install-params.env
 firebase-debug.log
-database-debug.log
+firestore-debug.log
 ui-debug.log
 .DS_Store
 mods-test-data/key.json
@@ -14,6 +15,9 @@ build
 local.properties
 coverage
 yarn.lock
+.yarn/*
+!.yarn/plugins
+!.yarn/releases
 
 firestore-debug.log
 *.log

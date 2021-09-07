@@ -1,46 +1,46 @@
 import * as functions from "firebase-functions";
-import { logger } from 'firebase-functions';
 import ShipEngine, { ValidateAddressesTypes } from 'shipengine';
-import { AddressValidationResult as ValidatedAddress } from './types';
 
-// Init ShipEngine js
-let shipengine: ShipEngine;
-try {
-  logger.log('Init shipengine');
-  shipengine = new ShipEngine(process.env.SHIPENGINE_API_KEY!)
-} catch(err) {
-  logger.error(err);
-}
+import { AddressValidationResult as ValidatedAddress } from './types';
+import config from './config';
+import * as logs from './logs';
 
 interface InputPayload {
-  address: ValidateAddressesTypes.Params[number]
+  [key: string]: any
 }
+
+// Initialize ShipEngine client
+const shipEngine = new ShipEngine(config.shipEngineApiKey);
+
+logs.init();
 
 export const validateAddress = functions.handler.firestore.document.onWrite(
   async (change) => {
-    const data = change.after.data() as InputPayload;
-    const params: ValidateAddressesTypes.Params = [data.address];
-    const ref = change.after.ref;
+    logs.start();
 
-    logger.info(data)
-    if (!data.address) {
-      logger.error('Address data missing')
+    const data = change.after.data() as InputPayload;
+    const address = data[config.addressKey] as ValidateAddressesTypes.Params[number];
+
+    if (!address) {
+      logs.addressMissing();
     }
 
-    let result: ValidateAddressesTypes.Result[number];
+    const params: ValidateAddressesTypes.Params = [address];
+
     let update: ValidatedAddress;
 
     /**
      * Validate Address
      */
     try {
-      // logs.addressValidating();
+      logs.addressValidating();
 
       // fetch validated address
-      [result] = await shipengine.validateAddresses(params);
+      const [result]: ValidateAddressesTypes.Result[number][] = await shipEngine.validateAddresses(params);
 
       // Build node update based on the result status
       update = { status: result.status };
+
       switch (update.status) {
         case 'verified':
           update.normalizedAddress = result.normalizedAddress;
@@ -53,20 +53,21 @@ export const validateAddress = functions.handler.firestore.document.onWrite(
           break;
       }
     } catch (err) {
-      // Log fatal error
-      logger.error('Error validating address', err);
+      logs.errorValidateAddress(err as Error);
       return;
     }
+
+    logs.addressValidated(update);
 
     /**
      * Update Reference
      */
       try {
-        // logs.parentUpdating();
-        const updateResult = ref.update(update);
-        logger.info('Document updated: ', updateResult);
+        logs.parentUpdating();
+        change.after.ref.update(update);
+        logs.parentUpdated()
       } catch (err) {
-        logger.error(err);
+        logs.errorUpdatingParent(err as Error);
         return;
       }
   }

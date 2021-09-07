@@ -5,18 +5,22 @@
   "scripts": {
     "format": "prettier --write \"**/*.{js,md,yml,ts,json,yaml}\" --loglevel silent",
     "lint": "prettier --list-different \"**/*.{js,md,yml,ts,json,yaml}\"",
-    "clean": "lerna run --parallel clean && lerna clean",
-    "build": "lerna run build",
-    "postinstall": "lerna bootstrap --no-ci && lerna run --parallel clean && npm run build",
+    "clean": "yarn workspaces foreach run clean",
+    "build": "yarn workspaces foreach run build",
+    "postinstall": "yarn run clean && yarn run build",
     "gen:ext": "hygen extension new"
   },
   "devDependencies": {
     "@types/is": "^0.0.21",
+    "firebase-tools": "^9.17.0",
     "hygen": "^6.1.0",
     "lerna": "^4.0.0",
     "prettier": "^2.3.2"
   },
   "dependencies": {
     "is_js": "^0.9.0"
-  }
+  },
+  "workspaces": [
+    "extensions/*/functions"
+  ]
 }
