@@ -15,7 +15,9 @@ build
 local.properties
 coverage
 yarn.lock
-.yarn
+.yarn/*
+!.yarn/plugins
+!.yarn/releases
 
 firestore-debug.log
 *.log
