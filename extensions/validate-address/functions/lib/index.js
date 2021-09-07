@@ -2,34 +2,28 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateAddress = void 0;
 const functions = require("firebase-functions");
-const firebase_functions_1 = require("firebase-functions");
 const shipengine_1 = require("shipengine");
-// Init ShipEngine js
-let shipengine;
-try {
-    firebase_functions_1.logger.log('Init shipengine');
-    shipengine = new shipengine_1.default(process.env.SHIPENGINE_API_KEY);
-}
-catch (err) {
-    firebase_functions_1.logger.error(err);
-}
+const config_1 = require("./config");
+const logs = require("./logs");
+// Initialize ShipEngine client
+const shipEngine = new shipengine_1.default(config_1.default.shipEngineApiKey);
+logs.init();
 exports.validateAddress = functions.handler.firestore.document.onWrite(async (change) => {
+    logs.start();
     const data = change.after.data();
-    const params = [data.address];
-    const ref = change.after.ref;
-    firebase_functions_1.logger.info(data);
-    if (!data.address) {
-        firebase_functions_1.logger.error('Address data missing');
+    const address = data[config_1.default.addressKey];
+    if (!address) {
+        logs.addressMissing();
     }
-    let result;
+    const params = [address];
     let update;
     /**
      * Validate Address
      */
     try {
-        // logs.addressValidating();
+        logs.addressValidating();
         // fetch validated address
-        [result] = await shipengine.validateAddresses(params);
+        const [result] = await shipEngine.validateAddresses(params);
         // Build node update based on the result status
         update = { status: result.status };
         switch (update.status) {
@@ -45,20 +39,20 @@ exports.validateAddress = functions.handler.firestore.document.onWrite(async (ch
         }
     }
     catch (err) {
-        // Log fatal error
-        firebase_functions_1.logger.error('Error validating address', err);
+        logs.errorValidateAddress(err);
         return;
     }
+    logs.addressValidated(update);
     /**
      * Update Reference
      */
     try {
-        // logs.parentUpdating();
-        const updateResult = ref.update(update);
-        firebase_functions_1.logger.info('Document updated: ', updateResult);
+        logs.parentUpdating();
+        change.after.ref.update(update);
+        logs.parentUpdated();
     }
     catch (err) {
-        firebase_functions_1.logger.error(err);
+        logs.errorUpdatingParent(err);
         return;
     }
 });
