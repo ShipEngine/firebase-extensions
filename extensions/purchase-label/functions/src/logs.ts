@@ -9,23 +9,23 @@ export const obfuscatedConfig = {
 };
 
 export const init = () => {
-  logger.log('Initializing extension with configuration: ', obfuscatedConfig);
+  logger.log('Initializing extension', obfuscatedConfig);
 };
 
 export const start = (data: InputPayload) => {
-  logger.log('Started extension execution with data: ', data);
+  logger.log('Started extension execution', data);
 };
 
 export const purchasingLabel = (params: RequestPayload) => {
-  logger.log('Purchasing label with params: ', params);
+  logger.log('Purchasing label', params);
 };
 
 export const errorPurchasingLabel = (error: Error) => {
-  logger.error('Error purchasing label: ', error);
+  logger.error('Error purchasing label', error);
 };
 
 export const labelPurchased = (result: ResponsePayload) => {
-  logger.log('Successfully purchased label: ', result);
+  logger.log('Successfully purchased label', result);
 };
 
 export const parentUpdating = (update: UpdatePayload) => {
