@@ -124,16 +124,24 @@ params:
     default: orders
     required: false
 
-  - param: INPUT_KEY
-    label: Input Key
+  - param: SHIPMENT_KEY
+    label: Shipment Key
     description: >
       The document key where the shipment information is located.
     type: string
     default: shipment
     required: false
 
-  - param: OUTPUT_KEY
-    label: Output Key
+  - param: READY_TO_SHIP_KEY
+    label: "Ready to Ship" Key
+    description: >
+      Presence of this key triggers the purchase of the label for the shipment.
+    type: string
+    default: paid
+    required: false
+
+  - param: SHIPPING_LABEL_KEY
+    label: Shipping Label Key
     description: >
       The document key to store the purchased label in.
     type: string

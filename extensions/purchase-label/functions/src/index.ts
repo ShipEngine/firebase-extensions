@@ -17,11 +17,12 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
     if (!change.after.exists) return; // The document is being deleted
 
-    let data = change.after.data() as {};
+    let data = change.after.data() as InputPayload;
 
     // Support situations where the keys may be snake_cased
     data = camelizeKeys(data) as InputPayload;
 
+    if (!isReadyToShip(data)) return; // Order not ready for label purchase
     if (hasValidLabel(data)) return; // A valid label has already been created
 
     logs.start(data);
@@ -39,12 +40,16 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
   }
 );
 
+const isReadyToShip = (data: InputPayload): boolean => {
+  return !!data[config.readyToShipKey];
+}
+
 const hasValidLabel = (data: InputPayload): boolean => {
-  return data[config.outputKey] !== undefined && data[config.outputKey].errors === undefined;
+  return data[config.shippingLabelKey] !== undefined && data[config.shippingLabelKey].errors === undefined;
 }
 
 const castParams = (data: InputPayload): RequestPayload => {
-  return { shipment: data[config.inputKey] };
+  return { shipment: data[config.shipmentKey] };
 }
 
 const handlePurchaseLabel = async (params: RequestPayload): Promise<UpdatePayload> => {
@@ -53,7 +58,7 @@ const handlePurchaseLabel = async (params: RequestPayload): Promise<UpdatePayloa
   try {
     const result: ResponsePayload = await shipEngine.createLabelFromShipmentDetails(params) as ResponsePayload;
     logs.labelPurchased(result);
-    return { [config.outputKey]: result };
+    return { [config.shippingLabelKey]: result };
   } catch (err) {
     logs.errorPurchasingLabel(err as Error);
     throw err;
