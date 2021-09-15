@@ -2,6 +2,7 @@ import ShipEngine from 'shipengine';
 import * as functions from "firebase-functions";
 import { Change } from 'firebase-functions';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore'
+import { camelizeKeys } from 'humps';
 
 import { RequestPayload, ResponsePayload, InputPayload, UpdatePayload } from './types';
 import config from './config';
@@ -16,7 +17,10 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
     if (!change.after.exists) return; // The document is being deleted
 
-    const data = change.after.data() as InputPayload;
+    let data = change.after.data() as {};
+
+    // Support situations where the keys may be snake_cased
+    data = camelizeKeys(data) as InputPayload;
 
     if (hasValidLabel(data)) return; // A valid label has already been created
 
