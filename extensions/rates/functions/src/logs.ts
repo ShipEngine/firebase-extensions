@@ -1,5 +1,4 @@
 import { logger } from 'firebase-functions';
-// import { empty as isEmpty } from 'is_js';
 
 import config from './config';
 import { InputPayload, RequestPayload, ResponsePayload, UpdatePayload } from './types';
@@ -38,7 +37,7 @@ export const errorFetchRates = (error: Error) => {
   logger.error('Error when fetching rates.', error);
 };
 
-export const parentUpdating = (update: any) => {
+export const parentUpdating = (update: UpdatePayload) => {
   logger.debug('Parent ref updating', update);
 };
 

@@ -121,7 +121,7 @@ params:
     validationRegex: ^\S+$
     validationErrorMessage: Path cannot have spaces.
     example: path/to/addresses
-    default: addresses
+    default: shipments
     required: false
 
   - param: SHIPMENT_KEY
