@@ -31,7 +31,8 @@ export const addressValidated = (validatedAddress: ValidatedAddress) => {
 
   // Log any warning messages if they exist
   const msg: any[] = [`Validated address${hasWarning ? ' with warnings' : ''}`];
-  if (hasWarning && isEmpty(validatedAddress.messages)) msg.push(validatedAddress.messages);
+  if (hasWarning && isEmpty(validatedAddress.messages))
+    msg.push(validatedAddress.messages);
 
   logger[level](...msg.flat());
 };

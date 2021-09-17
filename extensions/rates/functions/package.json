@@ -1,5 +1,5 @@
 {
-  "name": "shipengine-validate-address-functions",
+  "name": "rates-functions",
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
     "build": "tsc",
@@ -9,24 +9,25 @@
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
     "emulate": "yarn build && firebase ext:dev:emulators:start --test-params ../.env.development --project shipengine-firebase-extensions",
-    "test": "yarn build && firebase ext:dev:emulators:exec --test-params ../.env.development --project=forksofpower-extensions-test 'yarn workspace shipengine-validate-address-functions run-test'",
-    "run-test": "mocha 'lib/test/**/*.spec.js'"
+    "test": "yarn build && firebase ext:dev:emulators:exec --ui --test-params ../.env.development --project=forksofpower-extensions-test 'yarn workspace rates-functions run-test'",
+    "run-test": "mocha 'lib/tests/**/*.spec.js'"
   },
   "engines": {
-    "node": "15"
+    "node": "14"
   },
   "main": "lib/index.js",
   "dependencies": {
     "chai": "^4.3.4",
+    "firebase": "^9.0.2",
     "firebase-admin": "^9.8.0",
     "firebase-functions": "^3.14.1",
     "humps": "^2.0.1",
     "mocha": "^9.1.1",
-    "shipengine": "^1.0.0",
-    "shipengine-firebase-common": "1.0.0"
+    "shipengine": "^1.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.21",
+    "@types/firebase": "^3.2.1",
     "@types/humps": "^2.0.1",
     "@types/mocha": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^3.9.1",
