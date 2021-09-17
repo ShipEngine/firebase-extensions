@@ -1,0 +1,16 @@
+{
+  "name": "shipengine-firebase-common",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "firebase-functions": "^3.15.6"
+  }
+}
