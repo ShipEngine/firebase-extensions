@@ -3,7 +3,7 @@ import ShipEngine from 'shipengine';
 import { Change } from "firebase-functions";
 import { DocumentSnapshot } from "firebase-functions/v1/firestore";
 import { camelizeKeys } from "humps";
-import { handleUpdateDocument } from "shipengine-firebase-common/src";
+import { handleUpdateDocument } from "shipengine-firebase-common";
 
 import { AddressValidationResult, InputPayload, RequestPayload, ResponsePayload, UpdatePayload } from './types';
 import config from './config';

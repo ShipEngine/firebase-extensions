@@ -4,14 +4,15 @@ import { Change } from 'firebase-functions';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 import { camelizeKeys } from "humps";
 
+import { handleUpdateDocument } from 'shipengine-firebase-common';
 import { RequestPayload, ResponsePayload, InputPayload, UpdatePayload } from './types';
 import config from './config';
-import * as logs from './logs';
+import logs from './logs';
 
 // Initialize ShipEngine client
 const shipEngine = new ShipEngine(config.shipEngineApiKey);
 
-logs.init();
+logs.init(config);
 
 export const getRates = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
@@ -64,17 +65,5 @@ const handleGetRates = async (params: RequestPayload): Promise<UpdatePayload> =>
   } catch (error) {
     logs.errorFetchRates(error as Error);
     throw error;
-  }
-}
-
-const handleUpdateDocument = (after: DocumentSnapshot, update: UpdatePayload): void => {
-  logs.parentUpdating(update);
-  
-  try {
-    after.ref.update(update);
-    logs.parentUpdated()
-  } catch (err) {
-    logs.errorUpdatingParent(err as Error);
-    throw err;
   }
 }

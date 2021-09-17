@@ -1,6 +1,6 @@
 import { logger } from 'firebase-functions';
 import { empty as isEmpty } from 'is_js';
-import { logs } from 'shipengine-firebase-common/src';
+import { logs } from 'shipengine-firebase-common';
 
 import config from './config';
 import { RequestPayload, ValidatedAddress } from './types';
