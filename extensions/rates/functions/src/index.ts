@@ -21,6 +21,9 @@ export const getRates = functions.handler.firestore.document.onWrite(
 
     // Support situations where the keys may be snake_cased
     data = camelizeKeys(data) as InputPayload;
+
+    // if (is.not.empty(data[config.shipmentKey])) return; // Rates has been completed
+    if (hasRatesData(data)) return;
     
     logs.start(data);
 
@@ -37,6 +40,10 @@ export const getRates = functions.handler.firestore.document.onWrite(
   }
 )
 
+const hasRatesData = (data: any) => {
+  return data['rates'] !== undefined;
+}
+
 const castParams = (data: InputPayload): RequestPayload => {
   // Include carrier ids from config
   return {
@@ -52,7 +59,8 @@ const handleGetRates = async (params: RequestPayload): Promise<UpdatePayload> =>
   try {  
     const result = await shipEngine.getRatesWithShipmentDetails(params) as ResponsePayload;
     logs.ratesFetched(result);
-    return { [config.ratesKey]: result };
+    const rates = result.rateResponse.rates;
+    return { [config.ratesKey]: rates };
   } catch (error) {
     logs.errorFetchRates(error as Error);
     throw error;

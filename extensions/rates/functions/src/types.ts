@@ -5,4 +5,4 @@ export type ResponsePayload = GetRatesWithShipmentDetailsTypes.Result;
 export type InputPayload = { 
     [key: string]: RequestPayload['shipment']
 }
-export type UpdatePayload = { [key: string]: ResponsePayload }
+export type UpdatePayload = { [key: string]: ResponsePayload['rateResponse']['rates'] }
