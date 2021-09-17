@@ -133,3 +133,10 @@ params:
     example: address
     default: address
     required: false
+
+  - param: VALIDATION_RESULT_KEY
+    label: Validation Result Key
+    description: >-
+      The document key to store the address validation results in.
+    default: validation
+    required: false
