@@ -2,6 +2,7 @@ import { logger } from 'firebase-functions';
 // import { empty as isEmpty } from 'is_js';
 
 import config from './config';
+import { InputPayload, RequestPayload, ResponsePayload, UpdatePayload } from './types';
 // import { AddressValidationResult as ValidatedAddress } from './types';
 
 export const obfuscatedConfig = {
@@ -17,35 +18,28 @@ export const initError = (error: Error) => {
   logger.error('Error when initializing extension');
 };
 
-export const start = () => {
-  logger.log('Started extension execution with configuration', obfuscatedConfig);
+export const start = (data: InputPayload) => {
+  logger.log('Started extension execution', data);
 };
 
 export const shipmentMissing = () => {
   logger.error(`Shipment data missing`);
 };
 
-export const fetchingRates = () => {
-  logger.debug('Fetching Rates');
+export const fetchingRates = (params: RequestPayload) => {
+  logger.debug('Fetching Rates', params);
 };
 
-export const ratesFetched = () => {
-  // const hasWarning = validatedAddress.status === 'warning';
-  // const level = hasWarning ? 'warn' : 'info';
-
-  // // Log any warning messages if they exist
-  // const msg: any[] = [`Validated address${hasWarning ? ' with warnings' : ''}`];
-  // if (hasWarning && isEmpty(validatedAddress.messages)) msg.push(validatedAddress.messages);
-
-  // logger[level](...msg.flat());
+export const ratesFetched = (result: ResponsePayload) => {
+  logger.log('Successfully fetched rates', result);
 };
 
 export const errorFetchRates = (error: Error) => {
   logger.error('Error when fetching rates.', error);
 };
 
-export const parentUpdating = () => {
-  logger.debug('Parent ref updating');
+export const parentUpdating = (update: any) => {
+  logger.debug('Parent ref updating', update);
 };
 
 export const parentUpdated = () => {
