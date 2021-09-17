@@ -2,7 +2,7 @@ import { logger } from 'firebase-functions';
 import { empty as isEmpty } from 'is_js';
 
 import config from './config';
-import { AddressValidationResult as ValidatedAddress } from './types';
+import { InputPayload, RequestPayload, ResponsePayload, UpdatePayload, ValidatedAddress } from './types';
 
 export const obfuscatedConfig = {
   ...config,
@@ -17,15 +17,15 @@ export const initError = (error: Error) => {
   logger.error('Error when initializing extension');
 };
 
-export const start = () => {
-  logger.log('Started extension execution with configuration', obfuscatedConfig);
+export const start = (data: InputPayload) => {
+  logger.log('Started extension execution with configuration', data);
 };
 
 export const addressMissing = () => {
   logger.error(`Address data missing`);
 };
 
-export const addressValidating = () => {
+export const addressValidating = (params: RequestPayload) => {
   logger.debug('Validating address');
 };
 
@@ -44,7 +44,7 @@ export const errorValidateAddress = (error: Error) => {
   logger.error('Error when validating address.', error);
 };
 
-export const parentUpdating = () => {
+export const parentUpdating = <T>(update: T) => {
   logger.debug('Parent ref updating');
 };
 

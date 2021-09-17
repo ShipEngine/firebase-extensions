@@ -1,13 +1,12 @@
 import * as functions from "firebase-functions";
-import ShipEngine, { ValidateAddressesTypes } from 'shipengine';
+import ShipEngine from 'shipengine';
+import { Change } from "firebase-functions";
+import { DocumentSnapshot } from "firebase-functions/v1/firestore";
+import { camelizeKeys } from "humps";
 
-import { AddressValidationResult as ValidatedAddress } from './types';
+import { AddressValidationResult, InputPayload, RequestPayload, ResponsePayload, UpdatePayload } from './types';
 import config from './config';
 import * as logs from './logs';
-
-interface InputPayload {
-  [key: string]: any
-}
 
 // Initialize ShipEngine client
 const shipEngine = new ShipEngine(config.shipEngineApiKey);
@@ -15,60 +14,80 @@ const shipEngine = new ShipEngine(config.shipEngineApiKey);
 logs.init();
 
 export const validateAddress = functions.handler.firestore.document.onWrite(
-  async (change) => {
-    logs.start();
+  async (change: Change<DocumentSnapshot>): Promise<void> => {
+    if (!change.after.exists) return; // The document is being deleted
+    
+    let data = change.after.data() as InputPayload;
 
-    const data = change.after.data() as InputPayload;
-    const address = data[config.addressKey] as ValidateAddressesTypes.Params[number];
+    // Support situations where the keys may be snake_cased
+    data = camelizeKeys(data) as InputPayload;
+    
+    // Address validation already complete
+    if (hasValidationData(data)) return;
 
-    if (!address) {
-      logs.addressMissing();
-    }
+    logs.start(data);
 
-    const params: ValidateAddressesTypes.Params = [address];
+    // Validate Address
+    const params = castParams(data);
+    const update = await handleValidateAddress(params);
+    
+    // Update the parent document with the address validation results
+    handleUpdateDocument(change.after, update);
 
-    let update: ValidatedAddress;
+    logs.complete();
 
-    /**
-     * Validate Address
-     */
-    try {
-      logs.addressValidating();
-
-      // fetch validated address
-      const [result]: ValidateAddressesTypes.Result[number][] = await shipEngine.validateAddresses(params);
-
-      // Build node update based on the result status
-      update = { status: result.status };
-
-      switch (update.status) {
-        case 'verified':
-          update.normalizedAddress = result.normalizedAddress;
-          break;
-        case 'warning':
-          update.normalizedAddress = result.normalizedAddress;
-        case 'unverified':
-        case 'error':
-          update.messages = result.messages;
-          break;
-      }
-    } catch (err) {
-      logs.errorValidateAddress(err as Error);
-      return;
-    }
-
-    logs.addressValidated(update);
-
-    /**
-     * Update Reference
-     */
-      try {
-        logs.parentUpdating();
-        change.after.ref.update(update);
-        logs.parentUpdated()
-      } catch (err) {
-        logs.errorUpdatingParent(err as Error);
-        return;
-      }
+    return;
   }
 )
+
+const hasValidationData = (data: InputPayload) => {
+  return data['validation'] !== undefined;
+}
+
+const castParams = (data: InputPayload): RequestPayload => {
+  return [data[config.addressKey]];
+}
+
+const handleValidateAddress = async (params: RequestPayload): Promise<UpdatePayload> => {
+  logs.addressValidating(params);
+
+  try {
+    // fetch validated address and return first result in array
+    const [result] = await shipEngine.validateAddresses(params) as ResponsePayload;
+
+    logs.addressValidated(result);
+    
+    // Build the update object based on the result status
+    const validationResult: AddressValidationResult = { status: result.status };
+
+    switch (validationResult.status) {
+      case 'verified':
+        validationResult.normalizedAddress = result.normalizedAddress;
+        break;
+      case 'warning':
+        validationResult.normalizedAddress = result.normalizedAddress;
+      case 'unverified':
+      case 'error':
+        validationResult.messages = result.messages;
+        break;
+    }
+    
+    // Nest validation results under validation result key
+    return { [config.validationResultKey]: validationResult };
+  } catch (err) {
+    logs.errorValidateAddress(err as Error);
+    throw err;
+  }
+}
+
+const handleUpdateDocument = <T>(snapshot: DocumentSnapshot, update: T): void => {
+  logs.parentUpdating(update);
+
+  try {
+    snapshot.ref.update(update);
+    logs.parentUpdated()
+  } catch (err) {
+    logs.errorUpdatingParent(err as Error);
+    throw err;
+  }
+}
