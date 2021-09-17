@@ -30,6 +30,8 @@ author:
 contributors:
   - authorName: Patrick Jones
     url: https://github.com/forksofpower
+  - authorName: Andrew Hite
+    url: https://github.com/andyhite
 
 billingRequired: true
 
@@ -121,3 +123,26 @@ params:
     example: path/to/addresses
     default: addresses
     required: false
+
+  - param: SHIPMENT_KEY
+    label: Shipment Key
+    description: >
+      The document key where the shipment information is located.
+    type: string
+    default: shipment
+    required: false
+
+  - param: RATES_KEY
+    label: Shipping Rates Key
+    description: >
+      The document key to store the rates result in.
+    type: string
+    default: rates
+    required: false
+
+  - param: CARRIER_IDS
+    label: ShipEngine Carrier IDs
+    description: >
+      A comma separated list of Carrier IDs from your ShipEngine account.
+    type: string
+    required: true
