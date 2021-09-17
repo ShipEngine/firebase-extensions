@@ -1,4 +1,4 @@
-import * as functions from "firebase-functions";
+import * as functions from 'firebase-functions';
 import ShipEngine, { ValidateAddressesTypes } from 'shipengine';
 
 import { AddressValidationResult as ValidatedAddress } from './types';
@@ -6,7 +6,7 @@ import config from './config';
 import * as logs from './logs';
 
 interface InputPayload {
-  [key: string]: any
+  [key: string]: any;
 }
 
 // Initialize ShipEngine client
@@ -19,7 +19,9 @@ export const validateAddress = functions.handler.firestore.document.onWrite(
     logs.start();
 
     const data = change.after.data() as InputPayload;
-    const address = data[config.addressKey] as ValidateAddressesTypes.Params[number];
+    const address = data[
+      config.addressKey
+    ] as ValidateAddressesTypes.Params[number];
 
     if (!address) {
       logs.addressMissing();
@@ -36,7 +38,8 @@ export const validateAddress = functions.handler.firestore.document.onWrite(
       logs.addressValidating();
 
       // fetch validated address
-      const [result]: ValidateAddressesTypes.Result[number][] = await shipEngine.validateAddresses(params);
+      const [result]: ValidateAddressesTypes.Result[number][] =
+        await shipEngine.validateAddresses(params);
 
       // Build node update based on the result status
       update = { status: result.status };
@@ -62,13 +65,13 @@ export const validateAddress = functions.handler.firestore.document.onWrite(
     /**
      * Update Reference
      */
-      try {
-        logs.parentUpdating();
-        change.after.ref.update(update);
-        logs.parentUpdated()
-      } catch (err) {
-        logs.errorUpdatingParent(err as Error);
-        return;
-      }
+    try {
+      logs.parentUpdating();
+      change.after.ref.update(update);
+      logs.parentUpdated();
+    } catch (err) {
+      logs.errorUpdatingParent(err as Error);
+      return;
+    }
   }
-)
+);
