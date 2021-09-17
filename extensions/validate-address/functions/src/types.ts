@@ -1,6 +1,5 @@
 import { ValidateAddressesTypes } from 'shipengine';
-
-export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
+import { Optional } from 'shipengine-firebase-common';
 
 export const enum Status {
   Unverified = 'unverified',

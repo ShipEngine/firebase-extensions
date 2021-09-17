@@ -8,6 +8,7 @@
     "lint": "prettier --list-different \"**/*.{js,md,yml,ts,json,yaml}\"",
     "clean": "yarn workspaces foreach run clean",
     "build": "yarn workspaces foreach run build",
+    "test": "yarn workspaces foreach run test",
     "postinstall": "yarn run clean && yarn run build",
     "gen:ext": "hygen extension new"
   },

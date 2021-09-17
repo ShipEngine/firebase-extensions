@@ -3,15 +3,16 @@ import ShipEngine from 'shipengine';
 import { Change } from "firebase-functions";
 import { DocumentSnapshot } from "firebase-functions/v1/firestore";
 import { camelizeKeys } from "humps";
+import { handleUpdateDocument } from "shipengine-firebase-common";
 
 import { AddressValidationResult, InputPayload, RequestPayload, ResponsePayload, UpdatePayload } from './types';
 import config from './config';
-import * as logs from './logs';
+import logs from './logs';
 
 // Initialize ShipEngine client
 const shipEngine = new ShipEngine(config.shipEngineApiKey);
 
-logs.init();
+logs.init(config);
 
 export const validateAddress = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
@@ -76,18 +77,6 @@ const handleValidateAddress = async (params: RequestPayload): Promise<UpdatePayl
     return { [config.validationResultKey]: validationResult };
   } catch (err) {
     logs.errorValidateAddress(err as Error);
-    throw err;
-  }
-}
-
-const handleUpdateDocument = <T>(snapshot: DocumentSnapshot, update: T): void => {
-  logs.parentUpdating(update);
-
-  try {
-    snapshot.ref.update(update);
-    logs.parentUpdated()
-  } catch (err) {
-    logs.errorUpdatingParent(err as Error);
     throw err;
   }
 }

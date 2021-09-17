@@ -8,9 +8,9 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "emulate": "yarn build && firebase ext:dev:emulators:start --test-params ../.env.development --project shipengine-firebase-extensions",
-    "test": "yarn build && firebase ext:dev:emulators:exec --test-params ../.env.development --project=forksofpower-extensions-test 'yarn workspace shipengine-validate-address-functions run-test'",
-    "run-test": "mocha 'lib/test/**/*.spec.js'"
+    "emulate": "yarn build && firebase emulators:start --test-params ../.env.development --project forksofpower-firebase-extensions",
+    "test": "yarn build && firebase emulators:exec --test-params ../.env.development --project=forksofpower-extensions-test 'yarn run-test'",
+    "run-test": "mocha 'lib/test/**/*.spec.js' --exit"
   },
   "engines": {
     "node": "15"
