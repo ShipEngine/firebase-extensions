@@ -19,7 +19,7 @@ const shipEngine = new ShipEngine(config.shipEngineApiKey);
 
 logs.init(config);
 
-export const getRates = functions.handler.firestore.document.onWrite(
+export const trackLabel = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
     if (!change.after.exists) return; // The document is being deleted
 
@@ -28,16 +28,15 @@ export const getRates = functions.handler.firestore.document.onWrite(
     // Support situations where the keys may be snake_cased
     data = camelizeKeys(data) as InputPayload;
 
-    // if (is.not.empty(data[config.shipmentKey])) return; // Rates has been completed
-    if (hasRatesData(data)) return;
+    if (hasTrackingData(data)) return; // Tracking data exists
 
     logs.start(data);
 
     // Build the request payload and execute the label purchase
-    const params = castParams(data);
-    const update = await handleGetRates(params);
+    const params = formatRequestPayload(data);
+    const update = await handleGetLabelTrackingUpdate(params);
 
-    // Update the parent document with the rates result
+    // Update the parent document with the tracking result
     handleUpdateDocument(change.after, update);
 
     logs.complete();
@@ -46,33 +45,37 @@ export const getRates = functions.handler.firestore.document.onWrite(
   }
 );
 
-const hasRatesData = (data: any) => {
-  return data['rates'] !== undefined;
+const hasTrackingData = (data: InputPayload) => {
+  return data[config.trackingResultKey] !== undefined;
 };
 
-const castParams = (data: InputPayload): RequestPayload => {
-  // Include carrier ids from config
+// const shouldUseLabelId = (data: InputPayload) => {
+//   return data[config.labelIdKey] === undefined;
+// };
+
+const formatRequestPayload = (data: InputPayload): RequestPayload => {
+  const label = data[config.labelKey];
+  // format input payload to fit request payload
   return {
-    shipment: data[config.shipmentKey] as RequestPayload['shipment'],
-    rateOptions: {
-      carrierIds: config.carrierIds,
-    } as RequestPayload['rateOptions'],
+    trackingNumber: label[config.trackingNumberKey],
+    carrierCode: label[config.carrierCodeKey],
   };
 };
 
-const handleGetRates = async (
+const handleGetLabelTrackingUpdate = async (
   params: RequestPayload
 ): Promise<UpdatePayload> => {
-  logs.fetchingRates(params);
+  logs.fetchingLabelTrackingData(params);
   try {
-    const result = (await shipEngine.getRatesWithShipmentDetails(
+    const result = (await shipEngine.trackUsingCarrierCodeAndTrackingNumber(
       params
     )) as ResponsePayload;
-    logs.ratesFetched(result);
-    const rates = result.rateResponse.rates;
-    return { [config.ratesKey]: rates };
+    logs.labelTrackingDataFetched(result);
+    return {
+      [config.trackingResultKey]: result,
+    };
   } catch (error) {
-    logs.errorFetchRates(error as Error);
+    logs.errorFetchLabelTrackingData(error as Error);
     throw error;
   }
 };

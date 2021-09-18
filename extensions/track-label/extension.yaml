@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: shipengine-rates
+name: shipengine-track-label
 version: 0.0.1
 specVersion: v1beta
 
-displayName: Rates
+displayName: ShipEngine Track Label
 description:
-  Queries for rates based on the contents of a document written to a specified Cloud Firestore collection.
+  Queries for label tracking data based on the contents of a document written to a specified Cloud Firestore collection.
 
 license: Apache-2.0
 sourceUrl: https://github.com/ShipEngine/firebase-extensions/tree/master/extensions/validate-address
@@ -40,17 +40,17 @@ roles:
     reason: Allows this extension to access Cloud Firestore to read and process added documents.
 
 resources:
-  - name: getRates
+  - name: trackLabel
     type: firebaseextensions.v1beta.function
     description:
-      Processes shipment data in the specified Cloud Firestore collection,
-      fetches rates, and updates the document with rate information.
+      Processes label data in the specified Cloud Firestore collection,
+      fetches tracking data, and updates the document with tracking information.
     properties:
       location: ${param:LOCATION}
       runtime: nodejs14
       eventTrigger:
         eventType: providers/cloud.firestore/eventTypes/document.write
-        resource: projects/${param:PROJECT_ID}/databases/(default)/documents/${param:COLLECTION_PATH}/{addressId}
+        resource: projects/${param:PROJECT_ID}/databases/(default)/documents/${param:COLLECTION_PATH}/{documentId}
 
 params:
   - param: LOCATION
@@ -112,40 +112,57 @@ params:
       Api key found on the api dashboard.
     type: string
     required: true
-
+    
   - param: COLLECTION_PATH
     label: Firestore path
     description: >
-      What is the path to the collection that contains the documents with shipment info for validation?
+      What is the path to the collection that contains the documents with label data?
     type: string
     validationRegex: ^\S+$
     validationErrorMessage: Path cannot have spaces.
-    example: path/to/addresses
-    default: shipments
+    example: path/to/labels
+    default: labels
     required: false
 
-  - param: SHIPMENT_KEY
-    label: Shipment Key
+  - param: LABEL_KEY
+    label: Label Key
     description: >
-      The document key where the shipment information is located.
+      The document key where the label data is located.
     type: string
-    default: shipment
+    default: label
     required: false
 
-  - param: RATES_KEY
-    label: Shipping Rates Key
+  - param: TRACKING_NUMBER_KEY
+    label: Tracking Number Key
     description: >
-      The document key to store the rates result in.
+      The document key where the label tracking number is located.
     type: string
-    default: rates
+    default: trackingNumber
     required: false
 
-  - param: CARRIER_IDS
-    label: ShipEngine Carrier IDs
+  - param: CARRIER_CODE_KEY
+    label: Carrier Code Key
     description: >
-      A comma separated list of Carrier IDs from your ShipEngine account.
+      The document key where the label carrier code is located.
     type: string
-    required: true
+    default: carrierCode
+    required: false
+
+  - param: LABEL_ID_KEY
+    label: Label ID Key
+    description: >
+      The document key where the label id is located.
+    type: string
+    default: labelId
+    required: false
+
+  - param: TRACKING_RESULT_KEY
+    label: Tracking Result Key
+    description: >
+      The document key to store the tracking result in.
+    type: string
+    default: tracking
+    required: false
 
   - param: VERBOSE_LOG_OUTPUT
     label: Enable Verbose Logging

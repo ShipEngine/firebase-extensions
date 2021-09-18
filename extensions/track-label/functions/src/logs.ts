@@ -4,23 +4,23 @@ import { RequestPayload, ResponsePayload } from './types';
 
 export default {
   ...logs,
-  fetchingRates: (params: RequestPayload) => {
+  fetchingLabelTrackingData: (params: RequestPayload) => {
     logger.debug({
-      message: 'Fetching Rates',
+      message: 'Fetching label tracking data.',
       params,
     });
   },
 
-  ratesFetched: (result: ResponsePayload) => {
+  labelTrackingDataFetched: (result: ResponsePayload) => {
     logger.log({
-      message: 'Successfully fetched rates',
+      message: 'Successfully fetched label tracking data.',
       result,
     });
   },
 
-  errorFetchRates: (error: Error) => {
+  errorFetchLabelTrackingData: (error: Error) => {
     logger.error({
-      message: 'Error when fetching rates.',
+      message: 'Error when fetching label tracking data.',
       error,
     });
   },

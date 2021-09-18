@@ -1,8 +1,10 @@
-import { GetRatesWithShipmentDetailsTypes } from "shipengine/esm/get-rates-with-shipment-details";
+import { GetRatesWithShipmentDetailsTypes } from 'shipengine/esm/get-rates-with-shipment-details';
 
 export type RequestPayload = GetRatesWithShipmentDetailsTypes.Params;
 export type ResponsePayload = GetRatesWithShipmentDetailsTypes.Result;
-export type InputPayload = { 
-    [key: string]: RequestPayload['shipment']
-}
-export type UpdatePayload = { [key: string]: ResponsePayload['rateResponse']['rates'] }
+export type InputPayload = {
+  [key: string]: RequestPayload['shipment'];
+};
+export type UpdatePayload = {
+  [key: string]: ResponsePayload['rateResponse']['rates'];
+};

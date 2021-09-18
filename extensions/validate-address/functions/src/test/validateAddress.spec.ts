@@ -1,18 +1,18 @@
-import { assert, expect } from "chai";
-import * as admin from "firebase-admin";
+import { assert, expect } from 'chai';
+import * as admin from 'firebase-admin';
 import * as inputPayload from './input-payload.json';
 
-const DB_COLLECTION = "addresses";
+const DB_COLLECTION = 'addresses';
 /*
-  * ============
-  *    Setup
-  * ============
-*/
+ * ============
+ *    Setup
+ * ============
+ */
 admin.initializeApp();
 const db = admin.firestore();
 db.settings({
-  host: "localhost:3000",
-  ssl: false
+  host: 'localhost:3000',
+  ssl: false,
 });
 
 /*
@@ -34,22 +34,18 @@ async function deleteCollection(path: string) {
   batch.commit();
 }
 
-describe("validateAddress", async () => {
-  it("returns the validated address", async () => {
-
+describe('validateAddress', async () => {
+  it('returns the validated address', async () => {
     // Add new address to db
     const newAddress = await db.collection(DB_COLLECTION).add(inputPayload);
 
     // Wait for result
     const update = await new Promise((resolve, reject) => {
-      void newAddress.onSnapshot(
-        (snapshot) => {
-          const data = snapshot.data();
-          resolve(data);
-        }, 
-        reject
-      )
-    })
+      void newAddress.onSnapshot((snapshot) => {
+        const data = snapshot.data();
+        resolve(data);
+      }, reject);
+    });
     assert(expect(update).is.not.empty);
   });
 });
