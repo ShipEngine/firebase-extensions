@@ -4,11 +4,12 @@
   "author": "ShipEngine (https://shipengine.com)",
   "scripts": {
     "common": "yarn workspace shipengine-firebase-common",
+    "format-logs": "cut -c 31-",
     "format": "prettier --write \"**/*.{js,md,yml,ts,json,yaml}\" --loglevel silent",
     "lint": "prettier --list-different \"**/*.{js,md,yml,ts,json,yaml}\"",
-    "clean": "yarn workspaces foreach run clean",
-    "build": "yarn workspaces foreach run build",
-    "test": "yarn workspaces foreach run test",
+    "clean": "yarn workspaces foreach -pv run clean | yarn format-logs",
+    "build": "yarn workspaces foreach -pvi run build | yarn format-logs",
+    "test": "yarn workspaces foreach -v run test | yarn format-logs",
     "postinstall": "yarn run clean && yarn run build",
     "gen:ext": "hygen extension new"
   },
@@ -25,5 +26,6 @@
   "workspaces": [
     "libs/*",
     "extensions/*/functions"
-  ]
+  ],
+  "packageManager": "yarn@3.0.2"
 }
