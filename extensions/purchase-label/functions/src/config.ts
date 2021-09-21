@@ -5,5 +5,4 @@ export default {
   collectionPath: process.env.COLLECTION_PATH!,
   inputSchema: process.env.INPUT_SCHEMA!,
   shippingLabelKey: process.env.SHIPPING_LABEL_KEY!,
-  confirmationKey: process.env.READY_TO_SHIP_KEY!,
 };

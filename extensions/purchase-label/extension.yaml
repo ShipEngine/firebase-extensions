@@ -124,20 +124,46 @@ params:
     default: orders
     required: false
 
-  - param: SHIPMENT_KEY
-    label: Shipment Key
+  - param: Input Schema
+    label: Input Schema
     description: >
-      The document key where the shipment information is located.
+      A schema object mapping the collection's data to the required ShipEngine API structure.
     type: string
-    default: shipment
-    required: false
-
-  - param: READY_TO_SHIP_KEY
-    label: "Ready to Ship" Key
-    description: >
-      Presence of this key triggers the purchase of the label for the shipment.
-    type: string
-    default: paid
+    default: >
+      {
+        "shipment": {
+          "carrierId": "shipment.carrierId",
+          "serviceCode": "shipment.serviceCode",
+          "shipDate": "shipment.shipDate",
+          "shipTo": {
+            "name": "shipment.shipTo.name",
+            "phone": "shipment.shipTo.phone",
+            "addressLine1": "shipment.shipTo.addressLine1",
+            "addressLine2": "shipment.shipTo.addressLine2",
+            "cityLocality": "shipment.shipTo.cityLocality",
+            "stateProvince": "shipment.shipTo.stateProvince",
+            "postalCode": "shipment.shipTo.postalCode",
+            "countryCode": "shipment.shipTo.countryCode"
+          },
+          "shipFrom": {
+            "name": "shipment.shipFrom.name",
+            "phone": "shipment.shipFrom.phone",
+            "addressLine1": "shipment.shipTo.addressLine1",
+            "addressLine2": "shipment.shipTo.addressLine2",
+            "cityLocality": "shipment.shipTo.cityLocality",
+            "stateProvince": "shipment.shipTo.stateProvince",
+            "postalCode": "shipment.shipTo.postalCode",
+            "countryCode": "shipment.shipTo.countryCode"
+          },
+          "packages": {
+            "_root": "shipment.packages",
+            "weight": {
+              "value": "shipment.packages.weight.value",
+              "unit": "shipment.packages.weight.unit"
+            }
+          }
+        }
+      }
     required: false
 
   - param: SHIPPING_LABEL_KEY

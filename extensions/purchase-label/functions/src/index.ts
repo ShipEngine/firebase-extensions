@@ -21,7 +21,6 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
     const data: DocumentData = change.after.data() || {};
     const params: RequestPayload = converters.mapDataToSchema(data, inputSchema);
 
-    if (!isReadyToShip(data)) return; // Order not ready for label purchase
     if (hasValidLabel(data)) return; // A valid label has already been created
 
     logs.start(data);
@@ -37,10 +36,6 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
     return;
   }
 );
-
-const isReadyToShip = (data: DocumentData): boolean => {
-  return !!data[config.confirmationKey];
-}
 
 const hasValidLabel = (data: DocumentData): boolean => {
   return data[config.shippingLabelKey] !== undefined && data[config.shippingLabelKey].errors === undefined;
