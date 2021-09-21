@@ -1,6 +1,5 @@
-import { logger } from 'firebase-functions';
-import { empty as isEmpty } from 'is_js';
 import { logs } from 'shipengine-firebase-common';
+import logger from 'shipengine-firebase-common/dist/logger';
 
 import config from './config';
 import { RequestPayload, ValidatedAddress } from './types';
@@ -13,21 +12,28 @@ export const obfuscatedConfig = {
 export default {
   ...logs,
   addressValidating: (params: RequestPayload) => {
-    logger.debug('Validating address');
+    logger.debug({
+      message: 'Validating address',
+      params,
+    });
   },
-  
+
   addressValidated: (validatedAddress: ValidatedAddress) => {
     const hasWarning = validatedAddress.status === 'warning';
     const level = hasWarning ? 'warn' : 'info';
-  
+
     // Log any warning messages if they exist
-    const msg: any[] = [`Validated address${hasWarning ? ' with warnings' : ''}`];
-    if (hasWarning && isEmpty(validatedAddress.messages))
-      msg.push(validatedAddress.messages);
-  
-    logger[level](...msg.flat());
+    const message = `Validated address${hasWarning ? ' with warnings' : ''}`;
+
+    logger[level]({
+      message,
+      ...(hasWarning && { warnings: validatedAddress.messages }),
+    });
   },
   errorValidateAddress: (error: Error) => {
-    logger.error('Error when validating address.', error);
+    logger.error({
+      message: 'Error when validating address.',
+      error,
+    });
   },
-}
+};

@@ -16,11 +16,11 @@ export type ValidatedAddress = ResponsePayload[number];
 
 export type InputPayload = {
   [key: string]: Address;
-}
+};
 export type AddressValidationResult = Optional<
   Omit<ValidatedAddress, 'originalAddress'>,
   'messages' | 'normalizedAddress'
 >;
 export type UpdatePayload = {
   [key: string]: AddressValidationResult;
-}
+};

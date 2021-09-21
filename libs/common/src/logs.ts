@@ -1,4 +1,4 @@
-import { logger } from 'firebase-functions';
+import logger from './logger';
 
 export const obfuscateConfig = (config: any) => {
   return {
@@ -8,32 +8,51 @@ export const obfuscateConfig = (config: any) => {
 };
 
 export const init = (config: any) => {
-  logger.log(
-    'Initializing extension with configuration:',
-    obfuscateConfig(config)
-  );
+  logger.log({
+    message: 'Initializing extension with configuration',
+    options: {
+      verbose: true,
+    },
+    config: obfuscateConfig(config),
+  });
 };
 
 export const initError = (error: Error) => {
-  logger.error('Error when initializing extension.');
+  logger.error({
+    message: 'Error when initializing extension',
+    error,
+  });
 };
 
 export const start = (data: any) => {
-  logger.log('Started extension execution: ', data);
+  logger.log({
+    message: 'Started extension execution',
+    data,
+  });
 };
 
 export const parentUpdating = (update: any) => {
-  logger.debug('Parent ref updating', update);
+  logger.debug({
+    message: 'Parent ref updating',
+    update,
+  });
 };
 
 export const parentUpdated = () => {
-  logger.debug('Parent ref updated');
+  logger.debug({
+    message: 'Parent ref updated',
+  });
 };
 
 export const errorUpdatingParent = (error: Error) => {
-  logger.error('Error updating parent', error);
+  logger.error({
+    message: 'Error updating parent',
+    error,
+  });
 };
 
 export const complete = () => {
-  logger.info('Completed execution of extension');
+  logger.info({
+    message: 'Completed execution of extension',
+  });
 };

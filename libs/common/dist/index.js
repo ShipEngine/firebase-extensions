@@ -11,6 +11,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 exports.__esModule = true;
 exports.logs = void 0;
+// import * as logger from './logger';
 exports.logs = require("./logs");
 __exportStar(require("./types"), exports);
 __exportStar(require("./utils"), exports);

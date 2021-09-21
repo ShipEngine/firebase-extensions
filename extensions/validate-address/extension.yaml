@@ -18,7 +18,8 @@ specVersion: v1beta
 
 displayName: Validate Address
 description:
-  Validates an address based on the contents of a document written to a specified Cloud Firestore collection.
+  Validates an address based on the contents of a document written to a
+  specified Cloud Firestore collection.
 
 license: Apache-2.0
 sourceUrl: https://github.com/ShipEngine/firebase-extensions/tree/master/extensions/validate-address
@@ -37,14 +38,17 @@ billingRequired: true
 
 roles:
   - role: datastore.user
-    reason: Allows this extension to access Cloud Firestore to read and process added documents.
+    reason:
+      Allows this extension to access Cloud Firestore to read and process added
+      documents.
 
 resources:
   - name: validateAddress
     type: firebaseextensions.v1beta.function
     description:
       Processes document changes in the specified Cloud Firestore collection,
-      validates emails, and updates the document with delivery status information.
+      validates emails, and updates the document with delivery status
+      information.
     properties:
       location: ${param:LOCATION}
       runtime: nodejs14
@@ -56,8 +60,8 @@ params:
   - param: LOCATION
     label: Cloud Functions location
     description: >-
-      Where do you want to deploy the functions created for this extension?
-      You usually want a location close to your database. For help selecting a
+      Where do you want to deploy the functions created for this extension? You
+      usually want a location close to your database. For help selecting a
       location, refer to the [location selection
       guide](https://firebase.google.com/docs/functions/locations).
     type: select
@@ -116,14 +120,15 @@ params:
   - param: COLLECTION_PATH
     label: Firestore path
     description: >
-      What is the path to the collection that contains the documents with addresses for validation?
+      What is the path to the collection that contains the documents with
+      addresses for validation?
     type: string
     validationRegex: ^\S+$
     validationErrorMessage: Path cannot have spaces.
     example: path/to/addresses
     default: addresses
     required: false
-  
+
   - param: ADDRESS_KEY
     label: Address Key
     description: >-
