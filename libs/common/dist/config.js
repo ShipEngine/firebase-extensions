@@ -1,6 +1,6 @@
 'use strict';
 exports.__esModule = true;
 exports['default'] = {
-  verboseLogOutput: JSON.parse(process.env.VERBOSE_LOG_OUTPUT),
+  verboseLogOutput: process.env.VERBOSE_LOG_OUTPUT == 'true',
 };
 //# sourceMappingURL=config.js.map
