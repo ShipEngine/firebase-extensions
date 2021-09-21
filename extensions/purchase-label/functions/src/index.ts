@@ -25,11 +25,16 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
 
     logs.start(data);
 
-    // Build the request payload and execute the label purchase
-    const update = await handlePurchaseLabel(params);
+    try {
+      // Build the request payload and execute the label purchase
+      const update = await handlePurchaseLabel(params);
 
-    // Update the parent document with the label data
-    handleUpdateDocument(change.after, update);
+      // Update the parent document with the label data
+      handleUpdateDocument(change.after, update);
+    } catch (err) {
+      // Update the document with error information on failure
+      handleUpdateDocument(change.after, { error: err })
+    }
 
     logs.complete();
 
