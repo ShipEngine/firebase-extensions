@@ -6,7 +6,14 @@ singleQuote: true
 endOfLine: auto
 trailingComma: es5
 arrowParens: always
-# overrides:
-#   - files: "*.{yml,yaml}"
-#     options:
-#       proseWrap: always
+overrides:
+  - files: '*.{yml,yaml}'
+    options:
+      proseWrap: always
+      parser: yaml
+  - files: '*.{json,jsonc}'
+    options:
+      parser: json
+  - files: '*.md'
+    options:
+      parser: markdown
