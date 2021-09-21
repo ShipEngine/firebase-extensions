@@ -4,4 +4,4 @@
 export FORCE_COLOR=true
 
 # Clean all Workspaces
-yarn workspaces foreach -pv run clean | yarn format-logs
+yarn workspaces foreach -pv run clean
