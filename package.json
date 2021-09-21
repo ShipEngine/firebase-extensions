@@ -3,15 +3,15 @@
   "private": true,
   "author": "ShipEngine (https://shipengine.com)",
   "scripts": {
-    "common": "yarn workspace shipengine-firebase-common",
+    "clean": "./scripts/clean.sh",
+    "build": "./scripts/build.sh",
+    "test": "./scripts/test.sh",
     "format-logs": "cut -c 31-",
     "format": "prettier --write \"**/*.{js,md,yml,ts,json,yaml}\" --loglevel silent",
     "lint": "prettier --list-different \"**/*.{js,md,yml,ts,json,yaml}\"",
-    "clean": "yarn workspaces foreach -pv run clean | yarn format-logs",
-    "build": "yarn workspaces foreach -pvi run build | yarn format-logs",
-    "test": "yarn workspaces foreach -v run test | yarn format-logs",
     "postinstall": "yarn run clean && yarn run build",
-    "gen:ext": "hygen extension new"
+    "gen:ext": "hygen extension new",
+    "common": "yarn workspace shipengine-firebase-common"
   },
   "devDependencies": {
     "@types/is": "^0.0.21",
