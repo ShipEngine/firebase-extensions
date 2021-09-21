@@ -1,14 +1,14 @@
 import { DocumentSnapshot } from 'firebase-functions/v1/firestore';
-import * as logs from './logs';
+import * as logs from '../logs';
 
-export const handleUpdateDocument = <T>(
+export const handleUpdateDocument = async <T>(
   snapshot: DocumentSnapshot,
   update: T
-): void => {
+): Promise<void> => {
   logs.parentUpdating(update);
 
   try {
-    snapshot.ref.update(update);
+    await snapshot.ref.update(update);
     logs.parentUpdated();
   } catch (err) {
     logs.errorUpdatingParent(err as Error);

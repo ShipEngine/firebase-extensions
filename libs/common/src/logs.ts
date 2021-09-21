@@ -9,21 +9,24 @@ export const obfuscateConfig = (config: any) => {
 
 export const init = (config: any) => {
   logger.log({
-    message: 'Initializing extension with configuration:',
-    data: obfuscateConfig(config),
+    message: 'Initializing extension with configuration',
+    options: {
+      verbose: true,
+    },
+    config: obfuscateConfig(config),
   });
 };
 
 export const initError = (error: Error) => {
   logger.error({
-    message: 'Error when initializing extension.',
+    message: 'Error when initializing extension',
     error,
   });
 };
 
 export const start = (data: any) => {
   logger.log({
-    message: 'Started extension execution: ',
+    message: 'Started extension execution',
     data,
   });
 };

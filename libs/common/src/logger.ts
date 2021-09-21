@@ -29,11 +29,16 @@ class Logger {
   public error(entry: LogEntry): void {
     this.write(entry, 'ERROR');
   }
-  private write({ message, ...data }: LogEntry, severity: LogSeverity) {
+  private write(
+    { message, options, ...data }: LogEntry,
+    severity: LogSeverity
+  ) {
+    const verbose = this.options.verbose || options?.verbose;
+
     void firebaseLogger.write({
       severity,
       message,
-      ...(this.options.verbose && data),
+      ...(verbose && data),
     });
   }
 }

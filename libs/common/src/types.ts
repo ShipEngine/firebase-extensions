@@ -2,6 +2,7 @@ export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 
 export interface LogEntry {
   // severity?: LogSeverity;
+  options?: LogOptions;
   message?: string;
   [x: string]: any;
 }

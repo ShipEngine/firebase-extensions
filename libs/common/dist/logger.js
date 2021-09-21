@@ -60,12 +60,13 @@ var Logger = /** @class */ (function () {
   };
   Logger.prototype.write = function (_a, severity) {
     var message = _a.message,
-      data = __rest(_a, ['message']);
+      options = _a.options,
+      data = __rest(_a, ['message', 'options']);
+    var verbose =
+      this.options.verbose ||
+      (options === null || options === void 0 ? void 0 : options.verbose);
     void firebase_functions_1.logger.write(
-      __assign(
-        { severity: severity, message: message },
-        this.options.verbose && data
-      )
+      __assign({ severity: severity, message: message }, verbose && data)
     );
   };
   return Logger;

@@ -31,21 +31,24 @@ var obfuscateConfig = function (config) {
 exports.obfuscateConfig = obfuscateConfig;
 var init = function (config) {
   logger_1['default'].log({
-    message: 'Initializing extension with configuration:',
-    data: (0, exports.obfuscateConfig)(config),
+    message: 'Initializing extension with configuration',
+    options: {
+      verbose: true,
+    },
+    config: (0, exports.obfuscateConfig)(config),
   });
 };
 exports.init = init;
 var initError = function (error) {
   logger_1['default'].error({
-    message: 'Error when initializing extension.',
+    message: 'Error when initializing extension',
     error: error,
   });
 };
 exports.initError = initError;
 var start = function (data) {
   logger_1['default'].log({
-    message: 'Started extension execution: ',
+    message: 'Started extension execution',
     data: data,
   });
 };
