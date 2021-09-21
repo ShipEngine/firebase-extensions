@@ -8,7 +8,7 @@ export const mapDataToSchema = (data: DocumentData, schema: ParamSchema): Reques
       carrierId: get(data, schema.shipment.carrierId),
       serviceCode: get(data, schema.shipment.serviceCode),
       externalOrderId: get(data, schema.shipment.externalOrderId),
-      items: get(data, schema.shipment.items._root).map((item: any) => ({
+      items: mapCollectionOrObject(get(data, schema.shipment.items._root), (item: any) => ({
         name: get(item, schema.shipment.items.name),
         salesOrderId: get(item, schema.shipment.items.salesOrderId),
         salesOrderItemId: get(item, schema.shipment.items.salesOrderItemId),
@@ -18,13 +18,13 @@ export const mapDataToSchema = (data: DocumentData, schema: ParamSchema): Reques
         externalOrderItemId: get(item, schema.shipment.items.externalOrderItemId),
         asin: get(item, schema.shipment.items.asin),
         orderSourceCode: get(item, schema.shipment.items.orderSourceCode),
-      })),
-      taxIdentifiers: get(data, schema.shipment.taxIdentifiers._root).map((item: any) => ({
+      })) as RequestPayload['shipment']['items'],
+      taxIdentifiers: mapCollectionOrObject(get(data, schema.shipment.taxIdentifiers._root), (item: any) => ({
         taxableEntityType: get(item, schema.shipment.taxIdentifiers.taxableEntityType),
         identifierType: get(item, schema.shipment.taxIdentifiers.identifierType),
         issuingAuthority: get(item, schema.shipment.taxIdentifiers.issuingAuthority),
         value: get(item, schema.shipment.taxIdentifiers.value)
-      })),
+      })) as RequestPayload['shipment']['taxIdentifiers'],
       externalShipmentId: get(data, schema.shipment.externalShipmentId),
       shipDate: get(data, schema.shipment.shipDate),
       shipTo: {
@@ -59,17 +59,17 @@ export const mapDataToSchema = (data: DocumentData, schema: ParamSchema): Reques
       customs: {
         contents: get(data, schema.shipment.customs.contents),
         nonDelivery: get(data, schema.shipment.customs.nonDelivery),
-        customsItems: get(data, schema.shipment.customs.customsItems._root).map((item: any) => ({
-          quantity: get(data, schema.shipment.customs.customsItems.quantity),
+        customsItems: mapCollectionOrObject(get(data, schema.shipment.customs.customsItems._root), (item: any) => ({
+          quantity: get(item, schema.shipment.customs.customsItems.quantity),
           value: {
-            currency: get(data, schema.shipment.customs.customsItems.value.currency),
-            amount: get(data, schema.shipment.customs.customsItems.value.amount),
+            currency: get(item, schema.shipment.customs.customsItems.value.currency),
+            amount: get(item, schema.shipment.customs.customsItems.value.amount),
           },
-          harmonizedTariffCode: get(data, schema.shipment.customs.customsItems.harmonizedTariffCode),
-          countryOfOrigin: get(data, schema.shipment.customs.customsItems.countryOfOrigin),
-          unitOfMeasure: get(data, schema.shipment.customs.customsItems.unitOfMeasure),
-          sku: get(data, schema.shipment.customs.customsItems.sku),
-          skuDescription: get(data, schema.shipment.customs.customsItems.skuDescription),
+          harmonizedTariffCode: get(item, schema.shipment.customs.customsItems.harmonizedTariffCode),
+          countryOfOrigin: get(item, schema.shipment.customs.customsItems.countryOfOrigin),
+          unitOfMeasure: get(item, schema.shipment.customs.customsItems.unitOfMeasure),
+          sku: get(item, schema.shipment.customs.customsItems.sku),
+          skuDescription: get(item, schema.shipment.customs.customsItems.skuDescription),
         })),
       },
       advancedOptions: {
@@ -98,29 +98,29 @@ export const mapDataToSchema = (data: DocumentData, schema: ParamSchema): Reques
       originType: get(data, schema.shipment.originType),
       insuranceProvider: get(data, schema.shipment.insuranceProvider),
       orderSourceCode: get(data, schema.shipment.orderSourceCode),
-      packages: get(data, schema.shipment.packages._root).map((item: any) => ({
-        packageCode: get(data, schema.shipment.packages.packageCode),
+      packages: mapCollectionOrObject(get(data, schema.shipment.packages._root), (item: any) => ({
+        packageCode: get(item, schema.shipment.packages.packageCode),
         weight: {
-          value: get(data, schema.shipment.packages.weight.value),
-          unit: get(data, schema.shipment.packages.weight.unit),
+          value: get(item, schema.shipment.packages.weight.value),
+          unit: get(item, schema.shipment.packages.weight.unit),
         },
         dimensions: {
-          unit: get(data, schema.shipment.packages.dimensions.unit),
-          length: get(data, schema.shipment.packages.dimensions.length),
-          width: get(data, schema.shipment.packages.dimensions.width),
-          height: get(data, schema.shipment.packages.dimensions.height),
+          unit: get(item, schema.shipment.packages.dimensions.unit),
+          length: get(item, schema.shipment.packages.dimensions.length),
+          width: get(item, schema.shipment.packages.dimensions.width),
+          height: get(item, schema.shipment.packages.dimensions.height),
         },
         insuredValue: {
-          currency: get(data, schema.shipment.packages.insuredValue.currency),
-          amount: get(data, schema.shipment.packages.insuredValue.amount),
+          currency: get(item, schema.shipment.packages.insuredValue.currency),
+          amount: get(item, schema.shipment.packages.insuredValue.amount),
         },
         labelMessages: {
-          reference1: get(data, schema.shipment.packages.labelMessages.reference1),
-          reference2: get(data, schema.shipment.packages.labelMessages.reference2),
-          reference3: get(data, schema.shipment.packages.labelMessages.reference3),
+          reference1: get(item, schema.shipment.packages.labelMessages.reference1),
+          reference2: get(item, schema.shipment.packages.labelMessages.reference2),
+          reference3: get(item, schema.shipment.packages.labelMessages.reference3),
         },
-        externalPackageId: get(data, schema.shipment.packages.externalPackageId)
-      }))
+        externalPackageId: get(item, schema.shipment.packages.externalPackageId)
+      })) as RequestPayload['shipment']['packages']
     },
     isReturnLabel: get(data, schema.isReturnLabel),
     rmaNumber: get(data, schema.rmaNumber),
@@ -134,3 +134,8 @@ export const mapDataToSchema = (data: DocumentData, schema: ParamSchema): Reques
     labelImageId: get(data, schema.labelImageId),
   }
 };
+
+function mapCollectionOrObject(data: Array<object> | object, map_fn: (item: any) => object): Array<object> {
+  if (Array.isArray(data)) data.map(map_fn);
+  return [data].map(map_fn);
+}
