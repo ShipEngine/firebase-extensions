@@ -1,7 +1,10 @@
 // integration-test/test/test.js
 import { assert, expect } from 'chai';
 import * as admin from 'firebase-admin';
-import { waitForDocumentUpdate } from 'shipengine-firebase-common';
+import {
+  deleteCollection,
+  waitForDocumentUpdate,
+} from 'shipengine-firebase-common';
 import * as inputPayload from './input-payload.json';
 
 const DB_COLLECTION = 'labels';
@@ -25,29 +28,8 @@ db.settings({
  */
 beforeEach(async () => {
   // Clear the database between tests
-  void deleteCollection(DB_COLLECTION);
+  void deleteCollection(DB_COLLECTION, db);
 });
-
-async function deleteCollection(path: string) {
-  const batch = db.batch();
-  const documents = await db.collection(path).listDocuments();
-  for (const doc of documents) {
-    batch.delete(doc);
-  }
-  batch.commit();
-}
-
-// type FirestoreDoc =
-//   FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>;
-
-// async function waitForDocumentUpdate(doc: FirestoreDoc): Promise<FirestoreDoc> {
-//   return new Promise((resolve, reject) => {
-//     doc.onSnapshot((snapshot) => {
-//       const data = snapshot.data() as FirestoreDoc;
-//       resolve(data);
-//     }, reject);
-//   });
-// }
 
 describe('getLabelTrackingData', async () => {
   it('returns tracking data for a label', async () => {
@@ -56,14 +38,8 @@ describe('getLabelTrackingData', async () => {
 
     // Wait for firestore event handler to finish
     const update = await waitForDocumentUpdate(newLabel);
-    // new Promise((resolve, reject) => {
-    //   newLabel.onSnapshot((snapshot) => {
-    //     const data = snapshot.data();
-    //     resolve(data);
-    //   }, reject);
-    // });
-    // await waitForEvent<FirestoreLabel>(newLabel);
 
+    // Assertions
     assert(expect(update).is.not.empty);
   });
 });

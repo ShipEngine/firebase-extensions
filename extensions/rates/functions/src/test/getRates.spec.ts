@@ -1,7 +1,10 @@
 // integration-test/test/test.js
 import { assert, expect } from 'chai';
 import * as admin from 'firebase-admin';
-import { waitForDocumentUpdate } from 'shipengine-firebase-common';
+import {
+  deleteCollection,
+  waitForDocumentUpdate,
+} from 'shipengine-firebase-common';
 import * as inputPayload from './input-payload.json';
 
 const DB_COLLECTION = 'shipments';
@@ -24,17 +27,8 @@ db.settings({
  */
 beforeEach(async () => {
   // Clear the database between tests
-  void deleteCollection(DB_COLLECTION);
+  void deleteCollection(DB_COLLECTION, db);
 });
-
-async function deleteCollection(path: string) {
-  const batch = db.batch();
-  const documents = await db.collection(path).listDocuments();
-  for (const doc of documents) {
-    batch.delete(doc);
-  }
-  batch.commit();
-}
 
 describe('getRates', async () => {
   it('returns the get rates result', async () => {
