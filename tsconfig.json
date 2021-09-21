@@ -5,7 +5,8 @@
     "noImplicitReturns": true,
     "sourceMap": false,
     "target": "es6",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noErrorTruncation": true
   },
   "compileOnSave": true,
   "exclude": ["node_modules"]

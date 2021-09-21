@@ -3,7 +3,7 @@ export default {
   databaseInstance: process.env.SELECTED_DATABASE_INSTANCE!,
   shipEngineApiKey: process.env.SHIPENGINE_API_KEY!,
   collectionPath: process.env.COLLECTION_PATH!,
-  shipmentKey: process.env.SHIPMENT_KEY!,
-  readyToShipKey: process.env.READY_TO_SHIP_KEY!,
+  inputSchema: process.env.INPUT_SCHEMA!,
   shippingLabelKey: process.env.SHIPPING_LABEL_KEY!,
+  confirmationKey: process.env.READY_TO_SHIP_KEY!,
 };

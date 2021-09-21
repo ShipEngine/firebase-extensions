@@ -1,11 +1,11 @@
 import ShipEngine from 'shipengine';
 import * as functions from "firebase-functions";
 import { Change } from 'firebase-functions';
-import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore'
-import { camelizeKeys } from 'humps';
+import { DocumentData, DocumentSnapshot } from '@google-cloud/firestore';
 
-import { RequestPayload, ResponsePayload, InputPayload, UpdatePayload } from './types';
+import { ParamSchema, RequestPayload, ResponsePayload, UpdatePayload } from './types';
 import config from './config';
+import * as converters from './converters';
 import * as logs from './logs';
 
 // Initialize the ShipEngine client
@@ -17,10 +17,9 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
     if (!change.after.exists) return; // The document is being deleted
 
-    let data = change.after.data() as InputPayload;
-
-    // Support situations where the keys may be snake_cased
-    data = camelizeKeys(data) as InputPayload;
+    const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
+    const data: DocumentData = change.after.data() || {};
+    const params: RequestPayload = converters.mapDataToSchema(data, inputSchema);
 
     if (!isReadyToShip(data)) return; // Order not ready for label purchase
     if (hasValidLabel(data)) return; // A valid label has already been created
@@ -28,7 +27,6 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
     logs.start(data);
 
     // Build the request payload and execute the label purchase
-    const params = castParams(data);
     const update = await handlePurchaseLabel(params);
 
     // Update the parent document with the label data
@@ -40,16 +38,12 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
   }
 );
 
-const isReadyToShip = (data: InputPayload): boolean => {
-  return !!data[config.readyToShipKey];
+const isReadyToShip = (data: DocumentData): boolean => {
+  return !!data[config.confirmationKey];
 }
 
-const hasValidLabel = (data: InputPayload): boolean => {
+const hasValidLabel = (data: DocumentData): boolean => {
   return data[config.shippingLabelKey] !== undefined && data[config.shippingLabelKey].errors === undefined;
-}
-
-const castParams = (data: InputPayload): RequestPayload => {
-  return { shipment: data[config.shipmentKey] };
 }
 
 const handlePurchaseLabel = async (params: RequestPayload): Promise<UpdatePayload> => {

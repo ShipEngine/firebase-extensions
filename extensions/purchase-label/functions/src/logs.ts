@@ -1,5 +1,6 @@
 import { logger } from 'firebase-functions';
-import { RequestPayload, ResponsePayload, InputPayload, UpdatePayload } from './types';
+import { DocumentData } from '@google-cloud/firestore';
+import { RequestPayload, ResponsePayload, UpdatePayload } from './types';
 
 import config from './config';
 
@@ -12,7 +13,7 @@ export const init = () => {
   logger.log('Initializing extension', obfuscatedConfig);
 };
 
-export const start = (data: InputPayload) => {
+export const start = (data: DocumentData) => {
   logger.log('Started extension execution', data);
 };
 
