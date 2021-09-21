@@ -124,7 +124,7 @@ params:
     default: orders
     required: false
 
-  - param: Input Schema
+  - param: INPUT_SCHEMA
     label: Input Schema
     description: >
       A schema object mapping the collection's data to the required ShipEngine API structure.
