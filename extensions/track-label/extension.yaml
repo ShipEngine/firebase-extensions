@@ -18,7 +18,8 @@ specVersion: v1beta
 
 displayName: ShipEngine Track Label
 description:
-  Queries for label tracking data based on the contents of a document written to a specified Cloud Firestore collection.
+  Queries for label tracking data based on the contents of a document written to
+  a specified Cloud Firestore collection.
 
 license: Apache-2.0
 sourceUrl: https://github.com/ShipEngine/firebase-extensions/tree/master/extensions/validate-address
@@ -37,14 +38,16 @@ billingRequired: true
 
 roles:
   - role: datastore.user
-    reason: Allows this extension to access Cloud Firestore to read and process added documents.
+    reason:
+      Allows this extension to access Cloud Firestore to read and process added
+      documents.
 
 resources:
   - name: trackLabel
     type: firebaseextensions.v1beta.function
     description:
-      Processes label data in the specified Cloud Firestore collection,
-      fetches tracking data, and updates the document with tracking information.
+      Processes label data in the specified Cloud Firestore collection, fetches
+      tracking data, and updates the document with tracking information.
     properties:
       location: ${param:LOCATION}
       runtime: nodejs14
@@ -56,8 +59,8 @@ params:
   - param: LOCATION
     label: Cloud Functions location
     description: >-
-      Where do you want to deploy the functions created for this extension?
-      You usually want a location close to your database. For help selecting a
+      Where do you want to deploy the functions created for this extension? You
+      usually want a location close to your database. For help selecting a
       location, refer to the [location selection
       guide](https://firebase.google.com/docs/functions/locations).
     type: select
@@ -112,11 +115,12 @@ params:
       Api key found on the api dashboard.
     type: string
     required: true
-    
+
   - param: COLLECTION_PATH
     label: Firestore path
     description: >
-      What is the path to the collection that contains the documents with label data?
+      What is the path to the collection that contains the documents with label
+      data?
     type: string
     validationRegex: ^\S+$
     validationErrorMessage: Path cannot have spaces.

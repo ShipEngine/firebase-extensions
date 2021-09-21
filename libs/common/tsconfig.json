@@ -1,15 +1,13 @@
 {
-    "compilerOptions": {
-      "declaration": true,
-      "declarationMap": true,
-      "sourceMap": true,
-      "composite": true,
-      "outDir": "dist",
-      "rootDir": "src",
-      "resolveJsonModule": true,
-    },
-    "compileOnSave": true,
-    "include": [
-      "src"
-    ]
-  }
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "resolveJsonModule": true
+  },
+  "compileOnSave": true,
+  "include": ["src"]
+}

@@ -1,10 +1,10 @@
 {
-    "address": {
-        "name": "Patrick Jones",
-        "addressLine1": "200 Sunrise Mall",
-        "cityLocality": "Massapequa",
-        "stateProvince": "NY",
-        "postalCode": "11758",
-        "countryCode": "US"
-    }
+  "address": {
+    "name": "Patrick Jones",
+    "addressLine1": "200 Sunrise Mall",
+    "cityLocality": "Massapequa",
+    "stateProvince": "NY",
+    "postalCode": "11758",
+    "countryCode": "US"
+  }
 }

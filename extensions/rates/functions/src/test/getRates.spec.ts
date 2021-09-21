@@ -43,6 +43,8 @@ describe('getRates', async () => {
 
     // Wait for result
     const update = await waitForDocumentUpdate(newShipment);
+
+    // Assertions
     assert(expect(update).is.not.empty);
   });
 });
