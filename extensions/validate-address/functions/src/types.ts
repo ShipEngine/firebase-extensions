@@ -1,14 +1,5 @@
-import { Result } from 'shipengine/esm/validate-addresses/types/public';
-
-export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
-export type InferElementType<T extends any[]> = T extends (infer U)[]
-  ? U
-  : never;
-
-export type AddressValidationResult = Optional<
-  Omit<InferElementType<Result>, 'originalAddress'>,
-  'messages' | 'normalizedAddress'
->;
+import { ValidateAddressesTypes } from 'shipengine';
+import { Optional } from 'shipengine-firebase-common';
 
 export const enum Status {
   Unverified = 'unverified',
@@ -16,3 +7,20 @@ export const enum Status {
   Warning = 'warning',
   Error = 'error',
 }
+
+export type RequestPayload = ValidateAddressesTypes.Params;
+export type ResponsePayload = ValidateAddressesTypes.Result;
+
+export type Address = RequestPayload[number];
+export type ValidatedAddress = ResponsePayload[number];
+
+export type InputPayload = {
+  [key: string]: Address;
+};
+export type AddressValidationResult = Optional<
+  Omit<ValidatedAddress, 'originalAddress'>,
+  'messages' | 'normalizedAddress'
+>;
+export type UpdatePayload = {
+  [key: string]: AddressValidationResult;
+};

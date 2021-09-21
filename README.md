@@ -13,5 +13,5 @@ Create a .env.development file in the extension directory that contains the Clou
 ## Testing
 
 ```zsh
-$ yarn workspace shipengine-validate-address-functions emulate # ...and then navigate to localhost:4000 to access the emulator dashboard
+$ yarn workspace validate-address-functions emulate # ...and then navigate to localhost:4000 to access the emulator dashboard
 ```

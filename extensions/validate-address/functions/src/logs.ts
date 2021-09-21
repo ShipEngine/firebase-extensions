@@ -1,61 +1,39 @@
-import { logger } from 'firebase-functions';
-import { empty as isEmpty } from 'is_js';
+import { logs } from 'shipengine-firebase-common';
+import logger from 'shipengine-firebase-common/dist/logger';
 
 import config from './config';
-import { AddressValidationResult as ValidatedAddress } from './types';
+import { RequestPayload, ValidatedAddress } from './types';
 
 export const obfuscatedConfig = {
   ...config,
   shipengineApiKey: '<omitted>',
 };
 
-export const init = () => {
-  logger.log(`Initializing extension with configuration: `, obfuscatedConfig);
-};
+export default {
+  ...logs,
+  addressValidating: (params: RequestPayload) => {
+    logger.debug({
+      message: 'Validating address',
+      params,
+    });
+  },
 
-export const initError = (error: Error) => {
-  logger.error('Error when initializing extension');
-};
+  addressValidated: (validatedAddress: ValidatedAddress) => {
+    const hasWarning = validatedAddress.status === 'warning';
+    const level = hasWarning ? 'warn' : 'info';
 
-export const start = () => {
-  logger.log('Started extension execution with configuration', obfuscatedConfig);
-};
+    // Log any warning messages if they exist
+    const message = `Validated address${hasWarning ? ' with warnings' : ''}`;
 
-export const addressMissing = () => {
-  logger.error(`Address data missing`);
-};
-
-export const addressValidating = () => {
-  logger.debug('Validating address');
-};
-
-export const addressValidated = (validatedAddress: ValidatedAddress) => {
-  const hasWarning = validatedAddress.status === 'warning';
-  const level = hasWarning ? 'warn' : 'info';
-
-  // Log any warning messages if they exist
-  const msg: any[] = [`Validated address${hasWarning ? ' with warnings' : ''}`];
-  if (hasWarning && isEmpty(validatedAddress.messages)) msg.push(validatedAddress.messages);
-
-  logger[level](...msg.flat());
-};
-
-export const errorValidateAddress = (error: Error) => {
-  logger.error('Error when validating address.', error);
-};
-
-export const parentUpdating = () => {
-  logger.debug('Parent ref updating');
-};
-
-export const parentUpdated = () => {
-  logger.debug('Parent ref updated');
-};
-
-export const errorUpdatingParent = (error: Error) => {
-  logger.error('Error updating parent', error);
-};
-
-export const complete = () => {
-  logger.info('Completed execution of extension');
+    logger[level]({
+      message,
+      ...(hasWarning && { warnings: validatedAddress.messages }),
+    });
+  },
+  errorValidateAddress: (error: Error) => {
+    logger.error({
+      message: 'Error when validating address.',
+      error,
+    });
+  },
 };
