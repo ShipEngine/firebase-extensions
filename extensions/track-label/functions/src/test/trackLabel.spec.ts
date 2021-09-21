@@ -1,8 +1,7 @@
 // integration-test/test/test.js
 import { assert, expect } from 'chai';
 import * as admin from 'firebase-admin';
-// import { InputPayload, ResponsePayload } from '../types';
-// import { FirebaseFirestore } from 'firebase-functions';
+import { waitForDocumentUpdate } from 'shipengine-firebase-common';
 import * as inputPayload from './input-payload.json';
 
 const DB_COLLECTION = 'labels';
@@ -38,10 +37,13 @@ async function deleteCollection(path: string) {
   batch.commit();
 }
 
-// function waitForEvent<T = any>(doc: FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>): Promise<T> {
+// type FirestoreDoc =
+//   FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>;
+
+// async function waitForDocumentUpdate(doc: FirestoreDoc): Promise<FirestoreDoc> {
 //   return new Promise((resolve, reject) => {
 //     doc.onSnapshot((snapshot) => {
-//       const data = snapshot.data() as T;
+//       const data = snapshot.data() as FirestoreDoc;
 //       resolve(data);
 //     }, reject);
 //   });
@@ -53,29 +55,15 @@ describe('getLabelTrackingData', async () => {
     const newLabel = await db.collection(DB_COLLECTION).add(inputPayload);
 
     // Wait for firestore event handler to finish
-    const update = await new Promise((resolve, reject) => {
-      newLabel.onSnapshot((snapshot) => {
-        const data = snapshot.data();
-        resolve(data);
-      }, reject);
-    });
+    const update = await waitForDocumentUpdate(newLabel);
+    // new Promise((resolve, reject) => {
+    //   newLabel.onSnapshot((snapshot) => {
+    //     const data = snapshot.data();
+    //     resolve(data);
+    //   }, reject);
+    // });
     // await waitForEvent<FirestoreLabel>(newLabel);
 
-    assert(expect(update).is.not.empty);
-  });
-});
-describe('getLabelTrackingData', async () => {
-  it('returns tracking data for a label', async () => {
-    // Add new shipment to db
-    const newShipment = await db.collection('labels').add(inputPayload);
-
-    // Wait for result
-    const update = await new Promise((resolve, reject) => {
-      void newShipment.onSnapshot((snapshot) => {
-        const data = snapshot.data();
-        resolve(data);
-      }, reject);
-    });
     assert(expect(update).is.not.empty);
   });
 });

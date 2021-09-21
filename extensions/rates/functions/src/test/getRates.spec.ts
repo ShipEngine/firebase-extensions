@@ -1,6 +1,7 @@
 // integration-test/test/test.js
 import { assert, expect } from 'chai';
 import * as admin from 'firebase-admin';
+import { waitForDocumentUpdate } from 'shipengine-firebase-common';
 import * as inputPayload from './input-payload.json';
 
 const DB_COLLECTION = 'shipments';
@@ -41,12 +42,7 @@ describe('getRates', async () => {
     const newShipment = await db.collection('shipments').add(inputPayload);
 
     // Wait for result
-    const update = await new Promise((resolve, reject) => {
-      void newShipment.onSnapshot((snapshot) => {
-        const data = snapshot.data();
-        resolve(data);
-      }, reject);
-    });
+    const update = await waitForDocumentUpdate(newShipment);
     assert(expect(update).is.not.empty);
   });
 });

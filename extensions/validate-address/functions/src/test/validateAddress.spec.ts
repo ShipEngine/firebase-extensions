@@ -1,5 +1,6 @@
 import { assert, expect } from 'chai';
 import * as admin from 'firebase-admin';
+import { waitForDocumentUpdate } from 'shipengine-firebase-common';
 import * as inputPayload from './input-payload.json';
 
 const DB_COLLECTION = 'addresses';
@@ -40,12 +41,7 @@ describe('validateAddress', async () => {
     const newAddress = await db.collection(DB_COLLECTION).add(inputPayload);
 
     // Wait for result
-    const update = await new Promise((resolve, reject) => {
-      void newAddress.onSnapshot((snapshot) => {
-        const data = snapshot.data();
-        resolve(data);
-      }, reject);
-    });
+    const update = await waitForDocumentUpdate(newAddress);
     assert(expect(update).is.not.empty);
   });
 });
