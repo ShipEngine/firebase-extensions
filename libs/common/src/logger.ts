@@ -43,6 +43,4 @@ class Logger {
   }
 }
 
-const logger = new Logger();
-
-export default logger;
+export const logger = new Logger();
