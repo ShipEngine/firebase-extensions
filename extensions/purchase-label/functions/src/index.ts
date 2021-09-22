@@ -19,7 +19,7 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
 
     const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
     const data: DocumentData = change.after.data() || {};
-    const params: RequestPayload = converters.mapDataToSchema(data, inputSchema);
+    const params: RequestPayload = mapDataToSchema(data, inputSchema);
 
     if (hasValidLabel(data)) return; // A valid label has already been created
 
@@ -44,6 +44,13 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
 
 const mapDataToSchema = (data: DocumentData, schema: ParamSchema) => {
   logs.mappingData(data, schema);
+
+  try {
+    return converters.mapDataToSchema(data, schema);
+  } catch (err) {
+    logs.errorMappingData(err as Error);
+    throw err;
+  }
 }
 
 const hasValidLabel = (data: DocumentData): boolean => {

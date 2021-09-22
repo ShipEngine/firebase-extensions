@@ -19,6 +19,10 @@ export const start = (data: DocumentData) => {
 
 export const mappingData = (data: DocumentData, schema: ParamSchema) => {
   logger.log('Mapping data with schema', data, schema);
+};
+
+export const errorMappingData = (error: Error) => {
+  logger.log('error mapping data with schema', error);
 }
 
 export const purchasingLabel = (params: RequestPayload) => {
