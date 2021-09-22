@@ -18,6 +18,7 @@ yarn.lock
 .yarn/*
 !.yarn/plugins
 !.yarn/releases
+tsconfig.tsbuildinfo
 
 firestore-debug.log
 *.log
