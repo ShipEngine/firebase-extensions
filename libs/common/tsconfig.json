@@ -1,17 +1,18 @@
 {
     "compilerOptions": {
-        "composite": true,
         "declaration": true,
         "declarationMap": true,
+        "composite": true,
+        "outDir": "lib",
+        "rootDir": "src",
+        "noUnusedLocals": true,
+        "lib": ["es6"],
         "module": "commonjs",
         "noImplicitReturns": true,
-        "noUnusedLocals": true,
-        "outDir": "lib",
+        "sourceMap": false,
+        "target": "es6",
         "resolveJsonModule": true,
-        "rootDir": "src",
-        "sourceMap": true,
-        "strict": true,
-        "target": "es2017"
+        "noErrorTruncation": true
     },
     "compileOnSave": true,
     "include": ["src"]

@@ -15,5 +15,6 @@ export declare type LogSeverity =
   | 'EMERGENCY';
 export declare type LogOptions = {
   verbose?: boolean;
+  maxArrayLength?: number;
 };
 //# sourceMappingURL=types.d.ts.map

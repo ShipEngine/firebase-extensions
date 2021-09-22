@@ -23,9 +23,14 @@ var __exportStar =
         __createBinding(exports, m, p);
   };
 Object.defineProperty(exports, '__esModule', { value: true });
-exports.logs = void 0;
-__exportStar(require('./logger'), exports);
+exports.logger = exports.logs = void 0;
 exports.logs = require('./logs');
 __exportStar(require('./types'), exports);
 __exportStar(require('./utils'), exports);
-//# sourceMappingURL=index.js.map
+var logger_1 = require('./logger');
+Object.defineProperty(exports, 'logger', {
+  enumerable: true,
+  get: function () {
+    return logger_1.logger;
+  },
+});

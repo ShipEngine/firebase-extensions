@@ -1,5 +1,6 @@
 declare const _default: {
-  verboseLogOutput: boolean;
+  verboseLogOutput: true;
+  environment: string;
 };
 export default _default;
 //# sourceMappingURL=config.d.ts.map

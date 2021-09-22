@@ -66,4 +66,3 @@ const complete = () => {
   });
 };
 exports.complete = complete;
-//# sourceMappingURL=logs.js.map

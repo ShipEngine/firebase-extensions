@@ -17,32 +17,15 @@ var __rest =
     return t;
   };
 Object.defineProperty(exports, '__esModule', { value: true });
-exports.logger = void 0;
+exports.FirebaseLogger = void 0;
 const firebase_functions_1 = require('firebase-functions');
-const config_1 = require('./config');
+const base_logger_1 = require('./base-logger');
 /**
  * @class Logger
  */
-class Logger {
-  constructor() {
-    this.options = {
-      verbose: config_1.default.verboseLogOutput,
-    };
-  }
-  debug(entry) {
-    this.write(entry, 'DEBUG');
-  }
-  log(entry) {
-    this.write(entry, 'INFO');
-  }
-  info(entry) {
-    this.write(entry, 'INFO');
-  }
-  warn(entry) {
-    this.write(entry, 'WARNING');
-  }
-  error(entry) {
-    this.write(entry, 'ERROR');
+class FirebaseLogger extends base_logger_1.BaseLogger {
+  constructor(options) {
+    super(options);
   }
   write(_a, severity) {
     var { message, options } = _a,
@@ -55,5 +38,4 @@ class Logger {
     );
   }
 }
-exports.logger = new Logger();
-//# sourceMappingURL=logger.js.map
+exports.FirebaseLogger = FirebaseLogger;
