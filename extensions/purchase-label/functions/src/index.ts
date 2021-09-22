@@ -2,6 +2,7 @@ import ShipEngine from 'shipengine';
 import * as functions from 'firebase-functions';
 import { Change } from 'firebase-functions';
 import { DocumentData, DocumentSnapshot } from '@google-cloud/firestore';
+import { handleUpdateDocument } from 'shipengine-firebase-common';
 
 import {
   ParamSchema,
@@ -79,21 +80,6 @@ const handlePurchaseLabel = async (
     return { [config.shippingLabelKey]: result };
   } catch (err) {
     logs.errorPurchasingLabel(err as Error);
-    throw err;
-  }
-};
-
-const handleUpdateDocument = (
-  after: DocumentSnapshot,
-  update: UpdatePayload
-): void => {
-  logs.parentUpdating(update);
-
-  try {
-    after.ref.update(update);
-    logs.parentUpdated();
-  } catch (err) {
-    logs.errorUpdatingParent(err as Error);
     throw err;
   }
 };
