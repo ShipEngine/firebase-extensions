@@ -1,4 +1,4 @@
-import { LogOptions, LogEntry, LogSeverity } from '..';
+import { LogOptions, LogEntry, LogSeverity } from '../types';
 export declare abstract class BaseLogger {
   private _options;
   get options(): LogOptions;

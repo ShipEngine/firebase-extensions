@@ -34,4 +34,3 @@ Object.defineProperty(exports, 'logger', {
     return logger_1.logger;
   },
 });
-//# sourceMappingURL=index.js.map

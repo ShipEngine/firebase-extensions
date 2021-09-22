@@ -1,19 +1,4 @@
 'use strict';
-var __assign =
-  (this && this.__assign) ||
-  function () {
-    __assign =
-      Object.assign ||
-      function (t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-          s = arguments[i];
-          for (var p in s)
-            if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-      };
-    return __assign.apply(this, arguments);
-  };
 var __rest =
   (this && this.__rest) ||
   function (s, e) {
@@ -33,59 +18,52 @@ var __rest =
   };
 Object.defineProperty(exports, '__esModule', { value: true });
 exports.BaseLogger = void 0;
-var config_1 = require('../config');
-var BaseLogger = /** @class */ (function () {
-  function BaseLogger(options) {
-    this.options = options || {
+const config_1 = require('../config');
+class BaseLogger {
+  constructor(options) {
+    this._options = options || {
       verbose: config_1.default.verboseLogOutput,
       maxArrayLength: 3,
     };
   }
-  Object.defineProperty(BaseLogger.prototype, 'options', {
-    get: function () {
-      return this._options;
-    },
-    set: function (value) {
-      this._options = value;
-    },
-    enumerable: false,
-    configurable: true,
-  });
+  get options() {
+    return this._options;
+  }
+  set options(value) {
+    this._options = value;
+  }
   /**
    * Logs a debug entry
    */
-  BaseLogger.prototype.debug = function (entry) {
+  debug(entry) {
     this.write(entry, 'DEBUG');
-  };
+  }
   /**
    * Logs an entry with the specified severity
    */
-  BaseLogger.prototype.log = function (_a) {
-    var severity = _a.severity,
-      message = _a.message,
+  log(_a) {
+    var { severity, message } = _a,
       data = __rest(_a, ['severity', 'message']);
     if (!severity) severity = 'INFO';
-    this.write(__assign({ message: message }, data), 'INFO');
-  };
+    this.write(Object.assign({ message }, data), 'INFO');
+  }
   /**
    * Logs an informational entry
    */
-  BaseLogger.prototype.info = function (entry) {
+  info(entry) {
     this.write(entry, 'INFO');
-  };
+  }
   /**
    * Logs a warning entry
    */
-  BaseLogger.prototype.warn = function (entry) {
+  warn(entry) {
     this.write(entry, 'WARNING');
-  };
+  }
   /**
    * Logs a non-fatal error entry
    */
-  BaseLogger.prototype.error = function (entry) {
+  error(entry) {
     this.write(entry, 'ERROR');
-  };
-  return BaseLogger;
-})();
+  }
+}
 exports.BaseLogger = BaseLogger;
-//# sourceMappingURL=base-logger.js.map
