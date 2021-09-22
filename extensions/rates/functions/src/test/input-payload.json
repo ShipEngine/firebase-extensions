@@ -1,35 +1,35 @@
 {
-    "shipment": {
-        "validateAddress": "no_validation",
-        "shipTo": {
-            "name": "Amanda Miller",
-            "phone": "555-555-5555",
-            "addressLine1": "525 S Winchester Blvd",
-            "cityLocality": "San Jose",
-            "stateProvince": "CA",
-            "postalCode": "95128",
-            "countryCode": "US",
-            "addressResidentialIndicator": "yes"
-        },
-        "shipFrom": {
-            "companyName": "Example Corp.",
-            "name": "John Doe",
-            "phone": "111-111-1111",
-            "addressLine1": "4009 Marathon Blvd",
-            "addressLine2": "Suite 300",
-            "cityLocality": "Austin",
-            "stateProvince": "TX",
-            "postalCode": "78756",
-            "countryCode": "US",
-            "addressResidentialIndicator": "no"
-        },
-        "packages": [
-            {
-                "weight": {
-                    "value": 1.0,
-                    "unit": "ounce"
-                }
-            }
-        ]
-    }
+  "shipment": {
+    "validateAddress": "no_validation",
+    "shipTo": {
+      "name": "Amanda Miller",
+      "phone": "555-555-5555",
+      "addressLine1": "525 S Winchester Blvd",
+      "cityLocality": "San Jose",
+      "stateProvince": "CA",
+      "postalCode": "95128",
+      "countryCode": "US",
+      "addressResidentialIndicator": "yes"
+    },
+    "shipFrom": {
+      "companyName": "Example Corp.",
+      "name": "John Doe",
+      "phone": "111-111-1111",
+      "addressLine1": "4009 Marathon Blvd",
+      "addressLine2": "Suite 300",
+      "cityLocality": "Austin",
+      "stateProvince": "TX",
+      "postalCode": "78756",
+      "countryCode": "US",
+      "addressResidentialIndicator": "no"
+    },
+    "packages": [
+      {
+        "weight": {
+          "value": 1.0,
+          "unit": "ounce"
+        }
+      }
+    ]
+  }
 }

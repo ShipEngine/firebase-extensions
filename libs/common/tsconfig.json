@@ -1,19 +1,19 @@
 {
-    "compilerOptions": {
-        "declaration": true,
-        "declarationMap": true,
-        "composite": true,
-        "outDir": "lib",
-        "rootDir": "src",
-        "noUnusedLocals": true,
-        "lib": ["es6"],
-        "module": "commonjs",
-        "noImplicitReturns": true,
-        "sourceMap": false,
-        "target": "es6",
-        "resolveJsonModule": true,
-        "noErrorTruncation": true
-    },
-    "compileOnSave": true,
-    "include": ["src"]
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "outDir": "lib",
+    "rootDir": "src",
+    "noUnusedLocals": true,
+    "lib": ["es6"],
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "sourceMap": false,
+    "target": "es6",
+    "resolveJsonModule": true,
+    "noErrorTruncation": true
+  },
+  "compileOnSave": true,
+  "include": ["src"]
 }

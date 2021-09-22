@@ -1,25 +1,24 @@
 {
-    "name": "shipengine-firebase-extensions",
-    "private": true,
-    "author": "ShipEngine (https://shipengine.com)",
-    "scripts": {
-        "clean": "./scripts/clean.sh",
-        "build": "./scripts/build.sh",
-        "test": "./scripts/test.sh",
-        "format-logs": "cut -c 31-",
-        "format": "prettier --write \"**/*.{js,md,yml,ts,json,yaml}\" --loglevel silent",
-        "lint": "prettier --list-different \"**/*.{js,md,yml,ts,json,yaml}\"",
-        "postinstall": "yarn run clean && yarn run build",
-        "gen:ext": "hygen extension new",
-        "common": "yarn workspace shipengine-firebase-common"
-    },
-    "devDependencies": {
-        "@types/is": "^0.0.21",
-        "firebase-tools": "^9.17.0",
-        "hygen": "^6.1.0",
-        "lerna": "^4.0.0",
-        "prettier": "^2.3.2"
-    },
-    "workspaces": ["libs/*", "extensions/*/functions"],
-    "packageManager": "yarn@3.0.2"
+  "name": "shipengine-firebase-extensions",
+  "private": true,
+  "author": "ShipEngine (https://shipengine.com)",
+  "scripts": {
+    "clean": "./scripts/clean.sh",
+    "build": "./scripts/build.sh",
+    "test": "./scripts/test.sh",
+    "format-logs": "cut -c 31-",
+    "format": "prettier --write \"**/*.{js,md,yml,ts,json,yaml}\" --loglevel silent",
+    "lint": "prettier --list-different \"**/*.{js,md,yml,ts,json,yaml}\"",
+    "postinstall": "yarn run clean && yarn run build",
+    "gen:ext": "hygen extension new",
+    "common": "yarn workspace shipengine-firebase-common"
+  },
+  "devDependencies": {
+    "@types/is": "^0.0.21",
+    "firebase-tools": "^9.17.0",
+    "hygen": "^6.1.0",
+    "prettier": "^2.3.2"
+  },
+  "workspaces": ["libs/*", "extensions/*/functions"],
+  "packageManager": "yarn@3.0.2"
 }

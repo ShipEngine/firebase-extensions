@@ -5,7 +5,7 @@ to: <%= name %>/functions/package.json
   "name": "<%= name.toLowerCase() %>-functions",
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
-    "build": "tsc",
+    "build": "tsc --build",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
@@ -19,7 +19,8 @@ to: <%= name %>/functions/package.json
   "main": "lib/index.js",
   "dependencies": {
     "firebase-admin": "^9.8.0",
-    "firebase-functions": "^3.14.1"
+    "firebase-functions": "^3.14.1",
+    "shipengine-firebase-common": "^1.0.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.9.1",

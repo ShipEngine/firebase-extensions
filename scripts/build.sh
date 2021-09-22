@@ -4,7 +4,7 @@
 export FORCE_COLOR=true
 
 # Build all workspaces in parallel
-yarn workspaces foreach -pvi run build | yarn format-logs
+yarn workspaces foreach -pvit run build | yarn format-logs
 
 # Prettier Format
 yarn run format

@@ -18,7 +18,11 @@ yarn.lock
 .yarn/*
 !.yarn/plugins
 !.yarn/releases
+tsconfig.tsbuildinfo
 
 firestore-debug.log
 *.log
 tmp.json
+
+# Temporary fix until we're confident we should commit built libs
+extensions/**/lib/*

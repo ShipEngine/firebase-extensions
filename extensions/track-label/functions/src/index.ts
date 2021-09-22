@@ -49,10 +49,6 @@ const hasTrackingData = (data: InputPayload) => {
   return data[config.trackingResultKey] !== undefined;
 };
 
-// const shouldUseLabelId = (data: InputPayload) => {
-//   return data[config.labelIdKey] === undefined;
-// };
-
 const formatRequestPayload = (data: InputPayload): RequestPayload => {
   const label = data[config.labelKey];
   // format input payload to fit request payload
