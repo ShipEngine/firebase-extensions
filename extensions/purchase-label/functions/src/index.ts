@@ -3,7 +3,6 @@ import * as functions from 'firebase-functions';
 import { Change } from 'firebase-functions';
 import { DocumentData, DocumentSnapshot } from '@google-cloud/firestore';
 import { handleUpdateDocument } from 'shipengine-firebase-common';
-import { logger } from 'firebase-functions';
 
 import {
   ParamSchema,
@@ -22,8 +21,6 @@ logs.init(config);
 
 export const purchaseLabel = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
-    logger.log('THIS IS DOING STUFF', { schema: config.inputSchema });
-
     try {
       const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
       const data: DocumentData = change.after.data() || {};
@@ -34,13 +31,14 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
 
       // Build the request payload and execute the label purchase
       const params: RequestPayload = mapDataToSchema(data, inputSchema);
+      console.log(params)
       const update = await handlePurchaseLabel(params);
 
       // Update the parent document with the label data
       handleUpdateDocument(change.after, update);
     } catch (err) {
       // Update the document with error information on failure
-      handleUpdateDocument(change.after, { error: err });
+      if ((err as Error).message) handleUpdateDocument(change.after, { error: (err as Error).message });
     }
 
     logs.complete();
@@ -55,6 +53,7 @@ const mapDataToSchema = (data: DocumentData, schema: ParamSchema) => {
   try {
     return converters.mapDataToSchema(data, schema);
   } catch (err) {
+    console.error(err);
     logs.errorMappingData(err as Error);
     throw err;
   }

@@ -23,6 +23,9 @@
     "dependencies": {
         "is_js": "^0.9.0"
     },
-    "workspaces": ["libs/*", "extensions/*/functions"],
+    "workspaces": [
+        "libs/*",
+        "extensions/*/functions"
+    ],
     "packageManager": "yarn@3.0.2"
 }

@@ -1,18 +1,18 @@
 {
     "shipment": {
+        "carrierId": "se-423887",
+        "serviceCode": "usps_media_mail",
+        "shipDate": "2021-09-21",
         "validateAddress": "no_validation",
         "shipTo": {
             "name": "Amanda Miller",
-            "phone": "555-555-5555",
             "addressLine1": "525 S Winchester Blvd",
             "cityLocality": "San Jose",
             "stateProvince": "CA",
             "postalCode": "95128",
-            "countryCode": "US",
-            "addressResidentialIndicator": "yes"
+            "countryCode": "US"
         },
         "shipFrom": {
-            "companyName": "Example Corp.",
             "name": "John Doe",
             "phone": "111-111-1111",
             "addressLine1": "4009 Marathon Blvd",
@@ -20,8 +20,7 @@
             "cityLocality": "Austin",
             "stateProvince": "TX",
             "postalCode": "78756",
-            "countryCode": "US",
-            "addressResidentialIndicator": "no"
+            "countryCode": "US"
         },
         "packages": [
             {

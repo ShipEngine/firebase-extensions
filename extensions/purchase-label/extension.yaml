@@ -163,8 +163,8 @@ params:
           "packages": {
             "_root": "shipment.packages",
             "weight": {
-              "value": "shipment.packages.weight.value",
-              "unit": "shipment.packages.weight.unit"
+              "value": "weight.value",
+              "unit": "weight.unit"
             }
           }
         }
