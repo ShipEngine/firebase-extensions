@@ -1,19 +1,19 @@
 {
-    "name": "shipengine-firebase-common",
-    "version": "1.0.0",
-    "main": "lib/index.js",
-    "types": "lib/index.d.ts",
-    "scripts": {
-        "build": "tsc"
-    },
-    "license": "ISC",
-    "devDependencies": {
-        "typescript": "^4.4.3"
-    },
-    "dependencies": {
-        "firebase-admin": "^9.11.1",
-        "firebase-functions": "^3.15.6",
-        "json-colorizer": "^2.2.2",
-        "json-stringify-pretty-compact": "^3.0.0"
-    }
+  "name": "shipengine-firebase-common",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "firebase-admin": "^9.11.1",
+    "firebase-functions": "^3.15.6",
+    "json-colorizer": "^2.2.2",
+    "json-stringify-pretty-compact": "^3.0.0"
+  }
 }
