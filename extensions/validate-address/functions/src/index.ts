@@ -1,13 +1,15 @@
 import * as functions from 'firebase-functions';
-import ShipEngine from 'shipengine';
 import { Change } from 'firebase-functions';
-import { DocumentSnapshot } from 'firebase-functions/v1/firestore';
-import { camelizeKeys } from 'humps';
-import { handleUpdateDocument } from 'shipengine-firebase-common';
+import ShipEngine from 'shipengine';
+import {
+  handleUpdateDocument,
+  mapDataToSchema,
+} from 'shipengine-firebase-common';
+import { DocumentData, DocumentSnapshot } from '@google-cloud/firestore';
 
 import {
-  AddressValidationResult,
   InputPayload,
+  ParamSchema,
   RequestPayload,
   ResponsePayload,
   UpdatePayload,
@@ -22,24 +24,33 @@ logs.init(config);
 
 export const validateAddress = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
-    if (!change.after.exists) return; // The document is being deleted
+    try {
+      const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
+      const data: DocumentData = change.after.data() || {};
 
-    let data = change.after.data() as InputPayload;
+      // Address validation already complete
+      if (hasValidationData(data)) return;
 
-    // Support situations where the keys may be snake_cased
-    data = camelizeKeys(data) as InputPayload;
+      logs.start(data);
 
-    // Address validation already complete
-    if (hasValidationData(data)) return;
+      // Validate Single Address
+      const params: RequestPayload = new Array(
+        mapDataToSchema(data, inputSchema)
+      );
+      const update = await handleValidateAddress(params);
 
-    logs.start(data);
-
-    // Validate Address
-    const params = castParams(data);
-    const update = await handleValidateAddress(params);
-
-    // Update the parent document with the address validation results
-    handleUpdateDocument(change.after, update);
+      // Update the parent document with the address validation results
+      handleUpdateDocument(change.after, update);
+    } catch (err) {
+      // Update the document with error information on failure
+      if ((err as Error).message) {
+        handleUpdateDocument(change.after, {
+          [config.validationKey]: {
+            errors: (err as Error).message,
+          },
+        });
+      }
+    }
 
     logs.complete();
 
@@ -49,10 +60,6 @@ export const validateAddress = functions.handler.firestore.document.onWrite(
 
 const hasValidationData = (data: InputPayload) => {
   return data['validation'] !== undefined;
-};
-
-const castParams = (data: InputPayload): RequestPayload => {
-  return [data[config.addressKey]];
 };
 
 const handleValidateAddress = async (
@@ -65,28 +72,11 @@ const handleValidateAddress = async (
     const [result] = (await shipEngine.validateAddresses(
       params
     )) as ResponsePayload;
-
     logs.addressValidated(result);
-
-    // Build the update object based on the result status
-    const validationResult: AddressValidationResult = { status: result.status };
-
-    switch (validationResult.status) {
-      case 'verified':
-        validationResult.normalizedAddress = result.normalizedAddress;
-        break;
-      case 'warning':
-        validationResult.normalizedAddress = result.normalizedAddress;
-      case 'unverified':
-      case 'error':
-        validationResult.messages = result.messages;
-        break;
-    }
-
     // Nest validation results under validation result key
-    return { [config.validationResultKey]: validationResult };
+    return { [config.validationKey]: result };
   } catch (err) {
-    logs.errorValidateAddress(err as Error);
+    logs.errorValidatingAddress(err as Error);
     throw err;
   }
 };

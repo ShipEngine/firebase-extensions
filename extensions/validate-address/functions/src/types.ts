@@ -14,6 +14,8 @@ export type ResponsePayload = ValidateAddressesTypes.Result;
 export type Address = RequestPayload[number];
 export type ValidatedAddress = ResponsePayload[number];
 
+export type ParamSchema = { [key: string]: any };
+
 export type InputPayload = {
   [key: string]: Address;
 };
