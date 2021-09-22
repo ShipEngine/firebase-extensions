@@ -6,7 +6,8 @@
         "composite": true,
         "outDir": "dist",
         "rootDir": "src",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "target": "ES5"
     },
     "compileOnSave": true,
     "include": ["src"]

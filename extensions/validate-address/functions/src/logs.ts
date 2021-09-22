@@ -1,5 +1,4 @@
-import { logs } from 'shipengine-firebase-common';
-import logger from 'shipengine-firebase-common/dist/logger';
+import { logs, logger } from 'shipengine-firebase-common';
 
 import config from './config';
 import { RequestPayload, ValidatedAddress } from './types';

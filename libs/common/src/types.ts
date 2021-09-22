@@ -19,4 +19,5 @@ export type LogSeverity =
 
 export type LogOptions = {
   verbose?: boolean;
+  maxArrayLength?: number;
 };
