@@ -1,14 +1,15 @@
 // integration-test/test/test.js
 import { assert, expect } from 'chai';
 import * as admin from 'firebase-admin';
-
 import {
   deleteCollection,
   waitForDocumentUpdate,
 } from 'shipengine-firebase-common';
+
 import * as inputPayload from './input-payload.json';
 
 const DB_COLLECTION = 'orders';
+
 /*
  * ============
  *    Setup
@@ -41,5 +42,6 @@ describe('purchaseLabel', async () => {
 
     // Assertions
     assert(expect(update.shippingLabel).is.not.undefined);
+    assert(expect(update.shippingLabel.labelId).is.not.undefined);
   });
 });

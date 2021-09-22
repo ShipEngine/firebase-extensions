@@ -40,6 +40,7 @@ describe('getLabelTrackingData', async () => {
     const update = await waitForDocumentUpdate(newLabel, 'tracking');
 
     // Assertions
-    assert(expect(update).is.not.empty);
+    assert(expect(update.tracking).is.not.empty);
+    assert(expect(update.tracking.events.length).to.be.greaterThan(0));
   });
 });

@@ -8,6 +8,7 @@ import {
 import * as inputPayload from './input-payload.json';
 
 const DB_COLLECTION = 'shipments';
+
 /*
  * ============
  *    Setup
@@ -33,12 +34,13 @@ beforeEach(async () => {
 describe('getRates', async () => {
   it('returns the get rates result', async () => {
     // Add new shipment to db
-    const newShipment = await db.collection('shipments').add(inputPayload);
+    const newShipment = await db.collection(DB_COLLECTION).add(inputPayload);
 
     // Wait for result
     const update = await waitForDocumentUpdate(newShipment, 'rates');
 
     // Assertions
-    assert(expect(update).is.not.empty);
+    assert(expect(update.rates).is.not.empty);
+    assert(expect(update.rates.length).to.be.greaterThan(0));
   });
 });
