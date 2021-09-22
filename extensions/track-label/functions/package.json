@@ -3,6 +3,7 @@
   "scripts": {
     "prepare": "npm run build",
     "lint": "eslint --ext .js,.ts .",
+    "clean": "rimraf lib",
     "build": "tsc",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
@@ -37,7 +38,8 @@
     "eslint": "^7.6.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.22.0",
-    "firebase-functions-test": "^0.2.0"
+    "firebase-functions-test": "^0.2.0",
+    "rimraf": "^3.0.2"
   },
   "private": true
 }
