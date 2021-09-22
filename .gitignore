@@ -22,3 +22,6 @@ yarn.lock
 firestore-debug.log
 *.log
 tmp.json
+
+# Temporary fix until we're confident we should commit built libs
+extensions/**/lib/*
