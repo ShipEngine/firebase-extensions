@@ -150,16 +150,3 @@ params:
       A comma separated list of Carrier IDs from your ShipEngine account.
     type: string
     required: true
-
-  - param: VERBOSE_LOG_OUTPUT
-    label: Enable Verbose Logging
-    description: >-
-      Do you want to log payload data.
-    type: select
-    options:
-      - label: Yes
-        value: true
-      - label: No
-        value: false
-    default: false
-    required: false
