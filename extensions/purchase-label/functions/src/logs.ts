@@ -1,6 +1,6 @@
 import { logger } from 'firebase-functions';
 import { DocumentData } from '@google-cloud/firestore';
-import { RequestPayload, ResponsePayload, UpdatePayload } from './types';
+import { RequestPayload, ResponsePayload, UpdatePayload, ParamSchema } from './types';
 
 import config from './config';
 
@@ -16,6 +16,10 @@ export const init = () => {
 export const start = (data: DocumentData) => {
   logger.log('Started extension execution', data);
 };
+
+export const mappingData = (data: DocumentData, schema: ParamSchema) => {
+  logger.log('Mapping data with schema', data, schema);
+}
 
 export const purchasingLabel = (params: RequestPayload) => {
   logger.log('Purchasing label', params);

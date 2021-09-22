@@ -42,6 +42,10 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
   }
 );
 
+const mapDataToSchema = (data: DocumentData, schema: ParamSchema) => {
+  logs.mappingData(data, schema);
+}
+
 const hasValidLabel = (data: DocumentData): boolean => {
   return data[config.shippingLabelKey] !== undefined && data[config.shippingLabelKey].errors === undefined;
 }
