@@ -1,6 +1,5 @@
 import { logger as firebaseLogger } from 'firebase-functions';
 import { LogEntry, LogOptions, LogSeverity } from '../types';
-import config from '../config';
 import { BaseLogger } from './base-logger';
 
 /**

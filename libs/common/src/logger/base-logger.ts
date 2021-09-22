@@ -1,4 +1,4 @@
-import { LogOptions, LogEntry, LogSeverity } from '..';
+import { LogOptions, LogEntry, LogSeverity } from '../types';
 import config from '../config';
 
 export abstract class BaseLogger {
@@ -12,7 +12,7 @@ export abstract class BaseLogger {
   }
 
   constructor(options?: LogOptions) {
-    this.options = options || {
+    this._options = options || {
       verbose: config.verboseLogOutput,
       maxArrayLength: 3,
     };
