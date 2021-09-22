@@ -27,3 +27,4 @@ __exportStar(require('./deleteCollection'), exports);
 __exportStar(require('./handleUpdateDocument'), exports);
 __exportStar(require('./waitForDocumentUpdate'), exports);
 __exportStar(require('./mapDataToSchema'), exports);
+__exportStar(require('./hasInputChanged'), exports);

@@ -5,6 +5,7 @@ import { DocumentData, DocumentSnapshot } from '@google-cloud/firestore';
 import {
   handleUpdateDocument,
   mapDataToSchema,
+  hasInputChanged,
 } from 'shipengine-firebase-common';
 
 import {
@@ -23,32 +24,36 @@ logs.init(config);
 
 export const purchaseLabel = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
-    try {
-      const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
-      const data: DocumentData = change.after.data() || {};
+    const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
+    const castParams = (data: object) => mapDataToSchema(data, inputSchema);
 
-      if (hasValidLabel(data)) return; // A valid label has already been created
+    if (hasInputChanged(change, castParams)) {
+      try {
+        const data: DocumentData = change.after.data() || {};
 
-      logs.start(data);
+        if (hasValidLabel(data)) return; // A valid label has already been created
 
-      // Build the request payload and execute the label purchase
-      const params: RequestPayload = mapDataToSchema(data, inputSchema);
-      const update = await handlePurchaseLabel(params);
+        logs.start(data);
 
-      // Update the parent document with the label data
-      handleUpdateDocument(change.after, update);
-    } catch (err) {
-      // Update the document with error information on failure
-      if ((err as Error).message) {
-        handleUpdateDocument(change.after, {
-          [config.shippingLabelKey]: {
-            errors: (err as Error).message,
-          },
-        });
+        // Build the request payload and execute the label purchase
+        const params: RequestPayload = mapDataToSchema(data, inputSchema);
+        const update = await handlePurchaseLabel(params);
+
+        // Update the parent document with the label data
+        handleUpdateDocument(change.after, update);
+      } catch (err) {
+        // Update the document with error information on failure
+        if ((err as Error).message) {
+          handleUpdateDocument(change.after, {
+            [config.shippingLabelKey]: {
+              errors: (err as Error).message,
+            },
+          });
+        }
       }
-    }
 
-    logs.complete();
+      logs.complete();
+    }
 
     return;
   }

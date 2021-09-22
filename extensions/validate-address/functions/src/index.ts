@@ -1,11 +1,13 @@
 import * as functions from 'firebase-functions';
 import { Change } from 'firebase-functions';
 import ShipEngine from 'shipengine';
+import { DocumentData, DocumentSnapshot } from '@google-cloud/firestore';
+
 import {
   handleUpdateDocument,
   mapDataToSchema,
+  hasInputChanged,
 } from 'shipengine-firebase-common';
-import { DocumentData, DocumentSnapshot } from '@google-cloud/firestore';
 
 import {
   InputPayload,
@@ -14,6 +16,7 @@ import {
   ResponsePayload,
   UpdatePayload,
 } from './types';
+
 import config from './config';
 import logs from './logs';
 
@@ -24,35 +27,37 @@ logs.init(config);
 
 export const validateAddress = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
-    try {
-      const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
-      const data: DocumentData = change.after.data() || {};
+    const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
+    const castParams = (data: object) => mapDataToSchema(data, inputSchema);
 
-      // Address validation already complete
-      if (hasValidationData(data)) return;
+    if (hasInputChanged(change, castParams)) {
+      try {
+        const data: DocumentData = change.after.data() || {};
+        // Address validation already complete
+        if (hasValidationData(data)) return;
 
-      logs.start(data);
+        logs.start(data);
 
-      // Validate Single Address
-      const params: RequestPayload = new Array(
-        mapDataToSchema(data, inputSchema)
-      );
-      const update = await handleValidateAddress(params);
+        // build request payload from input schema
+        const params: RequestPayload = new Array(
+          mapDataToSchema(data, inputSchema)
+        );
+        // validate address
+        const update = await handleValidateAddress(params);
 
-      // Update the parent document with the address validation results
-      handleUpdateDocument(change.after, update);
-    } catch (err) {
-      // Update the document with error information on failure
-      if ((err as Error).message) {
-        handleUpdateDocument(change.after, {
-          [config.validationKey]: {
-            errors: (err as Error).message,
-          },
-        });
+        // Update the parent document with the address validation results
+        handleUpdateDocument(change.after, update);
+      } catch (err) {
+        // Update the document with error information on failure
+        if ((err as Error).message) {
+          handleUpdateDocument(change.after, {
+            [config.validationKey]: {
+              errors: (err as Error).message,
+            },
+          });
+        }
       }
     }
-
-    logs.complete();
 
     return;
   }
