@@ -1,5 +1,4 @@
-import { logs } from 'shipengine-firebase-common';
-import logger from 'shipengine-firebase-common/dist/logger';
+import { logs, logger } from 'shipengine-firebase-common';
 
 import config from './config';
 import { RequestPayload, ValidatedAddress } from './types';
@@ -17,7 +16,6 @@ export default {
       params,
     });
   },
-
   addressValidated: (validatedAddress: ValidatedAddress) => {
     const hasWarning = validatedAddress.status === 'warning';
     const level = hasWarning ? 'warn' : 'info';
