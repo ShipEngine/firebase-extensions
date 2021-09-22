@@ -1,4 +1,5 @@
 import { logger } from './logger';
+import { DocumentData } from '@google-cloud/firestore';
 
 export const obfuscateConfig = (config: any) => {
   return {
@@ -54,5 +55,20 @@ export const errorUpdatingParent = (error: Error) => {
 export const complete = () => {
   logger.info({
     message: 'Completed execution of extension',
+  });
+};
+
+export const mappingData = (data: DocumentData, schema: any) => {
+  logger.log({
+    message: 'Mapping data with schema',
+    data,
+    schema,
+  });
+};
+
+export const errorMappingData = (error: Error) => {
+  logger.log({
+    message: 'error mapping data with schema',
+    error,
   });
 };

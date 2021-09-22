@@ -2,7 +2,10 @@ import ShipEngine from 'shipengine';
 import * as functions from 'firebase-functions';
 import { Change } from 'firebase-functions';
 import { DocumentData, DocumentSnapshot } from '@google-cloud/firestore';
-import { handleUpdateDocument } from 'shipengine-firebase-common';
+import {
+  handleUpdateDocument,
+  mapDataToSchema,
+} from 'shipengine-firebase-common';
 
 import {
   ParamSchema,
@@ -11,7 +14,6 @@ import {
   UpdatePayload,
 } from './types';
 import config from './config';
-import * as converters from './converters';
 import logs from './logs';
 
 // Initialize the ShipEngine client
@@ -37,8 +39,13 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
       handleUpdateDocument(change.after, update);
     } catch (err) {
       // Update the document with error information on failure
-      if ((err as Error).message)
-        handleUpdateDocument(change.after, { error: (err as Error).message });
+      if ((err as Error).message) {
+        handleUpdateDocument(change.after, {
+          [config.shippingLabelKey]: {
+            errors: (err as Error).message,
+          },
+        });
+      }
     }
 
     logs.complete();
@@ -46,18 +53,6 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
     return;
   }
 );
-
-const mapDataToSchema = (data: DocumentData, schema: ParamSchema) => {
-  logs.mappingData(data, schema);
-
-  try {
-    return converters.mapDataToSchema(data, schema);
-  } catch (err) {
-    console.error(err);
-    logs.errorMappingData(err as Error);
-    throw err;
-  }
-};
 
 const hasValidLabel = (data: DocumentData): boolean => {
   return (
