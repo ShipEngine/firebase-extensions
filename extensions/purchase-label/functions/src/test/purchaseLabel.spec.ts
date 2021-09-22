@@ -1,6 +1,7 @@
 // integration-test/test/test.js
 import { assert, expect } from 'chai';
 import * as admin from 'firebase-admin';
+
 import {
   deleteCollection,
   waitForDocumentUpdate,
@@ -36,7 +37,7 @@ describe('purchaseLabel', async () => {
     const newOrder = await db.collection(DB_COLLECTION).add(inputPayload);
 
     // Wait for result
-    const update = (await waitForDocumentUpdate(newOrder)) as any;
+    const update = await waitForDocumentUpdate(newOrder, 'shippingLabel');
 
     // Assertions
     assert(expect(update.shippingLabel).is.not.undefined);
