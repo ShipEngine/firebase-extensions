@@ -5,7 +5,7 @@ to: <%= name %>/functions/package.json
   "name": "<%= name.toLowerCase() %>-functions",
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
-    "build": "tsc",
+    "build": "tsc --build",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",

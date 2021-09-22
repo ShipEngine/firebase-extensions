@@ -4,7 +4,7 @@
     "prepare": "npm run build",
     "lint": "eslint --ext .js,.ts .",
     "clean": "rimraf lib",
-    "build": "tsc",
+    "build": "tsc --build",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",

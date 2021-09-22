@@ -5,7 +5,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
-    "build": "tsc"
+    "build": "tsc --build"
   },
   "license": "ISC",
   "devDependencies": {
