@@ -34,23 +34,17 @@ var __awaiter =
   };
 Object.defineProperty(exports, '__esModule', { value: true });
 exports.waitForDocumentUpdate = void 0;
-/**
- *
- * @param doc
- * @returns
- */
 function waitForDocumentUpdate(doc, successField) {
   return __awaiter(this, void 0, void 0, function* () {
     return new Promise((resolve, reject) => {
       // Create snapshot listener on document and return updated data
-      const unsubscribe = doc.onSnapshot((snapshot) => {
+      doc.onSnapshot((snapshot) => {
         const data = snapshot.data();
-        if (data[successField]) resolve(data);
+        // Check for success
+        if (data[successField]) {
+          resolve(data);
+        }
       }, reject);
-      setTimeout(() => {
-        unsubscribe();
-        reject();
-      }, 5000);
     });
   });
 }
