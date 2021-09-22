@@ -10,5 +10,5 @@
         "resolveJsonModule": true
     },
     "compileOnSave": true,
-    "include": ["src", "../../../libs/common/src/utils/converters.ts"]
+    "include": ["src"]
 }
