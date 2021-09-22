@@ -24,6 +24,7 @@ export default {
       result,
     });
   },
+
   mappingData: (data: DocumentData, schema: ParamSchema) => {
     logger.log({
       message: 'Mapping data with schema',
@@ -38,4 +39,4 @@ export default {
       error,
     });
   },
-};
+}

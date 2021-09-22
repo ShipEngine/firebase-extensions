@@ -3,6 +3,7 @@ import * as functions from 'firebase-functions';
 import { Change } from 'firebase-functions';
 import { DocumentData, DocumentSnapshot } from '@google-cloud/firestore';
 import { handleUpdateDocument } from 'shipengine-firebase-common';
+import { logger } from 'firebase-functions';
 
 import {
   ParamSchema,
@@ -21,7 +22,7 @@ logs.init(config);
 
 export const purchaseLabel = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
-    if (!change.after.exists) return; // The document is being deleted
+    logger.log('THIS IS DOING STUFF', { schema: config.inputSchema });
 
     try {
       const inputSchema: ParamSchema = JSON.parse(config.inputSchema);

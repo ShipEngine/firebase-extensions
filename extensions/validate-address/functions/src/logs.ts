@@ -1,12 +1,6 @@
 import { logs, logger } from 'shipengine-firebase-common';
 
-import config from './config';
 import { RequestPayload, ValidatedAddress } from './types';
-
-export const obfuscatedConfig = {
-  ...config,
-  shipengineApiKey: '<omitted>',
-};
 
 export default {
   ...logs,

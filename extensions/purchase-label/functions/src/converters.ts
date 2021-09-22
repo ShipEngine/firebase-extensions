@@ -2,17 +2,42 @@ import { get } from 'lodash';
 import { DocumentData } from '@google-cloud/firestore';
 import { ParamSchema, RequestPayload } from './types';
 
+const removeEmpty = (obj: any) => {
+  let newObj = {} as any;
+
+  Object.keys(obj).forEach((key: string) => {
+    if (obj[key] === Object(obj[key])) newObj[key] = removeEmpty(obj[key]);
+    else if (obj[key] !== undefined) newObj[key] = obj[key];
+  });
+
+  return newObj;
+};
+
+function mapCollectionOrObject(
+  data: object,
+  key: any,
+  map_fn: (item: any) => object
+): Array<object> | undefined {
+  if (!key?._root) return undefined;
+
+  const dataAtRoot = get(data, key._root) as Array<object> | object;
+
+  if (Array.isArray(dataAtRoot)) dataAtRoot.map(map_fn);
+  return [dataAtRoot].map(map_fn);
+}
+
 export const mapDataToSchema = (
   data: DocumentData,
   schema: ParamSchema
 ): RequestPayload => {
-  return {
+  return removeEmpty({
     shipment: {
       carrierId: get(data, schema.shipment.carrierId),
       serviceCode: get(data, schema.shipment.serviceCode),
       externalOrderId: get(data, schema.shipment.externalOrderId),
       items: mapCollectionOrObject(
-        get(data, schema.shipment.items._root),
+        data,
+        schema.shipment.items,
         (item: any) => ({
           name: get(item, schema.shipment.items.name),
           salesOrderId: get(item, schema.shipment.items.salesOrderId),
@@ -29,7 +54,8 @@ export const mapDataToSchema = (
         })
       ) as RequestPayload['shipment']['items'],
       taxIdentifiers: mapCollectionOrObject(
-        get(data, schema.shipment.taxIdentifiers._root),
+        data,
+        schema.shipment.taxIdentifiers,
         (item: any) => ({
           taxableEntityType: get(
             item,
@@ -87,7 +113,8 @@ export const mapDataToSchema = (
         contents: get(data, schema.shipment.customs.contents),
         nonDelivery: get(data, schema.shipment.customs.nonDelivery),
         customsItems: mapCollectionOrObject(
-          get(data, schema.shipment.customs.customsItems._root),
+          data,
+          schema.shipment.customs?.customsItems,
           (item: any) => ({
             quantity: get(item, schema.shipment.customs.customsItems.quantity),
             value: {
@@ -174,7 +201,8 @@ export const mapDataToSchema = (
       insuranceProvider: get(data, schema.shipment.insuranceProvider),
       orderSourceCode: get(data, schema.shipment.orderSourceCode),
       packages: mapCollectionOrObject(
-        get(data, schema.shipment.packages._root),
+        data,
+        schema.shipment.packages,
         (item: any) => ({
           packageCode: get(item, schema.shipment.packages.packageCode),
           weight: {
@@ -222,13 +250,5 @@ export const mapDataToSchema = (
     displayScheme: get(data, schema.displayScheme),
     labelLayout: get(data, schema.labelLayout),
     labelImageId: get(data, schema.labelImageId),
-  };
+  });
 };
-
-function mapCollectionOrObject(
-  data: Array<object> | object,
-  map_fn: (item: any) => object
-): Array<object> {
-  if (Array.isArray(data)) data.map(map_fn);
-  return [data].map(map_fn);
-}
