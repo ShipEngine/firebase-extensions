@@ -5,8 +5,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
-    "compile": "tsc",
-    "build": "yarn clean && yarn compile"
+    "build": "tsc"
   },
   "license": "ISC",
   "devDependencies": {
