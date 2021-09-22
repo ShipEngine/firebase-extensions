@@ -6,4 +6,6 @@ export declare const parentUpdating: (update: any) => void;
 export declare const parentUpdated: () => void;
 export declare const errorUpdatingParent: (error: Error) => void;
 export declare const complete: () => void;
+export declare const mappingData: (data: any, schema: any) => void;
+export declare const errorMappingData: (error: Error) => void;
 //# sourceMappingURL=logs.d.ts.map

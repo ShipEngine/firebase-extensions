@@ -1,6 +1,8 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
-exports.complete =
+exports.errorMappingData =
+  exports.mappingData =
+  exports.complete =
   exports.errorUpdatingParent =
   exports.parentUpdated =
   exports.parentUpdating =
@@ -66,3 +68,18 @@ const complete = () => {
   });
 };
 exports.complete = complete;
+const mappingData = (data, schema) => {
+  logger_1.logger.log({
+    message: 'Mapping data with schema',
+    data,
+    schema,
+  });
+};
+exports.mappingData = mappingData;
+const errorMappingData = (error) => {
+  logger_1.logger.log({
+    message: 'error mapping data with schema',
+    error,
+  });
+};
+exports.errorMappingData = errorMappingData;

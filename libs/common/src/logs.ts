@@ -56,3 +56,18 @@ export const complete = () => {
     message: 'Completed execution of extension',
   });
 };
+
+export const mappingData = (data: DocumentData, schema: ParamSchema) => {
+  logger.log({
+    message: 'Mapping data with schema',
+    data,
+    schema,
+  });
+};
+
+export const errorMappingData = (error: Error) => {
+  logger.log({
+    message: 'error mapping data with schema',
+    error,
+  });
+};

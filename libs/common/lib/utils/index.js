@@ -26,3 +26,4 @@ Object.defineProperty(exports, '__esModule', { value: true });
 __exportStar(require('./deleteCollection'), exports);
 __exportStar(require('./handleUpdateDocument'), exports);
 __exportStar(require('./waitForDocumentUpdate'), exports);
+__exportStar(require('./mapDataToSchema'), exports);
