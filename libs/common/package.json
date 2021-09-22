@@ -4,13 +4,14 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "clean": "rimraf lib",
-    "build": "tsc"
+    "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
+    "compile": "tsc",
+    "build": "yarn clean && yarn compile"
   },
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^4.4.3",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "typescript": "^4.4.3"
   },
   "dependencies": {
     "firebase-admin": "^9.11.1",

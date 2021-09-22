@@ -1,85 +1,73 @@
-'use strict';
-Object.defineProperty(exports, '__esModule', { value: true });
-exports.errorMappingData =
-  exports.mappingData =
-  exports.complete =
-  exports.errorUpdatingParent =
-  exports.parentUpdated =
-  exports.parentUpdating =
-  exports.start =
-  exports.initError =
-  exports.init =
-  exports.obfuscateConfig =
-    void 0;
-const logger_1 = require('./logger');
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.errorMappingData = exports.mappingData = exports.complete = exports.errorUpdatingParent = exports.parentUpdated = exports.parentUpdating = exports.start = exports.initError = exports.init = exports.obfuscateConfig = void 0;
+const logger_1 = require("./logger");
 const obfuscateConfig = (config) => {
-  return Object.assign(Object.assign({}, config), {
-    shipEngineApiKey: '<omitted>',
-  });
+    return Object.assign(Object.assign({}, config), { shipEngineApiKey: '<omitted>' });
 };
 exports.obfuscateConfig = obfuscateConfig;
 const init = (config) => {
-  logger_1.logger.log({
-    message: 'Initializing extension with configuration',
-    options: {
-      verbose: true,
-    },
-    config: (0, exports.obfuscateConfig)(config),
-  });
+    logger_1.logger.log({
+        message: 'Initializing extension with configuration',
+        options: {
+            verbose: true,
+        },
+        config: (0, exports.obfuscateConfig)(config),
+    });
 };
 exports.init = init;
 const initError = (error) => {
-  logger_1.logger.error({
-    message: 'Error when initializing extension',
-    error,
-  });
+    logger_1.logger.error({
+        message: 'Error when initializing extension',
+        error,
+    });
 };
 exports.initError = initError;
 const start = (data) => {
-  logger_1.logger.log({
-    message: 'Started extension execution',
-    data,
-  });
+    logger_1.logger.log({
+        message: 'Started extension execution',
+        data,
+    });
 };
 exports.start = start;
 const parentUpdating = (update) => {
-  logger_1.logger.debug({
-    message: 'Parent ref updating',
-    update,
-  });
+    logger_1.logger.debug({
+        message: 'Parent ref updating',
+        update,
+    });
 };
 exports.parentUpdating = parentUpdating;
 const parentUpdated = () => {
-  logger_1.logger.debug({
-    message: 'Parent ref updated',
-  });
+    logger_1.logger.debug({
+        message: 'Parent ref updated',
+    });
 };
 exports.parentUpdated = parentUpdated;
 const errorUpdatingParent = (error) => {
-  logger_1.logger.error({
-    message: 'Error updating parent',
-    error,
-  });
+    logger_1.logger.error({
+        message: 'Error updating parent',
+        error,
+    });
 };
 exports.errorUpdatingParent = errorUpdatingParent;
 const complete = () => {
-  logger_1.logger.info({
-    message: 'Completed execution of extension',
-  });
+    logger_1.logger.info({
+        message: 'Completed execution of extension',
+    });
 };
 exports.complete = complete;
 const mappingData = (data, schema) => {
-  logger_1.logger.log({
-    message: 'Mapping data with schema',
-    data,
-    schema,
-  });
+    logger_1.logger.log({
+        message: 'Mapping data with schema',
+        data,
+        schema,
+    });
 };
 exports.mappingData = mappingData;
 const errorMappingData = (error) => {
-  logger_1.logger.log({
-    message: 'error mapping data with schema',
-    error,
-  });
+    logger_1.logger.log({
+        message: 'error mapping data with schema',
+        error,
+    });
 };
 exports.errorMappingData = errorMappingData;
