@@ -1,46 +1,26 @@
-import { logger } from 'firebase-functions';
-import { DocumentData } from '@google-cloud/firestore';
-import { RequestPayload, ResponsePayload, UpdatePayload } from './types';
+import { logs, logger } from 'shipengine-firebase-common';
+import { RequestPayload, ResponsePayload } from './types';
 
-import config from './config';
+export default {
+  ...logs,
+  purchasingLabel: (params: RequestPayload) => {
+    logger.log({
+      message: 'Purchasing label',
+      params,
+    });
+  },
 
-export const obfuscatedConfig = {
-  ...config,
-  shipengineApiKey: '<omitted>',
-};
+  errorPurchasingLabel: (error: Error) => {
+    logger.error({
+      message: 'Error purchasing label',
+      error,
+    });
+  },
 
-export const init = () => {
-  logger.log('Initializing extension', obfuscatedConfig);
-};
-
-export const start = (data: DocumentData) => {
-  logger.log('Started extension execution', data);
-};
-
-export const purchasingLabel = (params: RequestPayload) => {
-  logger.log('Purchasing label', params);
-};
-
-export const errorPurchasingLabel = (error: Error) => {
-  logger.error('Error purchasing label', error);
-};
-
-export const labelPurchased = (result: ResponsePayload) => {
-  logger.log('Successfully purchased label', result);
-};
-
-export const parentUpdating = (update: UpdatePayload) => {
-  logger.debug('Parent ref updating', update);
-};
-
-export const parentUpdated = () => {
-  logger.debug('Parent ref updated');
-};
-
-export const errorUpdatingParent = (error: Error) => {
-  logger.error('Error updating parent', error);
-};
-
-export const complete = () => {
-  logger.info('Completed execution of extension');
+  labelPurchased: (result: ResponsePayload) => {
+    logger.log({
+      message: 'Successfully purchased label',
+      result,
+    });
+  },
 };
