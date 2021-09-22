@@ -30,7 +30,7 @@ export const mapDataToSchema = (data: DocumentData, schema: ParamSchema) => {
   logs.mappingData(data, schema);
 
   try {
-    return mapDataToSchema(data, schema);
+    return mapDataToSchemaWithoutLogging(data, schema);
   } catch (err) {
     logs.errorMappingData(err as Error);
     throw err;
