@@ -149,7 +149,10 @@ export const mapDataToSchema = (
         ),
       },
       advancedOptions: schema.shipment.advancedOptions && {
-        billToAccount: get(data, schema.shipment.advancedOptions?.billToAccount),
+        billToAccount: get(
+          data,
+          schema.shipment.advancedOptions?.billToAccount
+        ),
         billToCountryCode: get(
           data,
           schema.shipment.advancedOptions?.billToCountryCode
@@ -169,7 +172,10 @@ export const mapDataToSchema = (
         ),
         dryIce: get(data, schema.shipment.advancedOptions?.dryIce),
         dryIceWeight: get(data, schema.shipment.advancedOptions?.dryIceWeight),
-        nonMachinable: get(data, schema.shipment.advancedOptions?.nonMachinable),
+        nonMachinable: get(
+          data,
+          schema.shipment.advancedOptions?.nonMachinable
+        ),
         saturdayDelivery: get(
           data,
           schema.shipment.advancedOptions?.saturdayDelivery
@@ -187,7 +193,8 @@ export const mapDataToSchema = (
           data,
           schema.shipment.advancedOptions?.shipperRelease
         ),
-        collectOnDelivery: schema.shipment.advancedOptions?.collectOnDelivery && {
+        collectOnDelivery: schema.shipment.advancedOptions
+          ?.collectOnDelivery && {
           paymentType: get(
             data,
             schema.shipment.advancedOptions?.collectOnDelivery?.paymentType
@@ -217,7 +224,10 @@ export const mapDataToSchema = (
             height: get(item, schema.shipment.packages?.dimensions?.height),
           },
           insuredValue: schema.shipment.packages?.insuredValue && {
-            currency: get(item, schema.shipment.packages?.insuredValue?.currency),
+            currency: get(
+              item,
+              schema.shipment.packages?.insuredValue?.currency
+            ),
             amount: get(item, schema.shipment?.packages?.insuredValue?.amount),
           },
           labelMessages: schema.shipment.packages?.labelMessages && {

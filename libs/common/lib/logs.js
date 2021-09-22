@@ -1,20 +1,5 @@
 'use strict';
-var __assign =
-  (this && this.__assign) ||
-  function () {
-    __assign =
-      Object.assign ||
-      function (t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-          s = arguments[i];
-          for (var p in s)
-            if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-      };
-    return __assign.apply(this, arguments);
-  };
-exports.__esModule = true;
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.complete =
   exports.errorUpdatingParent =
   exports.parentUpdated =
@@ -24,12 +9,14 @@ exports.complete =
   exports.init =
   exports.obfuscateConfig =
     void 0;
-var logger_1 = require('./logger');
-var obfuscateConfig = function (config) {
-  return __assign(__assign({}, config), { shipEngineApiKey: '<omitted>' });
+const logger_1 = require('./logger');
+const obfuscateConfig = (config) => {
+  return Object.assign(Object.assign({}, config), {
+    shipEngineApiKey: '<omitted>',
+  });
 };
 exports.obfuscateConfig = obfuscateConfig;
-var init = function (config) {
+const init = (config) => {
   logger_1.logger.log({
     message: 'Initializing extension with configuration',
     options: {
@@ -39,41 +26,41 @@ var init = function (config) {
   });
 };
 exports.init = init;
-var initError = function (error) {
+const initError = (error) => {
   logger_1.logger.error({
     message: 'Error when initializing extension',
-    error: error,
+    error,
   });
 };
 exports.initError = initError;
-var start = function (data) {
+const start = (data) => {
   logger_1.logger.log({
     message: 'Started extension execution',
-    data: data,
+    data,
   });
 };
 exports.start = start;
-var parentUpdating = function (update) {
+const parentUpdating = (update) => {
   logger_1.logger.debug({
     message: 'Parent ref updating',
-    update: update,
+    update,
   });
 };
 exports.parentUpdating = parentUpdating;
-var parentUpdated = function () {
+const parentUpdated = () => {
   logger_1.logger.debug({
     message: 'Parent ref updated',
   });
 };
 exports.parentUpdated = parentUpdated;
-var errorUpdatingParent = function (error) {
+const errorUpdatingParent = (error) => {
   logger_1.logger.error({
     message: 'Error updating parent',
-    error: error,
+    error,
   });
 };
 exports.errorUpdatingParent = errorUpdatingParent;
-var complete = function () {
+const complete = () => {
   logger_1.logger.info({
     message: 'Completed execution of extension',
   });

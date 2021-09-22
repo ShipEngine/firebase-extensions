@@ -22,7 +22,7 @@ var __exportStar =
       if (p !== 'default' && !Object.prototype.hasOwnProperty.call(exports, p))
         __createBinding(exports, m, p);
   };
-exports.__esModule = true;
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.logs = void 0;
 __exportStar(require('./logger'), exports);
 exports.logs = require('./logs');

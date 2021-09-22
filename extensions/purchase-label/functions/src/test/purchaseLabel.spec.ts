@@ -36,7 +36,7 @@ describe('purchaseLabel', async () => {
     const newOrder = await db.collection(DB_COLLECTION).add(inputPayload);
 
     // Wait for result
-    const update = await waitForDocumentUpdate(newOrder) as any;
+    const update = (await waitForDocumentUpdate(newOrder)) as any;
 
     // Assertions
     assert(expect(update.shippingLabel).is.not.undefined);

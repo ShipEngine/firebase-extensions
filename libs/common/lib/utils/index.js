@@ -22,7 +22,7 @@ var __exportStar =
       if (p !== 'default' && !Object.prototype.hasOwnProperty.call(exports, p))
         __createBinding(exports, m, p);
   };
-exports.__esModule = true;
+Object.defineProperty(exports, '__esModule', { value: true });
 __exportStar(require('./deleteCollection'), exports);
 __exportStar(require('./handleUpdateDocument'), exports);
 __exportStar(require('./waitForDocumentUpdate'), exports);
