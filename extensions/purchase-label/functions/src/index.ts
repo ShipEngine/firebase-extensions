@@ -1,17 +1,22 @@
 import ShipEngine from 'shipengine';
-import * as functions from "firebase-functions";
+import * as functions from 'firebase-functions';
 import { Change } from 'firebase-functions';
 import { DocumentData, DocumentSnapshot } from '@google-cloud/firestore';
 
-import { ParamSchema, RequestPayload, ResponsePayload, UpdatePayload } from './types';
+import {
+  ParamSchema,
+  RequestPayload,
+  ResponsePayload,
+  UpdatePayload,
+} from './types';
 import config from './config';
 import * as converters from './converters';
-import * as logs from './logs';
+import logs from './logs';
 
 // Initialize the ShipEngine client
 const shipEngine = new ShipEngine(config.shipEngineApiKey);
 
-logs.init();
+logs.init(config);
 
 export const purchaseLabel = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
@@ -19,7 +24,10 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
 
     const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
     const data: DocumentData = change.after.data() || {};
-    const params: RequestPayload = converters.mapDataToSchema(data, inputSchema);
+    const params: RequestPayload = converters.mapDataToSchema(
+      data,
+      inputSchema
+    );
 
     if (hasValidLabel(data)) return; // A valid label has already been created
 
@@ -33,7 +41,7 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
       handleUpdateDocument(change.after, update);
     } catch (err) {
       // Update the document with error information on failure
-      handleUpdateDocument(change.after, { error: err })
+      handleUpdateDocument(change.after, { error: err });
     }
 
     logs.complete();
@@ -43,14 +51,22 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
 );
 
 const hasValidLabel = (data: DocumentData): boolean => {
-  return data[config.shippingLabelKey] !== undefined && data[config.shippingLabelKey].errors === undefined;
-}
+  return (
+    data[config.shippingLabelKey] !== undefined &&
+    data[config.shippingLabelKey].errors === undefined
+  );
+};
 
-const handlePurchaseLabel = async (params: RequestPayload): Promise<UpdatePayload> => {
+const handlePurchaseLabel = async (
+  params: RequestPayload
+): Promise<UpdatePayload> => {
   logs.purchasingLabel(params);
 
   try {
-    const result: ResponsePayload = await shipEngine.createLabelFromShipmentDetails(params) as ResponsePayload;
+    const result: ResponsePayload =
+      (await shipEngine.createLabelFromShipmentDetails(
+        params
+      )) as ResponsePayload;
     logs.labelPurchased(result);
     return { [config.shippingLabelKey]: result };
   } catch (err) {
@@ -59,7 +75,10 @@ const handlePurchaseLabel = async (params: RequestPayload): Promise<UpdatePayloa
   }
 };
 
-const handleUpdateDocument = (after: DocumentSnapshot, update: UpdatePayload): void => {
+const handleUpdateDocument = (
+  after: DocumentSnapshot,
+  update: UpdatePayload
+): void => {
   logs.parentUpdating(update);
 
   try {
