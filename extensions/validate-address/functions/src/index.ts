@@ -2,8 +2,10 @@ import * as functions from 'firebase-functions';
 import ShipEngine from 'shipengine';
 import { Change } from 'firebase-functions';
 import { DocumentSnapshot } from 'firebase-functions/v1/firestore';
-import { camelizeKeys } from 'humps';
-import { handleUpdateDocument } from 'shipengine-firebase-common';
+import {
+  handleUpdateDocument,
+  hasInputChanged,
+} from 'shipengine-firebase-common';
 
 import {
   AddressValidationResult,
@@ -22,34 +24,24 @@ logs.init(config);
 
 export const validateAddress = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
-    if (!change.after.exists) return; // The document is being deleted
+    if (hasInputChanged(change, castParams)) {
+      let data = change.after.data() as InputPayload;
 
-    let data = change.after.data() as InputPayload;
+      logs.start(data);
 
-    // Support situations where the keys may be snake_cased
-    data = camelizeKeys(data) as InputPayload;
+      // Validate Address
+      const params = castParams(data);
+      const update = await handleValidateAddress(params);
 
-    // Address validation already complete
-    if (hasValidationData(data)) return;
+      // Update the parent document with the address validation results
+      handleUpdateDocument(change.after, update);
 
-    logs.start(data);
-
-    // Validate Address
-    const params = castParams(data);
-    const update = await handleValidateAddress(params);
-
-    // Update the parent document with the address validation results
-    handleUpdateDocument(change.after, update);
-
-    logs.complete();
+      logs.complete();
+    }
 
     return;
   }
 );
-
-const hasValidationData = (data: InputPayload) => {
-  return data['validation'] !== undefined;
-};
 
 const castParams = (data: InputPayload): RequestPayload => {
   return [data[config.addressKey]];
