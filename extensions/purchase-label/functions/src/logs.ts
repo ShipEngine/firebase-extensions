@@ -6,7 +6,7 @@ import config from './config';
 
 export const obfuscatedConfig = {
   ...config,
-  shipengineApiKey: '<omitted>',
+  shipEngineApiKey: '<omitted>',
 };
 
 export const init = () => {
