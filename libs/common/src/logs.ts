@@ -1,4 +1,5 @@
 import { logger } from './logger';
+import { DocumentData } from '@google-cloud/firestore';
 
 export const obfuscateConfig = (config: any) => {
   return {
@@ -57,7 +58,7 @@ export const complete = () => {
   });
 };
 
-export const mappingData = (data: DocumentData, schema: ParamSchema) => {
+export const mappingData = (data: DocumentData, schema: any) => {
   logger.log({
     message: 'Mapping data with schema',
     data,

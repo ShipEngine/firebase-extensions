@@ -26,7 +26,7 @@ const mapDataToSchemaWithoutLogging = (data, schema) => {
 const mapDataToSchema = (data, schema) => {
   logs.mappingData(data, schema);
   try {
-    return (0, exports.mapDataToSchema)(data, schema);
+    return mapDataToSchemaWithoutLogging(data, schema);
   } catch (err) {
     logs.errorMappingData(err);
     throw err;
