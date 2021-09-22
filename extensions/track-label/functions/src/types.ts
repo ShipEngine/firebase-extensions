@@ -6,3 +6,4 @@ export type ResponsePayload =
 
 export type InputPayload = Record<string, Record<string, string>>;
 export type UpdatePayload = Record<string, ResponsePayload>;
+export type ParamSchema = { [key: string]: any };
