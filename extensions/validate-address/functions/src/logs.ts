@@ -1,12 +1,6 @@
 import { logs, logger } from 'shipengine-firebase-common';
 
-import config from './config';
 import { RequestPayload, ValidatedAddress } from './types';
-
-export const obfuscatedConfig = {
-  ...config,
-  shipengineApiKey: '<omitted>',
-};
 
 export default {
   ...logs,
@@ -16,7 +10,6 @@ export default {
       params,
     });
   },
-
   addressValidated: (validatedAddress: ValidatedAddress) => {
     const hasWarning = validatedAddress.status === 'warning';
     const level = hasWarning ? 'warn' : 'info';
