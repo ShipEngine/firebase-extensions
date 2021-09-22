@@ -35,9 +35,9 @@ describe('validateAddress', async () => {
     const newAddress = await db.collection(DB_COLLECTION).add(inputPayload);
 
     // Wait for result
-    const update = await waitForDocumentUpdate(newAddress);
+    const update = await waitForDocumentUpdate(newAddress, 'validation');
 
     // Assertions
-    assert(expect(update).is.not.empty);
+    assert(expect(update.validation).is.not.empty);
   });
 });

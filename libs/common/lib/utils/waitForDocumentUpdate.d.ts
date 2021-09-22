@@ -6,7 +6,8 @@ declare type FirestoreDoc =
  * @returns
  */
 export declare function waitForDocumentUpdate(
-  doc: FirestoreDoc
-): Promise<FirestoreDoc>;
+  doc: FirestoreDoc,
+  successField: string
+): Promise<any>;
 export {};
 //# sourceMappingURL=waitForDocumentUpdate.d.ts.map

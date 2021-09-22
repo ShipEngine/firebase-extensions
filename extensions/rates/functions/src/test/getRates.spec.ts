@@ -36,7 +36,7 @@ describe('getRates', async () => {
     const newShipment = await db.collection('shipments').add(inputPayload);
 
     // Wait for result
-    const update = await waitForDocumentUpdate(newShipment);
+    const update = await waitForDocumentUpdate(newShipment, 'rates');
 
     // Assertions
     assert(expect(update).is.not.empty);

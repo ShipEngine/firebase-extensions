@@ -39,14 +39,18 @@ exports.waitForDocumentUpdate = void 0;
  * @param doc
  * @returns
  */
-function waitForDocumentUpdate(doc) {
+function waitForDocumentUpdate(doc, successField) {
   return __awaiter(this, void 0, void 0, function* () {
     return new Promise((resolve, reject) => {
       // Create snapshot listener on document and return updated data
-      doc.onSnapshot((snapshot) => {
+      const unsubscribe = doc.onSnapshot((snapshot) => {
         const data = snapshot.data();
-        resolve(data);
+        if (data[successField]) resolve(data);
       }, reject);
+      setTimeout(() => {
+        unsubscribe();
+        reject();
+      }, 5000);
     });
   });
 }
