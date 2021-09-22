@@ -32,6 +32,7 @@ var __rest =
     return t;
   };
 exports.__esModule = true;
+exports.logger = void 0;
 var firebase_functions_1 = require('firebase-functions');
 var config_1 = require('./config');
 /**
@@ -71,6 +72,5 @@ var Logger = /** @class */ (function () {
   };
   return Logger;
 })();
-var logger = new Logger();
-exports['default'] = logger;
+exports.logger = new Logger();
 //# sourceMappingURL=logger.js.map

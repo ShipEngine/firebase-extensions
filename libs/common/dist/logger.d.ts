@@ -12,6 +12,6 @@ declare class Logger {
   error(entry: LogEntry): void;
   private write;
 }
-declare const logger: Logger;
-export default logger;
+export declare const logger: Logger;
+export {};
 //# sourceMappingURL=logger.d.ts.map

@@ -30,7 +30,7 @@ var obfuscateConfig = function (config) {
 };
 exports.obfuscateConfig = obfuscateConfig;
 var init = function (config) {
-  logger_1['default'].log({
+  logger_1.logger.log({
     message: 'Initializing extension with configuration',
     options: {
       verbose: true,
@@ -40,41 +40,41 @@ var init = function (config) {
 };
 exports.init = init;
 var initError = function (error) {
-  logger_1['default'].error({
+  logger_1.logger.error({
     message: 'Error when initializing extension',
     error: error,
   });
 };
 exports.initError = initError;
 var start = function (data) {
-  logger_1['default'].log({
+  logger_1.logger.log({
     message: 'Started extension execution',
     data: data,
   });
 };
 exports.start = start;
 var parentUpdating = function (update) {
-  logger_1['default'].debug({
+  logger_1.logger.debug({
     message: 'Parent ref updating',
     update: update,
   });
 };
 exports.parentUpdating = parentUpdating;
 var parentUpdated = function () {
-  logger_1['default'].debug({
+  logger_1.logger.debug({
     message: 'Parent ref updated',
   });
 };
 exports.parentUpdated = parentUpdated;
 var errorUpdatingParent = function (error) {
-  logger_1['default'].error({
+  logger_1.logger.error({
     message: 'Error updating parent',
     error: error,
   });
 };
 exports.errorUpdatingParent = errorUpdatingParent;
 var complete = function () {
-  logger_1['default'].info({
+  logger_1.logger.info({
     message: 'Completed execution of extension',
   });
 };
