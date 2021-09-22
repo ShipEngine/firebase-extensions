@@ -22,19 +22,16 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
     if (!change.after.exists) return; // The document is being deleted
 
-    const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
-    const data: DocumentData = change.after.data() || {};
-    const params: RequestPayload = converters.mapDataToSchema(
-      data,
-      inputSchema
-    );
-
-    if (hasValidLabel(data)) return; // A valid label has already been created
-
-    logs.start(data);
-
     try {
+      const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
+      const data: DocumentData = change.after.data() || {};
+
+      if (hasValidLabel(data)) return; // A valid label has already been created
+
+      logs.start(data);
+
       // Build the request payload and execute the label purchase
+      const params: RequestPayload = mapDataToSchema(data, inputSchema);
       const update = await handlePurchaseLabel(params);
 
       // Update the parent document with the label data
@@ -49,6 +46,17 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
     return;
   }
 );
+
+const mapDataToSchema = (data: DocumentData, schema: ParamSchema) => {
+  logs.mappingData(data, schema);
+
+  try {
+    return converters.mapDataToSchema(data, schema);
+  } catch (err) {
+    logs.errorMappingData(err as Error);
+    throw err;
+  }
+};
 
 const hasValidLabel = (data: DocumentData): boolean => {
   return (
