@@ -9,7 +9,7 @@ arrowParens: always
 overrides:
   - files: '*.{yml,yaml}'
     options:
-      proseWrap: always
+      proseWrap: preserve
       parser: yaml
   - files: '*.{json,jsonc}'
     options:
