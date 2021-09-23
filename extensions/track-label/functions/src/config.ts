@@ -8,4 +8,5 @@ export default {
   labelIdKey: process.env.LABEL_ID_KEY!,
   labelKey: process.env.LABEL_KEY!,
   trackingResultKey: process.env.TRACKING_RESULT_KEY!,
+  inputSchema: process.env.INPUT_SCHEMA!,
 };

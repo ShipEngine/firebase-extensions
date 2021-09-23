@@ -1,4 +1,5 @@
 import { LogEntry, LogOptions, LogSeverity } from '../types';
+import { cloneDeep } from 'lodash';
 import { BaseLogger } from './base-logger';
 
 const colorize = require('json-colorizer');
@@ -10,10 +11,8 @@ export class ConsoleLogger extends BaseLogger {
   constructor(options?: LogOptions) {
     super(options);
   }
-  protected write(
-    { message, options, ...data }: LogEntry,
-    severity: LogSeverity
-  ) {
+  protected write(entry: LogEntry, severity: LogSeverity) {
+    const { message, options, ...data } = cloneDeep(entry);
     const verbose = this.options.verbose || options?.verbose;
     const maxArrayLength = 3;
     const indent = 2;

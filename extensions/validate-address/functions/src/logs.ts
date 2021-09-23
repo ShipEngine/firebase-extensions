@@ -22,7 +22,7 @@ export default {
       ...(hasWarning && { warnings: validatedAddress.messages }),
     });
   },
-  errorValidateAddress: (error: Error) => {
+  errorValidatingAddress: (error: Error) => {
     logger.error({
       message: 'Error when validating address.',
       error,

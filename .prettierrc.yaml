@@ -9,10 +9,11 @@ arrowParens: always
 overrides:
   - files: '*.{yml,yaml}'
     options:
-      proseWrap: always
+      proseWrap: preserve
       parser: yaml
   - files: '*.{json,jsonc}'
     options:
+      bracketSpacing: true
       parser: json
   - files: '*.md'
     options:

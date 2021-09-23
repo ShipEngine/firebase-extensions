@@ -1,19 +1,21 @@
 import * as functions from 'firebase-functions';
-import ShipEngine from 'shipengine';
 import { Change } from 'firebase-functions';
-import { DocumentSnapshot } from 'firebase-functions/v1/firestore';
+import ShipEngine from 'shipengine';
+import { DocumentData, DocumentSnapshot } from '@google-cloud/firestore';
+
 import {
   handleUpdateDocument,
+  mapDataToSchema,
   hasInputChanged,
 } from 'shipengine-firebase-common';
 
 import {
-  AddressValidationResult,
-  InputPayload,
+  ParamSchema,
   RequestPayload,
   ResponsePayload,
   UpdatePayload,
 } from './types';
+
 import config from './config';
 import logs from './logs';
 
@@ -24,27 +26,44 @@ logs.init(config);
 
 export const validateAddress = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
+    const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
+    const castParams = (data: object) => mapDataToSchema(data, inputSchema);
+
     if (hasInputChanged(change, castParams)) {
-      let data = change.after.data() as InputPayload;
+      try {
+        const data: DocumentData = change.after.data() || {};
+        // Address validation already complete
+        if (hasValidationData(data)) return;
 
-      logs.start(data);
+        logs.start(data);
 
-      // Validate Address
-      const params = castParams(data);
-      const update = await handleValidateAddress(params);
+        // build request payload from input schema
+        const params: RequestPayload = new Array(
+          mapDataToSchema(data, inputSchema)
+        );
+        // validate address
+        const update = await handleValidateAddress(params);
 
-      // Update the parent document with the address validation results
-      handleUpdateDocument(change.after, update);
-
-      logs.complete();
+        // Update the parent document with the address validation results
+        handleUpdateDocument(change.after, update);
+      } catch (err) {
+        // Update the document with error information on failure
+        if ((err as Error).message) {
+          handleUpdateDocument(change.after, {
+            [config.validationKey]: {
+              errors: (err as Error).message,
+            },
+          });
+        }
+      }
     }
 
     return;
   }
 );
 
-const castParams = (data: InputPayload): RequestPayload => {
-  return [data[config.addressKey]];
+const hasValidationData = (data: DocumentData): boolean => {
+  return data['validation'] !== undefined;
 };
 
 const handleValidateAddress = async (
@@ -57,28 +76,11 @@ const handleValidateAddress = async (
     const [result] = (await shipEngine.validateAddresses(
       params
     )) as ResponsePayload;
-
     logs.addressValidated(result);
-
-    // Build the update object based on the result status
-    const validationResult: AddressValidationResult = { status: result.status };
-
-    switch (validationResult.status) {
-      case 'verified':
-        validationResult.normalizedAddress = result.normalizedAddress;
-        break;
-      case 'warning':
-        validationResult.normalizedAddress = result.normalizedAddress;
-      case 'unverified':
-      case 'error':
-        validationResult.messages = result.messages;
-        break;
-    }
-
     // Nest validation results under validation result key
-    return { [config.validationResultKey]: validationResult };
+    return { [config.validationKey]: result };
   } catch (err) {
-    logs.errorValidateAddress(err as Error);
+    logs.errorValidatingAddress(err as Error);
     throw err;
   }
 };

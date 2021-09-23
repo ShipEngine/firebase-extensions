@@ -37,7 +37,7 @@ describe('getLabelTrackingData', async () => {
     const newLabel = await db.collection(DB_COLLECTION).add(inputPayload);
 
     // Wait for firestore event handler to finish
-    const update = await waitForDocumentUpdate(newLabel, 'tracking');
+    const update = await waitForDocumentUpdate(newLabel, 'trackingData');
 
     // Assertions
     assert(expect(update.tracking).is.not.empty);

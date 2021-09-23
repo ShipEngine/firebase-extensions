@@ -18,6 +18,7 @@ var __rest =
   };
 Object.defineProperty(exports, '__esModule', { value: true });
 exports.ConsoleLogger = void 0;
+const lodash_1 = require('lodash');
 const base_logger_1 = require('./base-logger');
 const colorize = require('json-colorizer');
 /**
@@ -27,8 +28,9 @@ class ConsoleLogger extends base_logger_1.BaseLogger {
   constructor(options) {
     super(options);
   }
-  write(_a, severity) {
-    var { message, options } = _a,
+  write(entry, severity) {
+    const _a = (0, lodash_1.cloneDeep)(entry),
+      { message, options } = _a,
       data = __rest(_a, ['message', 'options']);
     const verbose =
       this.options.verbose ||
