@@ -5,9 +5,6 @@ import { BaseLogger } from './base-logger';
  */
 export declare class ConsoleLogger extends BaseLogger {
   constructor(options?: LogOptions);
-  protected write(
-    { message, options, ...data }: LogEntry,
-    severity: LogSeverity
-  ): void;
+  protected write(entry: LogEntry, severity: LogSeverity): void;
 }
 //# sourceMappingURL=console-logger.d.ts.map
