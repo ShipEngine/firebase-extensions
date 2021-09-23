@@ -7,6 +7,7 @@ import {
 import * as inputPayload from './input-payload.json';
 
 const DB_COLLECTION = 'addresses';
+
 /*
  * ============
  *    Setup
