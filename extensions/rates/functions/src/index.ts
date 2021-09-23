@@ -35,6 +35,9 @@ export const getRates = functions.handler.firestore.document.onWrite(
 
         // Build the request payload and execute the label purchase
         const params: RequestPayload = mapDataToSchema(data, inputSchema);
+        params.rateOptions.carrierIds = [
+          ...config.carrierIds,
+        ] as RequestPayload['rateOptions']['carrierIds'];
         const update = await handleGetRates(params);
 
         // Update the parent document with the rates result
