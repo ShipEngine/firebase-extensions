@@ -13,6 +13,7 @@ overrides:
       parser: yaml
   - files: '*.{json,jsonc}'
     options:
+      bracketSpacing: true
       parser: json
   - files: '*.md'
     options:
