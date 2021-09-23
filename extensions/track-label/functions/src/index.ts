@@ -1,53 +1,46 @@
 import ShipEngine from 'shipengine';
 import * as functions from 'firebase-functions';
 import { Change } from 'firebase-functions';
-import { DocumentSnapshot, DocumentData } from '@google-cloud/firestore';
+import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 import {
   handleUpdateDocument,
   hasInputChanged,
-  mapDataToSchema,
 } from 'shipengine-firebase-common';
 
-import { RequestPayload, ResponsePayload, UpdatePayload } from './types';
+import {
+  RequestPayload,
+  ResponsePayload,
+  InputPayload,
+  UpdatePayload,
+} from './types';
 import config from './config';
 import logs from './logs';
-
-export type ParamSchema = { [key: string]: any };
+import { Request } from 'firebase-functions';
 
 // Initialize ShipEngine client
 const shipEngine = new ShipEngine(config.shipEngineApiKey);
 
 logs.init(config);
 
+export const handleWebhookEvents = functions.handler.https.onRequest(
+  async (req: Request, resp) => {
+    // check if valid webhook
+  }
+);
+
 export const trackLabel = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
-    const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
-    const castParams = (data: object) => mapDataToSchema(data, inputSchema);
-
     if (hasInputChanged(change, castParams)) {
-      try {
-        const data: DocumentData = change.after.data() || {};
+      let data = change.after.data() as InputPayload;
 
-        if (hasTrackingData(data)) return; // Tracking data already exists
+      logs.start(data);
 
-        logs.start(data);
+      // Build the request payload and execute the label purchase
+      const params = castParams(data);
+      const update = await handleGetLabelTrackingUpdate(params);
 
-        // Build the request payload and execute the label purchase
-        const params: RequestPayload = mapDataToSchema(data, inputSchema);
-        const update = await handleGetLabelTrackingUpdate(params);
-
-        // Update the parent document with the tracking result
-        handleUpdateDocument(change.after, update);
-      } catch (err) {
-        // Update the document with error information on failure
-        if ((err as Error).message) {
-          handleUpdateDocument(change.after, {
-            [config.trackingResultKey]: {
-              errors: (err as Error).message,
-            },
-          });
-        }
-      }
+      // Update the parent document with the tracking result
+      handleUpdateDocument(change.after, update);
 
       logs.complete();
     }
@@ -56,24 +49,23 @@ export const trackLabel = functions.handler.firestore.document.onWrite(
   }
 );
 
-const hasTrackingData = (data: DocumentData): boolean => {
-  return (
-    data[config.trackingResultKey] !== undefined &&
-    data[config.trackingResultKey].errors === undefined
-  );
+const castParams = (data: InputPayload): RequestPayload => {
+  const label = data[config.labelKey];
+  // format input payload to fit request payload
+  return {
+    trackingNumber: label[config.trackingNumberKey],
+    carrierCode: label[config.carrierCodeKey],
+  };
 };
 
 const handleGetLabelTrackingUpdate = async (
   params: RequestPayload
 ): Promise<UpdatePayload> => {
   logs.fetchingLabelTrackingData(params);
-
   try {
-    const result: ResponsePayload =
-      (await shipEngine.trackUsingCarrierCodeAndTrackingNumber(
-        params
-      )) as ResponsePayload;
-
+    const result = (await shipEngine.trackUsingCarrierCodeAndTrackingNumber(
+      params
+    )) as ResponsePayload;
     logs.labelTrackingDataFetched(result);
     return {
       [config.trackingResultKey]: result,
