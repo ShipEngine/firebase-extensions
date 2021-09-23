@@ -10,7 +10,6 @@ import {
 } from 'shipengine-firebase-common';
 
 import {
-  InputPayload,
   ParamSchema,
   RequestPayload,
   ResponsePayload,
@@ -63,7 +62,7 @@ export const validateAddress = functions.handler.firestore.document.onWrite(
   }
 );
 
-const hasValidationData = (data: InputPayload) => {
+const hasValidationData = (data: DocumentData): boolean => {
   return data['validation'] !== undefined;
 };
 
