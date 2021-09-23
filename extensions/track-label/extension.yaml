@@ -128,44 +128,12 @@ params:
     default: labels
     required: false
 
-  - param: LABEL_KEY
-    label: Label Key
-    description: >
-      The document key where the label data is located.
-    type: string
-    default: label
-    required: false
-
-  - param: TRACKING_NUMBER_KEY
-    label: Tracking Number Key
-    description: >
-      The document key where the label tracking number is located.
-    type: string
-    default: trackingNumber
-    required: false
-
-  - param: CARRIER_CODE_KEY
-    label: Carrier Code Key
-    description: >
-      The document key where the label carrier code is located.
-    type: string
-    default: carrierCode
-    required: false
-
-  - param: LABEL_ID_KEY
-    label: Label ID Key
-    description: >
-      The document key where the label id is located.
-    type: string
-    default: labelId
-    required: false
-
   - param: TRACKING_RESULT_KEY
     label: Tracking Result Key
     description: >
       The document key to store the tracking result in.
     type: string
-    default: tracking
+    default: trackingData
     required: false
 
   - param: INPUT_SCHEMA
@@ -176,16 +144,7 @@ params:
     type: string
     default: >
       {
-        "name": "address.name",
-        "phone": "address.phone",
-        "companyName": "address.companyName",
-        "addressLine1": "address.addressLine1",
-        "addressLine2": "address.addressLine2",
-        "addressLine3": "address.addressLine3",
-        "cityLocality": "address.cityLocality",
-        "stateProvince": "address.stateProvince",
-        "postalCode": "address.postalCode",
-        "countryCode": "address.countryCode",
-        "addressResidentialIndicator": "address.addressResidentialIndicator"
+        "trackingNumber": "label.trackingNumber",
+        "carrierCode": "label.carrierCode"
       }
     required: false
