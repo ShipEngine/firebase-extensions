@@ -2,15 +2,18 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import ShipEngine from 'shipengine';
 import { camelizeKeys } from 'humps';
 
-import config from './config';
+// import config from './config';
 import {
   CreateWebhookParams,
   CreateWebhookResponse,
   ListWebhooksResponse,
   Webhook,
 } from './types';
-
-class ShipEngineSDK extends ShipEngine {
+interface TrackLabelParams {
+  carrierCode: string;
+  trackingNumber: string;
+}
+export class ShipEngineSDK extends ShipEngine {
   private client: AxiosInstance;
   constructor(
     apiKey: string,
@@ -25,6 +28,22 @@ class ShipEngineSDK extends ShipEngine {
   ) {
     super(apiKey);
     this.client = axios.create(clientConfig);
+  }
+
+  public async startTrackingLabel(params: TrackLabelParams): Promise<void> {
+    try {
+      await this.client.post('/v1/tracking/start');
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async stopTrackingLabel(params: TrackLabelParams): Promise<void> {
+    try {
+      await this.client.post('/v1/tracking/stop');
+    } catch (error) {
+      throw error;
+    }
   }
 
   public async listWebhooks(): Promise<Webhook[]> {
@@ -62,8 +81,3 @@ class ShipEngineSDK extends ShipEngine {
     }
   }
 }
-
-const se = new ShipEngineSDK(config.shipEngineApiKey);
-
-// Subscribe to Webhook
-// Unsubscribe to Webhook
