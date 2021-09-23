@@ -54,6 +54,13 @@ resources:
       eventTrigger:
         eventType: providers/cloud.firestore/eventTypes/document.write
         resource: projects/${param:PROJECT_ID}/databases/(default)/documents/${param:COLLECTION_PATH}/{documentId}
+  - name: handleTrackingWebhook
+    type: firebaseextensions.v1beta.function
+    description: Processes https webhook requests from the ShipEngine API.
+    properties:
+      location: ${param:LOCATION}
+      runtime: nodejs14
+      httpsTrigger: {}
 
 params:
   - param: LOCATION
