@@ -6,4 +6,5 @@ export default {
   carrierIds: process.env.CARRIER_IDS!.split(',').map((id) => id.trim()),
   shipmentKey: process.env.SHIPMENT_KEY!,
   ratesKey: process.env.RATES_KEY!,
+  inputSchema: process.env.INPUT_SCHEMA!,
 };

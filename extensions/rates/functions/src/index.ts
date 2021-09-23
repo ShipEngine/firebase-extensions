@@ -1,17 +1,18 @@
 import ShipEngine from 'shipengine';
 import * as functions from 'firebase-functions';
 import { Change } from 'firebase-functions';
-import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
+import { DocumentSnapshot, DocumentData } from '@google-cloud/firestore';
 import {
   handleUpdateDocument,
   hasInputChanged,
+  mapDataToSchema,
 } from 'shipengine-firebase-common';
 
 import {
   RequestPayload,
   ResponsePayload,
-  InputPayload,
   UpdatePayload,
+  ParamSchema,
 } from './types';
 import config from './config';
 import logs from './logs';
@@ -23,17 +24,31 @@ logs.init(config);
 
 export const getRates = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
+    const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
+    const castParams = (data: object) => mapDataToSchema(data, inputSchema);
+
     if (hasInputChanged(change, castParams)) {
-      let data = change.after.data() as InputPayload;
+      try {
+        const data: DocumentData = change.after.data() || {};
 
-      logs.start(data);
+        logs.start(data);
 
-      // Build the request payload and execute the label purchase
-      const params = castParams(data);
-      const update = await handleGetRates(params);
+        // Build the request payload and execute the label purchase
+        const params: RequestPayload = mapDataToSchema(data, inputSchema);
+        const update = await handleGetRates(params);
 
-      // Update the parent document with the rates result
-      handleUpdateDocument(change.after, update);
+        // Update the parent document with the rates result
+        handleUpdateDocument(change.after, update);
+      } catch (err) {
+        // Update the document with error information on failure
+        if ((err as Error).message) {
+          handleUpdateDocument(change.after, {
+            [config.ratesKey]: {
+              errors: (err as Error).message,
+            },
+          });
+        }
+      }
 
       logs.complete();
     }
@@ -41,16 +56,6 @@ export const getRates = functions.handler.firestore.document.onWrite(
     return;
   }
 );
-
-const castParams = (data: InputPayload): RequestPayload => {
-  // Include carrier ids from config
-  return {
-    shipment: data[config.shipmentKey] as RequestPayload['shipment'],
-    rateOptions: {
-      carrierIds: config.carrierIds,
-    } as RequestPayload['rateOptions'],
-  };
-};
 
 const handleGetRates = async (
   params: RequestPayload

@@ -5,6 +5,7 @@ export type ResponsePayload = GetRatesWithShipmentDetailsTypes.Result;
 export type InputPayload = {
   [key: string]: RequestPayload['shipment'];
 };
+export type ParamSchema = { [key: string]: any };
 export type UpdatePayload = {
   [key: string]: ResponsePayload['rateResponse']['rates'];
 };
