@@ -11,19 +11,16 @@ You can test out this extension right away!
 ```js
 admin
   .firestore()
-  .collection('${param:COLLECTION_PATH}')
+  .collection('shipments')
   .add({
     shipment: {
-      validateAddress: 'no_validation',
       shipTo: {
         name: 'Amanda Miller',
-        phone: '555-555-5555',
         addressLine1: '525 S Winchester Blvd',
         cityLocality: 'San Jose',
         stateProvince: 'CA',
         postalCode: '95128',
         countryCode: 'US',
-        addressResidentialIndicator: 'yes',
       },
       shipFrom: {
         companyName: 'Example Corp.',
@@ -35,7 +32,6 @@ admin
         stateProvince: 'TX',
         postalCode: '78756',
         countryCode: 'US',
-        addressResidentialIndicator: 'no',
       },
       packages: [
         {
