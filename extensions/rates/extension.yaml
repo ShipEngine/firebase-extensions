@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: shipengine-rates
+name: firestore-shipengine-calculate-rates
 version: 0.0.1
 specVersion: v1beta
 
-displayName: Rates
-description:
-  Queries for rates based on the contents of a document written to a specified
-  Cloud Firestore collection.
+displayName: Calculate Shipping Rates with ShipEngine
+description: >
+  Calculates real-time shipping rates across 60+ carriers using shipment data written to a Cloud Firestore collection.
 
 license: Apache-2.0
 sourceUrl: https://github.com/ShipEngine/firebase-extensions/tree/master/extensions/validate-address
