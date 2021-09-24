@@ -12,7 +12,8 @@
     "logs": "firebase functions:log",
     "emulate": "yarn run build && firebase ext:dev:emulators:start --test-params ../.env.development --project shipengine-firebase-extensions",
     "test": "yarn run build && firebase ext:dev:emulators:exec --test-params ../.env.development --project=shipengine-extensions-test 'yarn run-test'",
-    "run-test": "mocha --timeout=10000 'lib/test/**/*.spec.js' --exit"
+    "run-test": "mocha --timeout=10000 'lib/test/**/*.spec.js' --exit",
+    "build-readme": "firebase ext:info ../ --markdown > ../README.md"
   },
   "engines": {
     "node": "15"
