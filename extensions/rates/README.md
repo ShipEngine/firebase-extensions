@@ -1,12 +1,13 @@
-# Rates
+# Calculate Shipping Rates with ShipEngine
 
 **Author**: ShipEngine (**[https://shipengine.com](https://shipengine.com)**)
 
-**Description**: Queries for rates based on the contents of a document written to a specified Cloud Firestore collection.
+**Description**: Calculates real-time shipping rates across 60+ carriers using shipment data written to a Cloud Firestore collection.
 
 
 
-**Details**: Use this extension to fetch rates for shipments from documents added to a specified Cloud Firestore collection.
+
+**Details**: Use this extension to calculate real-time shipping rates across 50+ global carriers from documents added to a specified Cloud Firestore collection. [ShipEngine](https://www.shipengine.com/) retrieves all possible rates to help brands, ecommerce platforms, and 3PLs to make the best choice for every shipment, whether shipping cost, time to delivery, carrier capabilities or other factors are most important.
 
 Here's a basic example document write that would trigger this extension:
 
@@ -16,16 +17,13 @@ admin
   .collection('shipments')
   .add({
     shipment: {
-      validateAddress: 'no_validation',
       shipTo: {
         name: 'Amanda Miller',
-        phone: '555-555-5555',
         addressLine1: '525 S Winchester Blvd',
         cityLocality: 'San Jose',
         stateProvince: 'CA',
         postalCode: '95128',
         countryCode: 'US',
-        addressResidentialIndicator: 'yes',
       },
       shipFrom: {
         companyName: 'Example Corp.',
@@ -37,7 +35,6 @@ admin
         stateProvince: 'TX',
         postalCode: '78756',
         countryCode: 'US',
-        addressResidentialIndicator: 'no',
       },
       packages: [
         {
@@ -51,7 +48,7 @@ admin
   });
 ```
 
-When you configure this extension, you'll need to supply your **ShipEngine API Key**.
+When you configure this extension, you'll need to supply your **ShipEngine API Key** from the [ShipEngine API Management page](https://app.shipengine.com/#/portal/apimanagement).
 
 #### Additional setup
 
@@ -81,16 +78,14 @@ Usage of this extension also requires you to have a ShipEngine account. You are 
 * Firestore path: What is the path to the collection that contains the documents with shipment info for validation?
 
 
-* Shipment Key: The document key where the shipment information is located.
-
-
 * Shipping Rates Key: The document key to store the rates result in.
 
 
 * ShipEngine Carrier IDs: A comma separated list of Carrier IDs from your ShipEngine account.
 
 
-* Enable Verbose Logging: Do you want to log payload data.
+* Input Schema: A schema object mapping the collection's data to the required ShipEngine API structure.
+
 
 
 
