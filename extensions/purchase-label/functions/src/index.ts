@@ -72,10 +72,14 @@ const handlePurchaseLabel = async (
   logs.purchasingLabel(params);
 
   try {
-    const result: ResponsePayload =
-      (await shipEngine.createLabelFromShipmentDetails(
-        params
-      )) as ResponsePayload;
+    let result: ResponsePayload;
+
+    if (params.rateId !== undefined) {
+      result = await shipEngine.createLabelFromRate(params);
+    } else {
+      result = await shipEngine.createLabelFromShipmentDetails(params);
+    }
+
     logs.labelPurchased(result);
     return { [config.shippingLabelKey]: result };
   } catch (err) {
