@@ -5,7 +5,7 @@ Here's a basic example document write that would trigger this extension:
 ```js
 admin
   .firestore()
-  .collection('shipments')
+  .collection('labels')
   .add({
     label: {
       carrierCode: 'stamps_com',
