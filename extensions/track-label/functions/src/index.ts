@@ -6,7 +6,7 @@ import {
   handleUpdateDocument,
   hasInputChanged,
   mapDataToSchema,
-} from 'shipengine-firebase-common';
+} from 'shipengine-firebase-common-lib';
 
 import { RequestPayload, ResponsePayload, UpdatePayload } from './types';
 import config from './config';

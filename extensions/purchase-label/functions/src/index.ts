@@ -6,7 +6,7 @@ import {
   handleUpdateDocument,
   mapDataToSchema,
   hasInputChanged,
-} from 'shipengine-firebase-common';
+} from 'shipengine-firebase-common-lib';
 
 import {
   ParamSchema,

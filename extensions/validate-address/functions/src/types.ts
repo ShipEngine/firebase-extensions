@@ -1,5 +1,5 @@
 import { ValidateAddressesTypes } from 'shipengine';
-import { Optional } from 'shipengine-firebase-common';
+import { Optional } from 'shipengine-firebase-common-lib';
 
 export const enum Status {
   Unverified = 'unverified',

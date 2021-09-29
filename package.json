@@ -11,7 +11,7 @@
     "lint": "prettier --list-different \"**/*.{js,md,yml,ts,json,yaml}\"",
     "postinstall": "yarn run clean && yarn run build",
     "gen:ext": "hygen extension new",
-    "common": "yarn workspace shipengine-firebase-common"
+    "common": "yarn workspace shipengine-firebase-common-lib"
   },
   "devDependencies": {
     "@types/is": "^0.0.21",
@@ -19,6 +19,6 @@
     "hygen": "^6.1.0",
     "prettier": "^2.3.2"
   },
-  "workspaces": ["libs/*", "extensions/*/functions"],
+  "workspaces": ["extensions/*/functions"],
   "packageManager": "yarn@3.0.2"
 }

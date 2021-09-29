@@ -20,7 +20,7 @@ to: <%= name %>/functions/package.json
   "dependencies": {
     "firebase-admin": "^9.8.0",
     "firebase-functions": "^3.14.1",
-    "shipengine-firebase-common": "^1.0.0"
+    "shipengine-firebase-common-lib": "^1.0.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.9.1",
