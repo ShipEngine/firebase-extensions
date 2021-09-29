@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: shipengine-validate-address
+name: firestore-shipengine-validate-address
 version: 0.0.1
 specVersion: v1beta
 
-displayName: Validate Address
-description:
+displayName: Validate an Address with ShipEngine
+description: >
   Validates an address based on the contents of a document written to a
   specified Cloud Firestore collection.
 
