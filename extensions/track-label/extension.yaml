@@ -111,9 +111,9 @@ params:
 
   - param: SHIPENGINE_API_KEY
     label: ShipEngine Api Key
+    type: string
     description: >
       Api key found on the api dashboard.
-    type: string
     required: true
 
   - param: COLLECTION_PATH
@@ -144,7 +144,7 @@ params:
     type: string
     default: >
       {
-        "trackingNumber": "label.trackingNumber",
-        "carrierCode": "label.carrierCode"
+        "trackingNumber": "shippingLabel.trackingNumber",
+        "carrierCode": "shippingLabel.carrierCode"
       }
     required: false

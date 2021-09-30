@@ -1,4 +1,4 @@
-import { logs, logger } from 'shipengine-firebase-common';
+import { logs, logger } from 'shipengine-firebase-common-lib';
 import { RequestPayload, ResponsePayload } from './types';
 
 export default {
