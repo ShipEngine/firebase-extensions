@@ -6,7 +6,7 @@
 
 
 
-**Details**: Use this extension to validate addresses.<HELP ME ARIEL>
+**Details**: Use this extension to validate addresses.
 
 Here's a basic example document write that would trigger this extension:
 
