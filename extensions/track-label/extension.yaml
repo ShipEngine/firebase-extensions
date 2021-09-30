@@ -144,7 +144,7 @@ params:
     type: string
     default: >
       {
-        "trackingNumber": "label.trackingNumber",
-        "carrierCode": "label.carrierCode"
+        "trackingNumber": "shippingLabel.trackingNumber",
+        "carrierCode": "shippingLabel.carrierCode"
       }
     required: false
