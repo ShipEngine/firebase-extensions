@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin';
 import {
   deleteCollection,
   waitForDocumentUpdate,
-} from 'shipengine-firebase-common';
+} from 'shipengine-firebase-common-lib';
 import * as inputPayload from './input-payload.json';
 
 const DB_COLLECTION = 'addresses';
