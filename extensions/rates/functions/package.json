@@ -11,7 +11,8 @@
     "logs": "firebase functions:log",
     "emulate": "yarn build && firebase ext:dev:emulators:start --test-params ../.env.development --project shipengine-firebase-extensions",
     "test": "yarn build && firebase ext:dev:emulators:exec --test-params ../.env.test --project=shipengine-extensions-test 'yarn run-test'",
-    "run-test": "ts-mocha -p ./tsconfig.json ./test/**/*.spec.ts --exit"
+    "run-test": "ts-mocha -p ./tsconfig.json ./test/**/*.spec.ts --exit",
+    "build-readme": "firebase ext:info ../ --markdown > ../README.md"
   },
   "engines": {
     "node": "14"

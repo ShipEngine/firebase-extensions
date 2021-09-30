@@ -16,8 +16,8 @@ name: track-label
 version: 0.0.1
 specVersion: v1beta
 
-displayName: ShipEngine Track Label
-description:
+displayName: Track a Shipping Label with ShipEngine
+description: >
   Queries for label tracking data based on the contents of a document written to
   a specified Cloud Firestore collection.
 

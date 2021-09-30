@@ -16,7 +16,7 @@ name: purchase-label
 version: 0.0.1
 specVersion: v1beta
 
-displayName: Purchase Shipping Label
+displayName: Purchase Shipping Label with ShipEngine
 description:
   Purchases a shipping label based on the contents of a document written to a
   specified Cloud Firestore collection.

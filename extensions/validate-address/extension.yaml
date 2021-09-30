@@ -16,8 +16,8 @@ name: validate-address
 version: 0.0.1
 specVersion: v1beta
 
-displayName: Validate Address
-description:
+displayName: Validate an Address with ShipEngine
+description: >
   Validates an address based on the contents of a document written to a
   specified Cloud Firestore collection.
 
