@@ -153,12 +153,12 @@ params:
           "shipFrom": {
             "name": "shipment.shipFrom.name",
             "phone": "shipment.shipFrom.phone",
-            "addressLine1": "shipment.shipTo.addressLine1",
-            "addressLine2": "shipment.shipTo.addressLine2",
-            "cityLocality": "shipment.shipTo.cityLocality",
-            "stateProvince": "shipment.shipTo.stateProvince",
-            "postalCode": "shipment.shipTo.postalCode",
-            "countryCode": "shipment.shipTo.countryCode"
+            "addressLine1": "shipment.shipFrom.addressLine1",
+            "addressLine2": "shipment.shipFrom.addressLine2",
+            "cityLocality": "shipment.shipFrom.cityLocality",
+            "stateProvince": "shipment.shipFrom.stateProvince",
+            "postalCode": "shipment.shipFrom.postalCode",
+            "countryCode": "shipment.shipFrom.countryCode"
           },
           "packages": {
             "_root": "shipment.packages",
