@@ -6,7 +6,7 @@ import {
   handleUpdateDocument,
   mapDataToSchema,
   hasInputChanged,
-} from 'shipengine-firebase-common';
+} from 'shipengine-firebase-common-lib';
 
 import {
   ParamSchema,
@@ -40,11 +40,11 @@ export const purchaseLabel = functions.handler.firestore.document.onWrite(
         const update = await handlePurchaseLabel(params);
 
         // Update the parent document with the label data
-        handleUpdateDocument(change.after, update);
+        await handleUpdateDocument(change.after, update);
       } catch (err) {
         // Update the document with error information on failure
         if ((err as Error).message) {
-          handleUpdateDocument(change.after, {
+          await handleUpdateDocument(change.after, {
             [config.shippingLabelKey]: {
               errors: (err as Error).message,
             },
@@ -72,10 +72,14 @@ const handlePurchaseLabel = async (
   logs.purchasingLabel(params);
 
   try {
-    const result: ResponsePayload =
-      (await shipEngine.createLabelFromShipmentDetails(
-        params
-      )) as ResponsePayload;
+    let result: ResponsePayload;
+
+    if (params.rateId !== undefined) {
+      result = await shipEngine.createLabelFromRate(params);
+    } else {
+      result = await shipEngine.createLabelFromShipmentDetails(params);
+    }
+
     logs.labelPurchased(result);
     return { [config.shippingLabelKey]: result };
   } catch (err) {

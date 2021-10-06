@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: shipengine-purchase-label
+name: purchase-label
 version: 0.0.1
 specVersion: v1beta
 
-displayName: Purchase Shipping Label
+displayName: Purchase Shipping Label with ShipEngine
 description:
   Purchases a shipping label based on the contents of a document written to a
   specified Cloud Firestore collection.
@@ -35,6 +35,10 @@ contributors:
     url: https://github.com/andyhite
 
 billingRequired: true
+
+externalServices:
+  - name: ShipEngine
+  - pricingUri: https://www.shipengine.com/pricing/
 
 roles:
   - role: datastore.user
@@ -111,9 +115,9 @@ params:
 
   - param: SHIPENGINE_API_KEY
     label: ShipEngine Api Key
+    type: string
     description: >
       Api key found on the api dashboard.
-    type: string
     required: true
 
   - param: COLLECTION_PATH
@@ -153,12 +157,12 @@ params:
           "shipFrom": {
             "name": "shipment.shipFrom.name",
             "phone": "shipment.shipFrom.phone",
-            "addressLine1": "shipment.shipTo.addressLine1",
-            "addressLine2": "shipment.shipTo.addressLine2",
-            "cityLocality": "shipment.shipTo.cityLocality",
-            "stateProvince": "shipment.shipTo.stateProvince",
-            "postalCode": "shipment.shipTo.postalCode",
-            "countryCode": "shipment.shipTo.countryCode"
+            "addressLine1": "shipment.shipFrom.addressLine1",
+            "addressLine2": "shipment.shipFrom.addressLine2",
+            "cityLocality": "shipment.shipFrom.cityLocality",
+            "stateProvince": "shipment.shipFrom.stateProvince",
+            "postalCode": "shipment.shipFrom.postalCode",
+            "countryCode": "shipment.shipFrom.countryCode"
           },
           "packages": {
             "_root": "shipment.packages",

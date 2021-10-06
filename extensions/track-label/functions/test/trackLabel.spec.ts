@@ -4,11 +4,10 @@ import * as admin from 'firebase-admin';
 import {
   deleteCollection,
   waitForDocumentUpdate,
-} from 'shipengine-firebase-common';
-
+} from 'shipengine-firebase-common-lib';
 import * as inputPayload from './input-payload.json';
 
-const DB_COLLECTION = 'orders';
+const DB_COLLECTION = 'labels';
 
 /*
  * ============
@@ -32,16 +31,16 @@ beforeEach(async () => {
   void deleteCollection(DB_COLLECTION, db);
 });
 
-describe('purchaseLabel', async () => {
-  it('returns the purchase label result', async () => {
+describe('getLabelTrackingData', async () => {
+  it('returns tracking data for a label', async () => {
     // Add new shipment to db
-    const newOrder = await db.collection(DB_COLLECTION).add(inputPayload);
+    const newLabel = await db.collection(DB_COLLECTION).add(inputPayload);
 
-    // Wait for result
-    const update = await waitForDocumentUpdate(newOrder, 'shippingLabel');
+    // Wait for firestore event handler to finish
+    const update = await waitForDocumentUpdate(newLabel, 'trackingData');
 
     // Assertions
-    assert(expect(update.shippingLabel).is.not.undefined);
-    assert(expect(update.shippingLabel.labelId).is.not.undefined);
+    assert(expect(update.tracking).is.not.empty);
+    assert(expect(update.tracking.events.length).to.be.greaterThan(0));
   });
 });

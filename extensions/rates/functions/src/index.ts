@@ -6,7 +6,7 @@ import {
   handleUpdateDocument,
   hasInputChanged,
   mapDataToSchema,
-} from 'shipengine-firebase-common';
+} from 'shipengine-firebase-common-lib';
 
 import {
   RequestPayload,
@@ -41,11 +41,11 @@ export const getRates = functions.handler.firestore.document.onWrite(
         const update = await handleGetRates(params);
 
         // Update the parent document with the rates result
-        handleUpdateDocument(change.after, update);
+        await handleUpdateDocument(change.after, update);
       } catch (err) {
         // Update the document with error information on failure
         if ((err as Error).message) {
-          handleUpdateDocument(change.after, {
+          await handleUpdateDocument(change.after, {
             [config.ratesKey]: {
               errors: (err as Error).message,
             },

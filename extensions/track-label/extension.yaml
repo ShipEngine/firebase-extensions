@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: shipengine-track-label
+name: track-label
 version: 0.0.1
 specVersion: v1beta
 
-displayName: ShipEngine Track Label
-description:
+displayName: Track a Shipping Label with ShipEngine
+description: >
   Queries for label tracking data based on the contents of a document written to
   a specified Cloud Firestore collection.
 
@@ -35,6 +35,10 @@ contributors:
     url: https://github.com/andyhite
 
 billingRequired: true
+
+externalServices:
+  - name: ShipEngine
+  - pricingUri: https://www.shipengine.com/pricing/
 
 roles:
   - role: datastore.user
@@ -118,9 +122,9 @@ params:
 
   - param: SHIPENGINE_API_KEY
     label: ShipEngine Api Key
+    type: string
     description: >
       Api key found on the api dashboard.
-    type: string
     required: true
 
   - param: COLLECTION_PATH
@@ -151,7 +155,7 @@ params:
     type: string
     default: >
       {
-        "trackingNumber": "label.trackingNumber",
-        "carrierCode": "label.carrierCode"
+        "trackingNumber": "shippingLabel.trackingNumber",
+        "carrierCode": "shippingLabel.carrierCode"
       }
     required: false
