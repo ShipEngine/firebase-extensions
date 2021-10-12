@@ -57,6 +57,12 @@ resources:
       eventTrigger:
         eventType: providers/cloud.firestore/eventTypes/document.write
         resource: projects/${param:PROJECT_ID}/databases/(default)/documents/${param:COLLECTION_PATH}/{addressId}
+  - name: getRatesHttps
+    type: firebaseextensions.v1beta.function
+    properties:
+      location: ${LOCATION}
+      runtime: nodejs14
+      httpsTrigger: {}
 
 params:
   - param: LOCATION

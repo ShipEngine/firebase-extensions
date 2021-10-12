@@ -22,6 +22,18 @@ const shipEngine = new ShipEngine(config.shipEngineApiKey);
 
 logs.init(config);
 
+export const getRatesHttps = functions.handler.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'This function requires authentication.');
+  }
+  logs.start(data);
+  const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
+  const params: RequestPayload = mapDataToSchema(data, inputSchema);
+  const rates = await handleGetRates(params);
+  logs.complete();
+  return rates;
+});
+
 export const getRates = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
     const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
