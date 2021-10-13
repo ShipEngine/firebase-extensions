@@ -48,6 +48,47 @@ admin
   });
 ```
 
+#### Input Schema
+
+By default, this extension maps data from elements in your selected collection using the following schema:
+
+```json
+{
+  "shipment": {
+    "carrierId": "shipment.carrierId",
+    "serviceCode": "shipment.serviceCode",
+    "shipDate": "shipment.shipDate",
+    "shipTo": {
+      "name": "shipment.shipTo.name",
+      "phone": "shipment.shipTo.phone",
+      "addressLine1": "shipment.shipTo.addressLine1",
+      "addressLine2": "shipment.shipTo.addressLine2",
+      "cityLocality": "shipment.shipTo.cityLocality",
+      "stateProvince": "shipment.shipTo.stateProvince",
+      "postalCode": "shipment.shipTo.postalCode",
+      "countryCode": "shipment.shipTo.countryCode"
+    },
+    "shipFrom": {
+      "name": "shipment.shipFrom.name",
+      "phone": "shipment.shipFrom.phone",
+      "addressLine1": "shipment.shipTo.addressLine1",
+      "addressLine2": "shipment.shipTo.addressLine2",
+      "cityLocality": "shipment.shipTo.cityLocality",
+      "stateProvince": "shipment.shipTo.stateProvince",
+      "postalCode": "shipment.shipTo.postalCode",
+      "countryCode": "shipment.shipTo.countryCode"
+    },
+    "packages": {
+      "_root": "shipment.packages",
+      "weight": {
+        "value": "weight.value",
+        "unit": "weight.unit"
+      }
+    }
+  }
+}
+```
+
 ### Using this extension
 
 After its installation, this extension monitors all document writes to the `${param:COLLECTION_PATH}` collection. A label will be successfully purchased when valid shipment object exists in the document.

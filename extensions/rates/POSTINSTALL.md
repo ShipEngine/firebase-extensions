@@ -45,6 +45,55 @@ admin
   });
 ```
 
+#### Input Schema
+
+By default, this extension maps data from elements in your selected collection using the following schema:
+
+```json
+{
+  "shipmentId": "shipmentId",
+  "rateOptions": {
+    "carrierIds": "rateOptions.carrierIds",
+    "packageTypes": "rateOptions.packageTypes",
+    "serviceCodes": "rateOptions.serviceCodes",
+    "calculateTaxAmount": "rateOptions.calculateTaxAmount",
+    "preferredCurrency": "rateOptions.preferredCurrency"
+  },
+  "shipment": {
+    "shipTo": {
+      "name": "shipment.shipTo.name",
+      "phone": "shipment.shipTo.phone",
+      "addressLine1": "shipment.shipTo.addressLine1",
+      "addressLine2": "shipment.shipTo.addressLine2",
+      "cityLocality": "shipment.shipTo.cityLocality",
+      "stateProvince": "shipment.shipTo.stateProvince",
+      "postalCode": "shipment.shipTo.postalCode",
+      "countryCode": "shipment.shipTo.countryCode",
+      "addressResidentialIndicator": "shipment.shipTo.addressResidentialIndicator"
+    },
+    "shipFrom": {
+      "companyName": "shipment.shipFrom.companyName",
+      "name": "shipment.shipFrom.name",
+      "phone": "shipment.shipFrom.phone",
+      "addressLine1": "shipment.shipTo.addressLine1",
+      "addressLine2": "shipment.shipTo.addressLine2",
+      "cityLocality": "shipment.shipTo.cityLocality",
+      "stateProvince": "shipment.shipTo.stateProvince",
+      "postalCode": "shipment.shipTo.postalCode",
+      "countryCode": "shipment.shipTo.countryCode",
+      "addressResidentialIndicator": "shipment.shipFrom.addressResidentialIndicator"
+    },
+    "packages": {
+      "_root": "shipment.packages",
+      "weight": {
+        "value": "weight.value",
+        "unit": "weight.unit"
+      }
+    }
+  }
+}
+```
+
 ### Using this extension
 
 After its installation, this extension monitors all document writes to the `${param:COLLECTION_PATH}` collection. Rates are fetched based on the contents of the document's fields. The `shipment` field specifies the `ship-to`, `ship-from`, `validateAddress`, and `packages` params.
