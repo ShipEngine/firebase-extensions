@@ -38,7 +38,7 @@ billingRequired: true
 
 externalServices:
   - name: ShipEngine
-  - pricingUri: https://www.shipengine.com/pricing/
+    pricingUri: https://www.shipengine.com/pricing/
 
 roles:
   - role: datastore.user
