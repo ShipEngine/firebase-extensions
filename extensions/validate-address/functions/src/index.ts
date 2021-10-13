@@ -24,6 +24,25 @@ const shipEngine = new ShipEngine(config.shipEngineApiKey);
 
 logs.init(config);
 
+export const validateAddressHttps = functions.handler.https.onCall(
+  async (data, context) => {
+    if (!context.auth) {
+      throw new functions.https.HttpsError(
+        'unauthenticated',
+        'This function requires authentication.'
+      );
+    }
+    logs.start(data);
+    const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
+    const params: RequestPayload = new Array(
+      mapDataToSchema(data, inputSchema)
+    );
+    const result = await handleValidateAddress(params);
+    logs.complete();
+    return result;
+  }
+);
+
 export const validateAddress = functions.handler.firestore.document.onWrite(
   async (change: Change<DocumentSnapshot>): Promise<void> => {
     const inputSchema: ParamSchema = JSON.parse(config.inputSchema);

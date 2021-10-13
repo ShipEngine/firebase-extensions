@@ -13,7 +13,7 @@
 # limitations under the License.
 
 name: validate-address
-version: 0.0.1
+version: 0.0.2
 specVersion: v1beta
 
 displayName: Validate an Address with ShipEngine
@@ -59,6 +59,12 @@ resources:
       eventTrigger:
         eventType: providers/cloud.firestore/eventTypes/document.write
         resource: projects/${param:PROJECT_ID}/databases/(default)/documents/${param:COLLECTION_PATH}/{addressId}
+  - name: validateAddressHttps
+    type: firebaseextensions.v1beta.function
+    properties:
+      location: ${LOCATION}
+      runtime: nodejs14
+      httpsTrigger: {}
 
 params:
   - param: LOCATION

@@ -13,7 +13,7 @@
 # limitations under the License.
 
 name: track-label
-version: 0.0.1
+version: 0.0.2
 specVersion: v1beta
 
 displayName: Track a Shipping Label with ShipEngine
