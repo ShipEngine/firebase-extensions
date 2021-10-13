@@ -20,6 +20,17 @@ admin
   });
 ```
 
+#### Input Schema
+
+By default, this extension maps data from elements in your selected collection using the following schema:
+
+```json
+{
+  "trackingNumber": "label.trackingNumber",
+  "carrierCode": "label.carrierCode"
+}
+```
+
 ### Using this extension
 
 After its installation, this extension monitors all document writes to the `${param:COLLECTION_PATH}` collection. Tracking data is fetched based on the contents of the document's fields. The `label` field specifies the `carrier_code` and `tracking_number` params.

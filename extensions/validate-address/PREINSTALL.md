@@ -1,4 +1,6 @@
-Use this extension to validate addresses using the ShipEngine API.
+Use this extension to ensure valid mailing addresses around the world with ShipEngine [ShipEngine](https://www.shipengine.com/signup/?ref=firebase). ShipEngine cross references multiple databases to validate addresses and identify potential deliverability issues with shipments. This helps brands, ecommerce platforms, 3PLs avoid unnecessary returns and additional carrier fees.
+
+Virtually every country in the world is supported, including the United States, Canada, United Kingdom, Australia, Germany, France, Norway, Spain, Sweden, Israel, Italy, and more than 160 others. Varying levels of validation are available in different countries. For example, one country may validate as precise as a suite/unit number, and another country may only validate as precise as the city. [See the full list of countries and their level of validation](https://www.shipengine.com/docs/addresses/validation/countries/)
 
 Here's a basic example document write that would trigger this extension:
 
@@ -18,31 +20,11 @@ admin
   });
 ```
 
-When you configure this extension, you'll need to supply your **ShipEngine API Key** from the [ShipEngine API Management page](https://app.shipengine.com/#/portal/apimanagement).
-
 #### Additional setup
 
 Before installing this extension, make sure that you've [set up a Cloud Firestore database](https://firebase.google.com/docs/firestore/quickstart) in your Firebase project.
 
-#### Input Schema
-
-By default, this extension maps data from elements in your selected collection using the following schema:
-
-```json
-{
-  "name": "address.name",
-  "phone": "address.phone",
-  "companyName": "address.companyName",
-  "addressLine1": "address.addressLine1",
-  "addressLine2": "address.addressLine2",
-  "addressLine3": "address.addressLine3",
-  "cityLocality": "address.cityLocality",
-  "stateProvince": "address.stateProvince",
-  "postalCode": "address.postalCode",
-  "countryCode": "address.countryCode",
-  "addressResidentialIndicator": "address.addressResidentialIndicator"
-}
-```
+You must also create a [ShipEngine account](https://www.shipengine.com/signup/?ref=firebase) or use your existing account and supply your **ShipEngine API Key** from the [ShipEngine API Management page](https://app.shipengine.com/#/portal/apimanagement) when you configure this extension.
 
 #### Billing
 
