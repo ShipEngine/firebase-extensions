@@ -1,4 +1,4 @@
-Use this extension to validate addresses.
+Use this extension to create domestic US or international shipping labels with ShipEngine [ShipEngine](https://www.shipengine.com/signup/?ref=firebase). Quickly integrate over 60 carriers to expand your global reach. [See the full list of carriers here.](https://www.shipengine.com/integrations/)
 
 Here's a basic example document write that would trigger this extension:
 
@@ -42,52 +42,11 @@ admin
   });
 ```
 
-When you configure this extension, you'll need to supply your **ShipEngine API Key** from the [ShipEngine API Management page](https://app.shipengine.com/#/portal/apimanagement).
-
 #### Additional setup
 
 Before installing this extension, make sure that you've [set up a Cloud Firestore database](https://firebase.google.com/docs/firestore/quickstart) in your Firebase project.
 
-#### Input Schema
-
-By default, this extension maps data from elements in your selected collection using the following schema:
-
-```json
-{
-  "shipment": {
-    "carrierId": "shipment.carrierId",
-    "serviceCode": "shipment.serviceCode",
-    "shipDate": "shipment.shipDate",
-    "shipTo": {
-      "name": "shipment.shipTo.name",
-      "phone": "shipment.shipTo.phone",
-      "addressLine1": "shipment.shipTo.addressLine1",
-      "addressLine2": "shipment.shipTo.addressLine2",
-      "cityLocality": "shipment.shipTo.cityLocality",
-      "stateProvince": "shipment.shipTo.stateProvince",
-      "postalCode": "shipment.shipTo.postalCode",
-      "countryCode": "shipment.shipTo.countryCode"
-    },
-    "shipFrom": {
-      "name": "shipment.shipFrom.name",
-      "phone": "shipment.shipFrom.phone",
-      "addressLine1": "shipment.shipTo.addressLine1",
-      "addressLine2": "shipment.shipTo.addressLine2",
-      "cityLocality": "shipment.shipTo.cityLocality",
-      "stateProvince": "shipment.shipTo.stateProvince",
-      "postalCode": "shipment.shipTo.postalCode",
-      "countryCode": "shipment.shipTo.countryCode"
-    },
-    "packages": {
-      "_root": "shipment.packages",
-      "weight": {
-        "value": "weight.value",
-        "unit": "weight.unit"
-      }
-    }
-  }
-}
-```
+You must also create a [ShipEngine account|https://www.shipengine.com/signup/?ref=firebase] or use your existing account and supply your **ShipEngine API Key** from the [ShipEngine API Management page](https://app.shipengine.com/#/portal/apimanagement) when you configure this extension.
 
 #### Billing
 
