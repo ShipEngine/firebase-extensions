@@ -20,17 +20,6 @@ When you configure this extension, you'll need to supply your **ShipEngine API K
 
 Before installing this extension, make sure that you've [set up a Cloud Firestore database](https://firebase.google.com/docs/firestore/quickstart) in your Firebase project.
 
-#### Input Schema
-
-By default, this extension maps data from elements in your selected collection using the following schema:
-
-```json
-{
-  "trackingNumber": "label.trackingNumber",
-  "carrierCode": "label.carrierCode"
-}
-```
-
 #### Billing
 
 To install an extension, your project must be on the [Blaze (pay as you go) plan](https://firebase.google.com/pricing)
