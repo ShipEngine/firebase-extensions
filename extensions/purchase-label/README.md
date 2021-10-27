@@ -1,4 +1,4 @@
-# Purchase Shipping Label with ShipEngine
+# Purchase Shipping Labels with ShipEngine
 
 **Author**: ShipEngine (**[https://shipengine.com](https://shipengine.com)**)
 
@@ -6,7 +6,7 @@
 
 
 
-**Details**: Use this extension to create domestic US or international shipping labels with ShipEngine [ShipEngine](https://www.shipengine.com/signup/?ref=firebase). Quickly integrate over 60 carriers to expand your global reach. [See the full list of carriers here.](https://www.shipengine.com/integrations/)
+**Details**: Use this extension to create domestic US or international shipping labels with [ShipEngine](https://www.shipengine.com/signup/?ref=firebase). Quickly integrate over 60 carriers to expand your global reach. [See the full list of carriers here.](https://www.shipengine.com/integrations/)
 
 Here's a basic example document write that would trigger this extension:
 
@@ -64,6 +64,7 @@ To install an extension, your project must be on the [Blaze (pay as you go) plan
 - This extension uses other Firebase and Google Cloud Platform services, which have associated charges if you exceed the service’s free tier:
   - Cloud Firestore
   - Cloud Functions (Node.js 15+ runtime. [See FAQs](https://firebase.google.com/support/faq#extensions-pricing))
+  - Cloud Secret Manager
 
 Usage of this extension also requires you to have a ShipEngine account. You are responsible for any associated costs with your usage of your ShipEngine account.
 
