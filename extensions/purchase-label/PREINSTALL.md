@@ -1,4 +1,4 @@
-Use this extension to create domestic US or international shipping labels with ShipEngine [ShipEngine](https://www.shipengine.com/signup/?ref=firebase). Quickly integrate over 60 carriers to expand your global reach. [See the full list of carriers here.](https://www.shipengine.com/integrations/)
+Use this extension to create domestic US or international shipping labels with [ShipEngine](https://www.shipengine.com/signup/?ref=firebase). Quickly integrate over 60 carriers to expand your global reach. [See the full list of carriers here.](https://www.shipengine.com/integrations/)
 
 Here's a basic example document write that would trigger this extension:
 
