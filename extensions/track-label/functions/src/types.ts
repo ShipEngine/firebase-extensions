@@ -1,11 +1,17 @@
 import { TrackUsingCarrierCodeAndTrackingNumberTypes } from 'shipengine/esm/track-using-carrier-code-and-tracking-number';
+import { TrackUsingLabelIdTypes } from 'shipengine/esm/track-using-label-id';
 
-export type RequestPayload = TrackUsingCarrierCodeAndTrackingNumberTypes.Params;
+type Optional<T> = { [P in keyof T]?: T[P] };
+
+export type RequestPayload = Optional<
+  TrackUsingCarrierCodeAndTrackingNumberTypes.Params & { labelId?: string }
+>;
 export type ResponsePayload =
-  TrackUsingCarrierCodeAndTrackingNumberTypes.Result;
+  TrackUsingCarrierCodeAndTrackingNumberTypes.Result &
+    TrackUsingLabelIdTypes.Response;
 
 export type InputPayload = Record<string, Record<string, string>>;
-export type UpdatePayload = Record<string, ResponsePayload>;
+export type UpdatePayload = ResponsePayload & { labelId?: string };
 export type ParamSchema = { [key: string]: any };
 
 export type WebhookEvent =
