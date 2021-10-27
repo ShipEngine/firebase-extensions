@@ -13,7 +13,7 @@
 # limitations under the License.
 
 name: purchase-label
-version: 0.0.2
+version: 0.0.3
 specVersion: v1beta
 
 displayName: Purchase Shipping Label with ShipEngine
@@ -38,7 +38,7 @@ billingRequired: true
 
 externalServices:
   - name: ShipEngine
-  - pricingUri: https://www.shipengine.com/pricing/
+    pricingUri: https://www.shipengine.com/pricing/
 
 roles:
   - role: datastore.user

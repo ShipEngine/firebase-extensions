@@ -24,6 +24,26 @@ admin
   });
 ```
 
+#### Input Schema
+
+By default, this extension maps data from elements in your selected collection using the following schema:
+
+```json
+{
+  "name": "address.name",
+  "phone": "address.phone",
+  "companyName": "address.companyName",
+  "addressLine1": "address.addressLine1",
+  "addressLine2": "address.addressLine2",
+  "addressLine3": "address.addressLine3",
+  "cityLocality": "address.cityLocality",
+  "stateProvince": "address.stateProvince",
+  "postalCode": "address.postalCode",
+  "countryCode": "address.countryCode",
+  "addressResidentialIndicator": "address.addressResidentialIndicator"
+}
+```
+
 ### Using this extension
 
 After its installation, this extension monitors all document writes to the `${param:COLLECTION_PATH}` collection. Tracking data is fetched based on the contents of the document's fields. The `label` field specifies the `carrier_code` and `tracking_number` params.
