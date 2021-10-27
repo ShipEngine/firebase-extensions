@@ -122,7 +122,7 @@ params:
 
   - param: SHIPENGINE_API_KEY
     label: ShipEngine Api Key
-    type: string
+    type: secret
     description: >
       Api key found on the api dashboard.
     required: true
