@@ -13,7 +13,7 @@
 # limitations under the License.
 
 name: purchase-labels
-version: 0.0.3
+version: 0.0.4
 specVersion: v1beta
 
 displayName: Purchase Shipping Labels with ShipEngine
