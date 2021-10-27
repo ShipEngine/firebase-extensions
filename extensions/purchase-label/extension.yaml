@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: purchase-label
+name: purchase-labels
 version: 0.0.3
 specVersion: v1beta
 
-displayName: Purchase Shipping Label with ShipEngine
+displayName: Purchase Shipping Labels with ShipEngine
 description:
   Purchases a shipping label based on the contents of a document written to a
   specified Cloud Firestore collection.

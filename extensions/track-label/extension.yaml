@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: track-label
+name: track-labels
 version: 0.0.2
 specVersion: v1beta
 
-displayName: Track a Shipping Label with ShipEngine
+displayName: Track Shipping Labels with ShipEngine
 description: >
   Queries for label tracking data based on the contents of a document written to
   a specified Cloud Firestore collection.
