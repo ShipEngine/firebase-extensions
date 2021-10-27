@@ -1,3 +1,6 @@
+## Version 0.0.3
+
+Updates to documentation.
 ## Version 0.0.2
 
 Minor updates and bug fixes.
