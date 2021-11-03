@@ -20,8 +20,6 @@
     "hygen": "^6.1.0",
     "prettier": "^2.3.2"
   },
-  "workspaces": [
-    "extensions/*/functions"
-  ],
+  "workspaces": ["libs/*", "extensions/*/functions"],
   "packageManager": "yarn@3.0.2"
 }

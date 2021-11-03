@@ -49,15 +49,16 @@ roles:
 resources:
   - name: trackLabel
     type: firebaseextensions.v1beta.function
-    description:
-      Processes label data in the specified Cloud Firestore collection, fetches
-      tracking data, and updates the document with tracking information.
     properties:
-      location: ${param:LOCATION}
+      location: ${LOCATION}
       runtime: nodejs14
-      eventTrigger:
-        eventType: providers/cloud.firestore/eventTypes/document.write
-        resource: projects/${param:PROJECT_ID}/databases/(default)/documents/${param:COLLECTION_PATH}/{documentId}
+      httpsTrigger: {}
+  - name: trackingWebhook
+    type: firebaseextensions.v1beta.function
+    properties:
+      location: ${LOCATION}
+      runtime: nodejs14
+      httpsTrigger: {}
 
 params:
   - param: LOCATION
@@ -123,13 +124,12 @@ params:
   - param: COLLECTION_PATH
     label: Firestore path
     description: >
-      What is the path to the collection that contains the documents with label
-      data?
+      What is the path to the collection that contains the documents with shipment tracking data?
     type: string
     validationRegex: ^\S+$
     validationErrorMessage: Path cannot have spaces.
-    example: path/to/labels
-    default: labels
+    example: path/to/trackingUpdates
+    default: trackingUpdates
     required: false
 
   - param: TRACKING_RESULT_KEY
@@ -140,6 +140,44 @@ params:
     default: trackingData
     required: false
 
+  - param: OUTPUT_SCHEMA
+    label: Output Schema
+    description: >
+      A schema object mapping tracking data to your the structure of your data in your selected firestore collection.
+    type: string
+    default: >
+      {
+        "trackingNumber": "data.trackingNumber",
+        "statusCode": "data.statusCode",
+        "statusDescription": "data.statusDescription",
+        "carrierStatusCode": "data.carrierStatusCode",
+        "carrierDetailCode": "data.carrierDetailCode",
+        "carrierStatusDescription": "data.carrierStatusDescription",
+        "shipDate": "data.shipDate",
+        "estimatedDeliveryDate": "data.estimatedDeliveryDate",
+        "actualDeliveryDate": "data.actualDeliveryDate",
+        "exceptionDescription": "data.exceptionDescription",
+        "events": {
+          "_root": "data.events",
+          "occurredAt": "occurredAt",
+          "carrierOccurredAt": "carrierOccurredAt",
+          "description": "description",
+          "cityLocality": "cityLocality",
+          "stateProvince": "stateProvince",
+          "postalCode": "postalCode",
+          "countryCode": "countryCode",
+          "companyName": "companyName",
+          "signer": "signer",
+          "eventCode": "eventCode",
+          "statusCode": "statusCode",
+          "carrierStatusCode": "carrierStatusCode",
+          "carrierDetailCode": "carrierDetailCode",
+          "latitude": "latitude",
+          "longitude": "longitude"
+        }
+      }
+    required: false
+
   - param: INPUT_SCHEMA
     label: Input Schema
     description: >
@@ -148,6 +186,7 @@ params:
     type: string
     default: >
       {
+        "labelId": "shippingLabel.labelId",
         "trackingNumber": "shippingLabel.trackingNumber",
         "carrierCode": "shippingLabel.carrierCode"
       }
