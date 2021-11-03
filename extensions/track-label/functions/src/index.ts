@@ -41,8 +41,6 @@ export const trackingWebhook = functions.handler.https.onRequest(
       const outputSchema: ParamSchema = JSON.parse(config.outputSchema);
       const update = mapDataToSchema(trackingUpdate, outputSchema);
 
-      // TODO: check db fo
-
       // Update tracking data in firestore
       await handleCreateOrUpdateDocument(update, 'trackingNumber');
 
