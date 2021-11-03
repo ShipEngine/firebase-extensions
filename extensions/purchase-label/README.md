@@ -4,8 +4,6 @@
 
 **Description**: Purchases a shipping label based on the contents of a document written to a specified Cloud Firestore collection.
 
-
-
 **Details**: Use this extension to create domestic US or international shipping labels with [ShipEngine](https://www.shipengine.com/signup/?ref=firebase). Quickly integrate over 60 carriers to expand your global reach. [See the full list of carriers here.](https://www.shipengine.com/integrations/)
 
 Here's a basic example document write that would trigger this extension:
@@ -68,37 +66,24 @@ To install an extension, your project must be on the [Blaze (pay as you go) plan
 
 Usage of this extension also requires you to have a ShipEngine account. You are responsible for any associated costs with your usage of your ShipEngine account.
 
-
-
-
 **Configuration Parameters:**
 
-* Cloud Functions location: Where do you want to deploy the functions created for this extension? You usually want a location close to your database. For help selecting a location, refer to the [location selection guide](https://firebase.google.com/docs/functions/locations).
+- Cloud Functions location: Where do you want to deploy the functions created for this extension? You usually want a location close to your database. For help selecting a location, refer to the [location selection guide](https://firebase.google.com/docs/functions/locations).
 
-* ShipEngine Api Key: Api key found on the api dashboard.
+- ShipEngine Api Key: Api key found on the api dashboard.
 
+- Firestore path: What is the path to the collection that contains the documents with orders to be shipped?
 
-* Firestore path: What is the path to the collection that contains the documents with orders to be shipped?
+- Input Schema: A schema object mapping the collection's data to the required ShipEngine API structure.
 
-
-* Input Schema: A schema object mapping the collection's data to the required ShipEngine API structure.
-
-
-* Shipping Label Key: The document key to store the purchased label in.
-
-
-
+- Shipping Label Key: The document key to store the purchased label in.
 
 **Cloud Functions:**
 
-* **purchaseLabel:** Processes document changes in the specified Cloud Firestore collection, purchases labels, and updates the document with label URL.
-
-
+- **purchaseLabel:** Processes document changes in the specified Cloud Firestore collection, purchases labels, and updates the document with label URL.
 
 **Access Required**:
 
-
-
 This extension will operate with the following project IAM roles:
 
-* datastore.user (Reason: Allows this extension to access Cloud Firestore to read and process added documents.)
+- datastore.user (Reason: Allows this extension to access Cloud Firestore to read and process added documents.)

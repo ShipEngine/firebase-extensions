@@ -16,10 +16,12 @@
   },
   "devDependencies": {
     "@types/is": "^0.0.21",
-    "firebase-tools": "^9.17.0",
+    "firebase-tools": "^9.21.0",
     "hygen": "^6.1.0",
     "prettier": "^2.3.2"
   },
-  "workspaces": ["extensions/*/functions"],
+  "workspaces": [
+    "extensions/*/functions"
+  ],
   "packageManager": "yarn@3.0.2"
 }
