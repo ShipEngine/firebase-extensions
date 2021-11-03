@@ -28,5 +28,6 @@ To install an extension, your project must be on the [Blaze (pay as you go) plan
 - This extension uses other Firebase and Google Cloud Platform services, which have associated charges if you exceed the service’s free tier:
   - Cloud Firestore
   - Cloud Functions (Node.js 15+ runtime. [See FAQs](https://firebase.google.com/support/faq#extensions-pricing))
+  - Cloud Secret Manager
 
 Usage of this extension also requires you to have a ShipEngine account. You are responsible for any associated costs with your usage of your ShipEngine account.

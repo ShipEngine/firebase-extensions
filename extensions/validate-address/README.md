@@ -1,11 +1,8 @@
-# Validate an Address with ShipEngine
+# Validate Addresses with ShipEngine
 
 **Author**: ShipEngine (**[https://shipengine.com](https://shipengine.com)**)
 
 **Description**: Validates an address based on the contents of a document written to a specified Cloud Firestore collection.
-
-
-
 
 **Details**: Use this extension to ensure valid mailing addresses around the world with ShipEngine [ShipEngine](https://www.shipengine.com/signup/?ref=firebase). ShipEngine cross references multiple databases to validate addresses and identify potential deliverability issues with shipments. This helps brands, ecommerce platforms, 3PLs avoid unnecessary returns and additional carrier fees.
 
@@ -43,41 +40,30 @@ To install an extension, your project must be on the [Blaze (pay as you go) plan
 - This extension uses other Firebase and Google Cloud Platform services, which have associated charges if you exceed the service’s free tier:
   - Cloud Firestore
   - Cloud Functions (Node.js 15+ runtime. [See FAQs](https://firebase.google.com/support/faq#extensions-pricing))
+  - Cloud Secret Manager
 
 Usage of this extension also requires you to have a ShipEngine account. You are responsible for any associated costs with your usage of your ShipEngine account.
 
-
-
-
 **Configuration Parameters:**
 
-* Cloud Functions location: Where do you want to deploy the functions created for this extension? You usually want a location close to your database. For help selecting a location, refer to the [location selection guide](https://firebase.google.com/docs/functions/locations).
+- Cloud Functions location: Where do you want to deploy the functions created for this extension? You usually want a location close to your database. For help selecting a location, refer to the [location selection guide](https://firebase.google.com/docs/functions/locations).
 
-* ShipEngine Api Key: Api key found on the api dashboard.
+- ShipEngine Api Key: Api key found on the api dashboard.
 
+- Firestore path: What is the path to the collection that contains the documents with addresses for validation?
 
-* Firestore path: What is the path to the collection that contains the documents with addresses for validation?
+- Validation Result Key: The document key to store the address validation results in.
 
-
-* Validation Result Key: The document key to store the address validation results in.
-
-* Input Schema: A schema object mapping the collection's data to the required ShipEngine API structure.
-
-
-
+- Input Schema: A schema object mapping the collection's data to the required ShipEngine API structure.
 
 **Cloud Functions:**
 
-* **validateAddress:** Processes document changes in the specified Cloud Firestore collection, validates emails, and updates the document with delivery status information.
+- **validateAddress:** Processes document changes in the specified Cloud Firestore collection, validates emails, and updates the document with delivery status information.
 
-* **validateAddressHttps:** undefined
-
-
+- **validateAddressHttps:** undefined
 
 **Access Required**:
 
-
-
 This extension will operate with the following project IAM roles:
 
-* datastore.user (Reason: Allows this extension to access Cloud Firestore to read and process added documents.)
+- datastore.user (Reason: Allows this extension to access Cloud Firestore to read and process added documents.)

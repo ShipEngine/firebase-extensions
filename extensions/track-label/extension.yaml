@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: track-label
-version: 0.0.2
+name: track-labels
+version: 0.0.3
 specVersion: v1beta
 
-displayName: Track a Shipping Label with ShipEngine
+displayName: Track Shipping Labels with ShipEngine
 description: >
   Queries for label tracking data based on the contents of a document written to
   a specified Cloud Firestore collection.
@@ -116,7 +116,7 @@ params:
 
   - param: SHIPENGINE_API_KEY
     label: ShipEngine Api Key
-    type: string
+    type: secret
     description: >
       Api key found on the api dashboard.
     required: true
