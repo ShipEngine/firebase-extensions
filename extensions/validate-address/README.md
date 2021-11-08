@@ -4,7 +4,7 @@
 
 **Description**: Validates an address based on the contents of a document written to a specified Cloud Firestore collection.
 
-**Details**: Use this extension to ensure valid mailing addresses around the world with ShipEngine [ShipEngine](https://www.shipengine.com/signup/?ref=firebase). ShipEngine cross references multiple databases to validate addresses and identify potential deliverability issues with shipments. This helps brands, ecommerce platforms, 3PLs avoid unnecessary returns and additional carrier fees.
+**Details**: Use this extension to ensure valid mailing addresses around the world with [ShipEngine](https://www.shipengine.com/signup/?ref=firebase). ShipEngine cross references multiple databases to validate addresses and identify potential deliverability issues with shipments. This helps brands, ecommerce platforms, 3PLs avoid unnecessary returns and additional carrier fees.
 
 Virtually every country in the world is supported, including the United States, Canada, United Kingdom, Australia, Germany, France, Norway, Spain, Sweden, Israel, Italy, and more than 160 others. Varying levels of validation are available in different countries. For example, one country may validate as precise as a suite/unit number, and another country may only validate as precise as the city. [See the full list of countries and their level of validation](https://www.shipengine.com/docs/addresses/validation/countries/)
 
