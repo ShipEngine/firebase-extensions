@@ -28,12 +28,13 @@
     "humps": "^2.0.1",
     "shipengine": "^1.0.0",
     "shipengine-firebase-common-lib": "^1.0.0",
-    "typescript": "^3.8.0"
+    "typescript": "^3.8.0",
+    "@types/humps": "^2.0.1"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/chai": "^4.2.21",
-    "@types/humps": "^2.0.1",
+
     "@types/mocha": "^9.0.0",
     "@types/rewire": "^2.5.28",
     "@typescript-eslint/eslint-plugin": "^3.9.1",
