@@ -6,18 +6,42 @@ You can test out this extension right away!
 
 1.  If it doesn't already exist, create the collection you specified during installation: `${param:COLLECTION_PATH}`.
 
-1.  You can now use the [Firebase Admin SDK][admin_sdk] to add a document:
+1.  Go to your [ShipEngine API Management page](https://app.shipengine.com/#/portal/apimanagement) and change the "Any Tracking Event" webhook url to: `${function:trackLabel.url}`
+
+1.  You can now use the [Firebase Admin SDK][admin_sdk] to use the `${function:trackLabel.name}` callable https function:
+
+#### Callable HTTPS Function
+
+To call `${function:trackLabel.name}` from your client app,
+follow the instructions in the
+[callable functions documentation](https://firebase.google.com/docs/functions/callable#call_the_function).
+The name of the function to call is **`${function:trackLabel.name}`**,
+and its region is **`${function:trackLabel.location}`**.
+
+**Example**
 
 ```js
-admin
-  .firestore()
-  .collection('shipments')
-  .add({
-    label: {
-      carrierCode: 'stamps_com',
-      trackingNumber: '9405511899223197428490',
-    },
-  });
+import { initializeApp } from 'firebase/app';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+
+const app = initializeApp({
+  projectId: '### CLOUD FUNCTIONS PROJECT ID ###',
+  apiKey: '### FIREBASE API KEY ###',
+  authDomain: '### FIREBASE AUTH DOMAIN ###',
+});
+
+const functions = getFunctions(app);
+
+const trackLabel = httpsCallable(functions, 'trackLabel');
+
+trackLabel({
+  trackingNumber: '9405511899223197428490',
+  carrierCode: 'stamps_com',
+}).then((result) => {
+  // Read result of the Cloud Function.
+  /** @type {any} */
+  const data = result.data;
+});
 ```
 
 #### Input Schema

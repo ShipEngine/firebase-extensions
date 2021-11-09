@@ -22,9 +22,7 @@ logs.init(config);
 
 /**
  * __Tracking Update Webhook Handler__
- *
  */
-// TODO: refactor to use express and basic auth
 export const trackingWebhook = functions.handler.https.onRequest(
   async (req, res) => {
     if (!isValidShipEngineRequest(req)) {
@@ -78,24 +76,22 @@ export const trackLabel = functions.handler.https.onCall(
       logs.start(data);
 
       const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
-      const params: RequestPayload = mapDataToSchema(data, inputSchema);
-      const update = await handleGetTrackingData(params);
-      await handleCreateOrUpdateDocument(update, 'trackingNumber');
-    } catch (error) {
-      // TODO: if a request with a labelID fails there is no tracking_number to use as a key
-      // Update the document with error information on failure
-      //       if ((err as Error).message) {
-      //         await handleUpdateDocument(change.after, {
-      //           [config.trackingResultKey]: {
-      //             errors: (err as Error).message,
-      //           },
-      //         });
-      //       }
-      throw error;
-    }
+      const outputSchema = JSON.parse(config.outputSchema);
 
-    logs.complete();
-    return;
+      const params: RequestPayload = mapDataToSchema(data, inputSchema);
+      const trackingData = await handleGetTrackingData(params);
+
+      // Handle no tracking data error and remove !
+      const update = mapDataToSchema(trackingData!, outputSchema);
+
+      // Store tracking data
+      void handleCreateOrUpdateDocument(update, 'trackingNumber');
+
+      return update;
+    } catch (error) {
+      // Return errors without storing data since tracking number may not be present
+      return error;
+    }
   }
 );
 
@@ -114,8 +110,6 @@ const handleGetTrackingData = async (
       // save the label id
       trackingData.labelId = params.labelId;
     } else if (params?.carrierCode && params?.trackingNumber) {
-      // TODO: subscribe to tracking updates with trackingNumber and carrier_code (if necessary)
-
       // fetch tracking data by carrierCode and trackingNumber
       const { trackingNumber, carrierCode } = params;
       trackingData = (await shipEngine.trackUsingCarrierCodeAndTrackingNumber({
@@ -130,7 +124,6 @@ const handleGetTrackingData = async (
   return trackingData;
 };
 
-// TODO: define the difference between the two update functions or combine them
 const handleCreateOrUpdateDocument = async (data: any, key: string) => {
   const app = admin.initializeApp();
   await app

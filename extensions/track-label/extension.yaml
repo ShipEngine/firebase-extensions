@@ -18,8 +18,7 @@ specVersion: v1beta
 
 displayName: Track Shipping Labels with ShipEngine
 description: >
-  Queries for label tracking data based on the contents of a document written to
-  a specified Cloud Firestore collection.
+  Provides a callable https function for retrieving label tracking data and a https webhook endpoint for live tracking updates from a ShipEngine account.
 
 license: Apache-2.0
 sourceUrl: https://github.com/ShipEngine/firebase-extensions/tree/master/extensions/validate-address

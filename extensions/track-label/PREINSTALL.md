@@ -1,17 +1,29 @@
-Use this extension to retrieve up-to-date tracking data for any shipment from any carrier using a valid tracking number and a [supported carrier code](https://www.shipengine.com/docs/tracking/#supported-carriers).
+Use this extension to retrieve up-to-date tracking data for any shipment from any carrier using a valid tracking number and a [supported carrier code](https://www.shipengine.com/docs/tracking/#supported-carriers) or a ShipEngine label ID.
 
-Here's a basic example document write that would trigger this extension:
+Here's an example function call that would trigger this extension:
 
 ```js
-admin
-  .firestore()
-  .collection('labels')
-  .add({
-    label: {
-      carrierCode: 'stamps_com',
-      trackingNumber: '9405511899223197428490',
-    },
-  });
+import { initializeApp } from 'firebase/app';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+
+const app = initializeApp({
+  projectId: '### CLOUD FUNCTIONS PROJECT ID ###',
+  apiKey: '### FIREBASE API KEY ###',
+  authDomain: '### FIREBASE AUTH DOMAIN ###',
+});
+
+const functions = getFunctions(app);
+
+const trackLabel = httpsCallable(functions, 'trackLabel');
+
+trackLabel({
+  trackingNumber: '9405511899223197428490',
+  carrierCode: 'stamps_com',
+}).then((result) => {
+  // Read result of the Cloud Function.
+  /** @type {any} */
+  const data = result.data;
+});
 ```
 
 #### Additional setup
