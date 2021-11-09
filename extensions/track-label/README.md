@@ -2,7 +2,7 @@
 
 **Author**: ShipEngine (**[https://shipengine.com](https://shipengine.com)**)
 
-**Description**: Queries for label tracking data based on the contents of a document written to a specified Cloud Firestore collection.
+**Description**: Provides a callable https function for retrieving label tracking data and a https webhook endpoint for live tracking updates from a ShipEngine account.
 
 **Details**: Use this extension to retrieve up-to-date tracking data for any shipment from any carrier using a valid tracking number and a [supported carrier code](https://www.shipengine.com/docs/tracking/#supported-carriers).
 
@@ -44,15 +44,19 @@ Usage of this extension also requires you to have a ShipEngine account. You are 
 
 - ShipEngine Api Key: Api key found on the api dashboard.
 
-- Firestore path: What is the path to the collection that contains the documents with label data?
+- Firestore path: What is the path to the collection that contains the documents with shipment tracking data?
 
 - Tracking Result Key: The document key to store the tracking result in.
+
+- Output Schema: A schema object mapping tracking data to your the structure of your data in your selected firestore collection.
 
 - Input Schema: A schema object mapping the collection's data to the required ShipEngine API structure.
 
 **Cloud Functions:**
 
-- **trackLabel:** Processes label data in the specified Cloud Firestore collection, fetches tracking data, and updates the document with tracking information.
+- **trackLabel:** undefined
+
+- **trackingWebhook:** undefined
 
 **Access Required**:
 
