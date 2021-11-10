@@ -79,7 +79,7 @@ export const trackLabel = functions.handler.https.onCall(
       const outputSchema = JSON.parse(config.outputSchema);
 
       const params: RequestPayload = mapDataToSchema(data, inputSchema);
-      const trackingData = await handleGetTrackingData(params);
+      const trackingData: UpdatePayload = await handleGetTrackingData(params);
 
       // Handle no tracking data error and remove !
       const update = mapDataToSchema(trackingData!, outputSchema);
@@ -97,7 +97,7 @@ export const trackLabel = functions.handler.https.onCall(
 
 const handleGetTrackingData = async (
   params: RequestPayload
-): Promise<UpdatePayload | void> => {
+): Promise<UpdatePayload> => {
   // logs.fetchingTrackingData(params);
   let trackingData;
   try {
@@ -116,6 +116,8 @@ const handleGetTrackingData = async (
         carrierCode,
         trackingNumber,
       })) as UpdatePayload;
+    } else {
+      trackingData = {} as UpdatePayload;
     }
   } catch (error) {
     throw error;
