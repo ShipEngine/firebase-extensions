@@ -20,6 +20,8 @@ const shipEngine = new ShipEngine(config.shipEngineApiKey);
 
 logs.init(config);
 
+admin.initializeApp();
+
 /**
  * __Tracking Update Webhook Handler__
  */
@@ -37,6 +39,7 @@ export const trackingWebhook = functions.handler.https.onRequest(
 
       // Map tracking update to Output Schema before saving document
       const outputSchema: ParamSchema = JSON.parse(config.outputSchema);
+
       const update = mapDataToSchema(trackingUpdate, outputSchema);
 
       // Update tracking data in firestore
@@ -72,8 +75,10 @@ export const trackLabel = functions.handler.https.onCall(
         'This function requires authentication.'
       );
     }
+
     try {
-      logs.start(data);
+      //TODO stringify data for clearer logs.
+      // logs.start(data);
 
       const inputSchema: ParamSchema = JSON.parse(config.inputSchema);
       const outputSchema = JSON.parse(config.outputSchema);
@@ -85,7 +90,7 @@ export const trackLabel = functions.handler.https.onCall(
       const update = mapDataToSchema(trackingData!, outputSchema);
 
       // Store tracking data
-      void handleCreateOrUpdateDocument(update, 'trackingNumber');
+      await handleCreateOrUpdateDocument(update, 'trackingNumber');
 
       return update;
     } catch (error) {
@@ -123,12 +128,13 @@ const handleGetTrackingData = async (
     throw error;
   }
   // logs.trackingDataFetched(result);
-  return trackingData;
+  return trackingData as UpdatePayload;
 };
 
 const handleCreateOrUpdateDocument = async (data: any, key: string) => {
-  const app = admin.initializeApp();
-  await app
+  if (!data[key]) return Promise.resolve();
+
+  await admin
     .firestore()
     .collection(config.collectionPath)
     .doc(data[key])
