@@ -1,3 +1,7 @@
+## Version 0.0.6
+
+Fix typescript compilation issue
+
 ## Version 0.0.5
 
 Fix dependency issue
