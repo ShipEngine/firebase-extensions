@@ -35,8 +35,10 @@ const functions = getFunctions(app);
 const trackLabel = httpsCallable(functions, 'trackLabel');
 
 trackLabel({
-  trackingNumber: '9405511899223197428490',
-  carrierCode: 'stamps_com',
+  shippingLabel: {
+    trackingNumber: '9405511899223197428490',
+    carrierCode: 'stamps_com',
+  },
 }).then((result) => {
   // Read result of the Cloud Function.
   /** @type {any} */
