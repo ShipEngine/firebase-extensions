@@ -1,3 +1,7 @@
+## Version 0.0.5
+
+Fix dependency issue
+
 ## Version 0.0.4
 
 Added `trackingWebhook` https handler and converted `trackLabel` function to callable https handler.
