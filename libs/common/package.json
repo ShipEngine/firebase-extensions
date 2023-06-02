@@ -12,7 +12,7 @@
     "@types/axios": "^0.14.0",
     "@types/humps": "^2.0.1",
     "rimraf": "^3.0.2",
-    "typescript": "^4.4.3"
+    "typescript": "^4.7.4"
   },
   "dependencies": {
     "axios": "^0.24.0",
