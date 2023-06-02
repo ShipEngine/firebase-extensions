@@ -31,7 +31,7 @@ beforeEach(async () => {
   void deleteCollection(DB_COLLECTION, db);
 });
 
-describe('getRates', async function() {
+describe('getRates', async function () {
   this.timeout(15000);
 
   it('returns the get rates result', async function () {

@@ -32,10 +32,10 @@ beforeEach(async () => {
   void deleteCollection(DB_COLLECTION, db);
 });
 
-describe('purchaseLabel', async function() {
+describe('purchaseLabel', async function () {
   this.timeout(15000);
 
-  it('returns the purchase label result', async function() {
+  it('returns the purchase label result', async function () {
     this.timeout(15000);
 
     // Add new shipment to db

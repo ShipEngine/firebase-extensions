@@ -30,10 +30,10 @@ beforeEach(async () => {
   void deleteCollection(DB_COLLECTION, db);
 });
 
-describe('validateAddress', async function() {
+describe('validateAddress', async function () {
   this.timeout(15000);
 
-  it('returns the validated address', async function() {
+  it('returns the validated address', async function () {
     this.timeout(15000);
 
     // Add new address to db

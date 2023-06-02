@@ -31,10 +31,10 @@ beforeEach(async () => {
   void deleteCollection(DB_COLLECTION, db);
 });
 
-describe('getLabelTrackingData', async function() {
+describe('getLabelTrackingData', async function () {
   this.timeout(15000);
 
-  it('returns tracking data for a label', async function() {
+  it('returns tracking data for a label', async function () {
     this.timeout(15000);
 
     // Add new shipment to db
