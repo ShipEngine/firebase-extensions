@@ -20,17 +20,17 @@ Object.defineProperty(exports, '__esModule', { value: true });
 exports.BaseLogger = void 0;
 const config_1 = require('../config');
 class BaseLogger {
-  constructor(options) {
-    this._options = options || {
-      verbose: config_1.default.verboseLogOutput,
-      maxArrayLength: 3,
-    };
-  }
   get options() {
     return this._options;
   }
   set options(value) {
     this._options = value;
+  }
+  constructor(options) {
+    this._options = options || {
+      verbose: config_1.default.verboseLogOutput,
+      maxArrayLength: 3,
+    };
   }
   /**
    * Logs a debug entry

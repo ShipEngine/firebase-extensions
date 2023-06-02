@@ -1,4 +1,4 @@
-declare type FirestoreDoc =
+type FirestoreDoc =
   FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>;
 export declare function waitForDocumentUpdate(
   doc: FirestoreDoc,

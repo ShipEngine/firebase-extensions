@@ -1,6 +1,7 @@
 ## Version 0.0.3
 
 Updates to readme
+
 ## Version 0.0.2
 
 Minor updates and bug fixes.

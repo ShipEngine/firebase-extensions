@@ -20,6 +20,7 @@
   },
   "main": "lib/index.js",
   "dependencies": {
+    "@types/humps": "^2.0.1",
     "axios": "^0.21.4",
     "chai": "^4.3.4",
     "firebase": "^9.0.2",
@@ -28,8 +29,7 @@
     "humps": "^2.0.1",
     "shipengine": "^1.0.0",
     "shipengine-firebase-common-lib": "^1.0.0",
-    "typescript": "^3.8.0",
-    "@types/humps": "^2.0.1"
+    "typescript": "^3.8.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",

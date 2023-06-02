@@ -30,8 +30,12 @@ beforeEach(async () => {
   void deleteCollection(DB_COLLECTION, db);
 });
 
-describe('validateAddress', async () => {
-  it('returns the validated address', async () => {
+describe('validateAddress', async function() {
+  this.timeout(15000);
+
+  it('returns the validated address', async function() {
+    this.timeout(15000);
+
     // Add new address to db
     const newAddress = await db.collection(DB_COLLECTION).add(inputPayload);
 

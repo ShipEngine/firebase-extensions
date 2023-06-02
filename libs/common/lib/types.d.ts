@@ -1,10 +1,10 @@
-export declare type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
+export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 export interface LogEntry {
   options?: LogOptions;
   message?: string;
   [x: string]: any;
 }
-export declare type LogSeverity =
+export type LogSeverity =
   | 'DEBUG'
   | 'INFO'
   | 'NOTICE'
@@ -13,7 +13,7 @@ export declare type LogSeverity =
   | 'CRITICAL'
   | 'ALERT'
   | 'EMERGENCY';
-export declare type LogOptions = {
+export type LogOptions = {
   verbose?: boolean;
   maxArrayLength?: number;
 };

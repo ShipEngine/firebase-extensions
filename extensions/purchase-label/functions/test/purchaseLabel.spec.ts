@@ -32,8 +32,12 @@ beforeEach(async () => {
   void deleteCollection(DB_COLLECTION, db);
 });
 
-describe('purchaseLabel', async () => {
-  it('returns the purchase label result', async () => {
+describe('purchaseLabel', async function() {
+  this.timeout(15000);
+
+  it('returns the purchase label result', async function() {
+    this.timeout(15000);
+
     // Add new shipment to db
     const newOrder = await db.collection(DB_COLLECTION).add(inputPayload);
 

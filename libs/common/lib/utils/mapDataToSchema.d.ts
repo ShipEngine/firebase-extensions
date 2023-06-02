@@ -1,5 +1,5 @@
 import { DocumentData } from '@google-cloud/firestore';
-declare type ParamSchema = {
+type ParamSchema = {
   [key: string]: any;
 };
 export declare const mapDataToSchema: (
