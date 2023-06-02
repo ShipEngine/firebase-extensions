@@ -34,7 +34,7 @@ export const trackingWebhook = functions.handler.https.onRequest(
     try {
       // convert case to match ShipEngine SDK
       const trackingUpdate = camelizeKeys(
-        req.body()
+        req.body.data
       ) as any as TrackUsingCarrierCodeAndTrackingNumberTypes.Result;
 
       // Map tracking update to Output Schema before saving document
